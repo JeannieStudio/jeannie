@@ -37,11 +37,7 @@ echo "$domainname {
 
 systemctl restart caddy.service
 
-echo "开始安装ssr吗？y/n？"
-read ans
-if[ans == 'y']
-then
-   wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
 chmod +x shadowsocks-all.sh
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
@@ -66,6 +62,4 @@ ssr安装和配置成功
 查看状态：/etc/init.d/shadowsocks-rstatus  
 配置文件位置：/ets/shadowsocks-r/config 
 "
-else
-exit
-fi
+
