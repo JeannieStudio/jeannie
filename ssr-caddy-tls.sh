@@ -60,6 +60,6 @@ ssr安装和配置成功
 停止：/etc/init.d/shadowsocks-r stop     
 重启：/etc/init.d/shadowsocks-r restart  
 查看状态：/etc/init.d/shadowsocks-rstatus  
-配置文件位置：/ets/shadowsocks-r/config 
+配置文件位置：/etc/shadowsocks-r/config.json
 "
-
+exit
