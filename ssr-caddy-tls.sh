@@ -1,5 +1,5 @@
 #!/bin/bash
-curl https://getcaddy.com | bash -s personal
+curl https://getcaddy.com | bash -s personal   
 sudo mkdir /etc/caddy
 sudo chown -R root:www-data /etc/caddy
 
@@ -13,11 +13,6 @@ read domainname
 sudo mkdir /var/www/$domainname   
 sudo chown -R www-data:www-data /var/www
 
-curl -s https://raw.githubusercontent.com/mholt/caddy/master/dist/init/linux-systemd/caddy.service -o /etc/systemd/system/caddy.service
-sudo systemctl daemon-reload
-sudo systemctl enable caddy.service
-sudo systemctl stop caddy.service 
-
 echo "请输入您的邮箱："
 read emailname
 echo "请输入端口号1-65535，但不能是443："
@@ -26,7 +21,6 @@ echo "$domainname {
         gzip  
 		tls $emailname
         root /var/www/$domainname 
-		redir / https://$domainname/{uri} 301
         proxy / http://127.0.0.1:$port { 
                 header_upstream Host {host}
                 header_upstream X-Real-IP {remote}
@@ -34,8 +28,12 @@ echo "$domainname {
                 header_upstream X-Forwarded-Proto {scheme}
         }
 }" > /etc/caddy/Caddyfile
+sudo cd /etc/caddy
+sudo caddy -agree -validate 
 
-systemctl restart caddy.service
+curl -s https://raw.githubusercontent.com/mholt/caddy/master/dist/init/linux-systemd/caddy.service -o /etc/systemd/system/caddy.service
+sudo systemctl daemon-reload
+sudo systemctl enable caddy.service
 
 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
 chmod +x shadowsocks-all.sh
@@ -52,8 +50,6 @@ caddy 安装和配置成功
 查看状态：systemctl status caddy.service   
 安装目录为：/usr/local/bin/caddy 
 配置文件位置：/etc/caddy/Caddyfile
-
-
 *****************************************
 ssr安装和配置成功
 启动：/etc/init.d/shadowsocks-r start    
@@ -62,4 +58,4 @@ ssr安装和配置成功
 查看状态：/etc/init.d/shadowsocks-rstatus  
 配置文件位置：/etc/shadowsocks-r/config.json
 "
-exit
+sudo exit 0
