@@ -1,7 +1,5 @@
 #!/bin/bash
-sudo curl https://getcaddy.com | bash -s personal hook.service,supervisor
-
-
+sudo curl https://getcaddy.com | bash -s personal hook.service
 sudo mkdir /etc/caddy
 sudo mkdir /etc/ssl/caddy
 sudo mkdir /var/www               
@@ -23,17 +21,14 @@ echo "$domainname {
         gzip  
 		tls $emailname
         root /var/www/$domainname 
-        proxy / http://127.0.0.1:$port { 
-                header_upstream Host {host}
-                header_upstream X-Real-IP {remote}
-                header_upstream X-Forwarded-For {remote}
-                header_upstream X-Forwarded-Proto {scheme}
-        }
+        
 }" > /etc/caddy/Caddyfile
 
 sudo caddy -service install -agree -email $emailname -conf /etc/caddy/Caddyfile 
 sudo caddy -service start
+
 echo "开始安装ssr吗？（y/n）"
+read ans
 if [ans == "n"]
 then
 exit
@@ -63,4 +58,4 @@ ssr安装和配置成功
 查看状态：/etc/init.d/shadowsocks-rstatus  
 配置文件位置：/etc/shadowsocks-r/config.json
 "
-sudo exit 
+sudo exit 0
