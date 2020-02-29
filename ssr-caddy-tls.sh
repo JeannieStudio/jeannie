@@ -10,7 +10,7 @@ echo "请输入您的邮箱："
 read emailname
 echo "您输入的邮箱正确吗?(y/n)"
 read ans
-if [ans == "n"]
+if [$ans == "n"]
 then
 echo "请重新输入您的邮箱:"
 read emailname
@@ -28,8 +28,8 @@ sudo caddy -service install -agree -email $emailname -conf /etc/caddy/Caddyfile
 sudo caddy -service start
 
 echo "开始安装ssr吗？（y/n）"
-read ans
-if [ans == "n"]
+read ans1
+if [$ans1 == "n"]
 then
 exit
 fi
