@@ -15,7 +15,7 @@ echo "$domainname {
         gzip  
 		tls $emailname
         root /var/www/$domainname 
-        proxy / 127.0.0.1:$port
+        proxy /api localhost:$port
 }" > /etc/caddy/Caddyfile
 sudo cd /etc/caddy
 sudo caddy -service install -agree -email $emailname -conf /etc/caddy/Caddyfile 
