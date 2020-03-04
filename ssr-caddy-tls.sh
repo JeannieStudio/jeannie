@@ -27,7 +27,7 @@ process_name = caddy
 stopwaitsecs = 11
 directory = /usr/local/bin/caddy
 redirect_stderr=true
-stopwaitsecs = 11" >> /etc/supervisor/conf.d/caddy.conf
+stopwaitsecs = 11" > /etc/supervisor/conf.d/caddy.conf
  
 
 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
