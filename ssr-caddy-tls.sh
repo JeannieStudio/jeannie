@@ -32,20 +32,16 @@ wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.
 chmod +x shadowsocks-all.sh
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
-sed '4c "server_port":443,' /etc/shadowsocks-r/config.json
+sed -n -i '4c "server_port":443,' /etc/shadowsocks-r/config.json
 
-sed '14c "redirect": ["*:443#127.0.0.1:$port"],' /etc/shadowsocks-r/config.json
+sed -n -i '14c "redirect": ["*:443#127.0.0.1:$port"],' /etc/shadowsocks-r/config.json
 
 sudo /etc/init.d/shadowsocks-r restart
 
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
-sleep 10
 sysctl -p
-sleep 5
-sudo supervisorctl reload
-sleep 3
-supervisorctl start caddy
+
 echo "******************************
 caddy 安装和配置成功
 启动：supervisorctl start caddy  
