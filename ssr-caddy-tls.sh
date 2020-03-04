@@ -13,9 +13,9 @@ read emailname
 echo "请输入端口号1-65535，但不能是443："
 read port
 echo "http://$domainname:80 {
-      redir https://$domainname:443{url}
+      redir https://$domainname:$port{url}
 } 
-https://$domainname:443 {  
+https://$domainname:$port {  
         gzip  
 	tls $emailname
         root /var/www/$domainname     
