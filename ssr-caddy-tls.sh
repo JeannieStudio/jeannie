@@ -1,5 +1,6 @@
 #!/bin/bash
 sudo curl https://getcaddy.com | bash -s personal 
+sudo  apt-get install supervisor
 sudo mkdir /etc/caddy
 sudo mkdir /etc/ssl/caddy
 sudo mkdir /var/www               
