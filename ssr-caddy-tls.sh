@@ -47,6 +47,8 @@ sleep 10
 sysctl -p
 sleep 5
 sudo supervisorctl reload
+sleep 3
+supervisorctl start caddy
 echo "******************************
 caddy 安装和配置成功
 启动：supervisorctl start caddy  
