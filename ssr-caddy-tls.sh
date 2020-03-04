@@ -21,8 +21,6 @@ https://$domainname:443 {
         
 }" > /etc/caddy/Caddyfile
 
-touch /etc/supervisor/conf.d/caddy.conf
-vi /etc/supervisor/conf.d/caddy.conf
 echo "[program:caddy]
 command = /usr/local/bin/caddy -agree -conf /etc/caddy/Caddyfile
 process_name = caddy
