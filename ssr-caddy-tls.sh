@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo curl https://getcaddy.com | bash -s personal hook.service
+sudo curl https://getcaddy.com | bash -s personal 
 sudo mkdir /etc/caddy
 sudo mkdir /etc/ssl/caddy
 sudo mkdir /var/www               
@@ -11,21 +11,33 @@ read emailname
 
 echo "请输入端口号1-65535，但不能是443："
 read port
-echo "$domainname {  
+echo "http://$domainname:80 {
+      redir https://$domainname:$port{url}
+} 
+https://$domainname:443 {  
         gzip  
 		tls $emailname
         root /var/www/$domainname 
-        proxy /api localhost:$port
+        
 }" > /etc/caddy/Caddyfile
-sudo cd /etc/caddy
-sudo caddy -service install -agree -email $emailname -conf /etc/caddy/Caddyfile 
 
+touch /etc/supervisor/conf.d/caddy.conf
+vi /etc/supervisor/conf.d/caddy.conf
+echo "[program:caddy]
+command = /usr/local/bin/caddy -agree -conf /etc/caddy/Caddyfile
+process_name = caddy
+stopwaitsecs = 11
+directory = /usr/local/bin/caddy
+redirect_stderr=true
+stopwaitsecs = 11" >> /etc/supervisor/conf.d/caddy.conf
+ 
 
 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
 chmod +x shadowsocks-all.sh
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
-sed '4c "server_port":$port,' /etc/shadowsocks-r/config.json
+sed '4c "server_port":443,' /etc/shadowsocks-r/config.json
+sed '14c "redirect": ["*:443#127.0.0.1:$port"],' /etc/shadowsocks-r/config.json
 sudo /etc/init.d/shadowsocks-r restart
 
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
@@ -34,10 +46,9 @@ sysctl -p
 
 echo "******************************
 caddy 安装和配置成功
-卸载：caddy -service uninstall
-启动：caddy -service start  
-停止：caddy -service stop     
-重启：caddy -service restart  
+启动：supervisorctl start caddy  
+停止：supervisorctl stop caddy    
+重启：supervisorctl restart caddy  
 查看状态：caddy -service status  
 安装目录为：/usr/local/bin/caddy 
 配置文件位置：/etc/caddy/Caddyfile
@@ -49,5 +60,5 @@ ssr安装和配置成功
 查看状态：/etc/init.d/shadowsocks-rstatus  
 配置文件位置：/etc/shadowsocks-r/config.json
 "
-sudo caddy -agree
 
+sudo supervisorctl reload
