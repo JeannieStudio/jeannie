@@ -1,11 +1,25 @@
 #!/bin/bash
+# 用官方的脚本安装caddy
 sudo curl https://getcaddy.com | bash -s personal 
+
+#安装进程管理工具superisor，帮助我们管理caddy服务的启动、停止、重启、查看状态
 sudo  apt-get install supervisor
+
+#创建一个目录存放caddy配置文件
 sudo mkdir /etc/caddy
+
+#创建一个目录存放tls证书，如果是caddy自动下载的证书则不会放在这个目录下
 sudo mkdir /etc/ssl/caddy
-sudo mkdir /var/www               
+
+#创建一个目录作为网站的根目录
+sudo mkdir /var/www
+
+#控制台提示输入域名
 echo "请输入您的域名，例如：example.com："
+
+#读取内存中的字符串放在domainname变量中
 read domainname
+
 sudo mkdir /var/www/$domainname   
 echo "请输入您的邮箱："
 read emailname
