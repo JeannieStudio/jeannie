@@ -46,16 +46,20 @@ wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.
 chmod +x shadowsocks-all.sh
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
-sed -n -i '4c "server_port":443,' /etc/shadowsocks-r/config.json
+#分别将配置/etc/shadowsocks-r/config.json文件的第4行和第14行改为下面内容
+sed -i '4c "server_port":443,' /etc/shadowsocks-r/config.json
+sed -i '14c "redirect": ["*:443#127.0.0.1:$port"],' /etc/shadowsocks-r/config.json
 
-sed -n -i '14c "redirect": ["*:443#127.0.0.1:$port"],' /etc/shadowsocks-r/config.json
+#改完后需要重启ssr
+停止：/etc/init.d/shadowsocks-r stop 
+启动：/etc/init.d/shadowsocks-r start    
 
-sudo /etc/init.d/shadowsocks-r restart
-
+#开启bbr
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
 sysctl -p
 
+#控制台打印如下信息：
 echo "******************************
 caddy 安装和配置成功
 启动：supervisorctl start caddy  
