@@ -20,12 +20,30 @@ echo "请输入您的域名，例如：example.com："
 #读取内存中的字符串放在domainname变量中
 read domainname
 
+echo "您输入的域名正确吗？（y/n）"
+read answer
+if [ $answer != "y" ];then
+	echo "请重新输入您的域名："
+	read domainname
+fi
 sudo mkdir /var/www/$domainname   
 echo "请输入您的邮箱："
 read emailname
+echo "您输入的邮箱正确吗？（y/n）"
+read answer
+if [ $answer != "y" ];then
+	echo "请重新输入您的邮箱："
+	read emailname
+fi
 
-echo "请输入端口号1-65535，但不能是443："
+echo "请输入一个1-65535之间的端口号，但不能是443："
 read port
+while [ $port == 443 -o $port -le 0 -o $port -gt 65535 ]
+do
+	echo "端口不能是443，且必须在1-65535之间。请重新输入："
+	read port
+done
+
 echo "http://$domainname:80 {
       redir https://$domainname:$port{url}
 } 
