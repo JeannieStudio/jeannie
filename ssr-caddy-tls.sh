@@ -44,11 +44,9 @@ do
 	read port
 done
 
-echo "http://$domainname:80 {
-      redir https://$domainname:$port{url}
-} 
-https://$domainname:$port {  
+echo "https://$domainname:$port {  
         gzip  
+	timeouts none
 	tls $emailname
         root /var/www/$domainname     
 }" > /etc/caddy/Caddyfile
