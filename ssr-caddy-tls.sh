@@ -76,8 +76,9 @@ sudo /etc/init.d/shadowsocks-r start
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
 sysctl -p
-sleep 10
+
 supervisord -c /etc/supervisor/supervisord.conf
+sleep 10
 
 #控制台打印如下信息：
 echo "******************************
