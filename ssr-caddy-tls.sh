@@ -68,8 +68,9 @@ sed -i "14c "redirect": ["*:443#127.0.0.1:$port"]," /etc/shadowsocks-r/config.js
 
 
 #改完后需要重启ssr
-停止：/etc/init.d/shadowsocks-r stop 
-启动：/etc/init.d/shadowsocks-r start    
+
+sudo /etc/init.d/shadowsocks-r stop 
+sudo /etc/init.d/shadowsocks-r start    
 
 #开启bbr
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
