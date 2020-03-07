@@ -63,10 +63,8 @@ chmod +x shadowsocks-all.sh
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
 #分别将配置/etc/shadowsocks-r/config.json文件的第4行和第14行改为下面内容
-sed -i '4c "server_port":443,' /etc/shadowsocks-r/config.json
-str=`awk -F: 'NR==1{print}'  /etc/caddy/Caddyfile`
-port=$(echo $str|cut -c 27-30)
-sed -i '14c "redirect": ["*:443#127.0.0.1:$port"],' /etc/shadowsocks-r/config.json
+sed -i "14c "redirect": ["*:443#127.0.0.1:$port"]," /etc/shadowsocks-r/config.json
+
 
 #改完后需要重启ssr
 停止：/etc/init.d/shadowsocks-r stop 
