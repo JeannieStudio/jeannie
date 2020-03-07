@@ -44,7 +44,10 @@ do
 	read port
 done
 
-echo "https://$domainname:$port {  
+echo "http://$domainname:80 {
+      redir https://$domainname:$port{url}
+} 
+https://$domainname:$port {  
         gzip  
 	timeouts none
 	tls $emailname
