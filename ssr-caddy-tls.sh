@@ -56,7 +56,7 @@ command = /usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfil
 directory = /etc/caddy
 autorstart=true
 environment=CADDYPATH=/etc/ssl/caddy" > /etc/supervisor/conf.d/caddy.conf
-supervisord -c /etc/supervisor/supervisord.conf
+
 
 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
 chmod +x shadowsocks-all.sh
@@ -76,6 +76,8 @@ sudo /etc/init.d/shadowsocks-r start
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
 sysctl -p
+sleep 10
+supervisord -c /etc/supervisor/supervisord.conf
 
 #控制台打印如下信息：
 echo "******************************
