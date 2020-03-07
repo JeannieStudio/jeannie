@@ -78,6 +78,7 @@ echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
 sysctl -p
 supervisorctl shutdown
 supervisord -c /etc/supervisor/supervisord.conf
+sudo echo "别急……等10秒！！！！！！！！！！！"
 sleep 10
 
 #控制台打印如下信息：
