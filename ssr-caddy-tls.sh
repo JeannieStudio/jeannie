@@ -57,6 +57,7 @@ directory = /etc/caddy
 autorstart=true
 environment=CADDYPATH=/etc/ssl/caddy" > /etc/supervisor/conf.d/caddy.conf
 supervisord -c /etc/supervisor/supervisord.conf
+/etc/init.d/shadowsocks-r restart
 
 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
 chmod +x shadowsocks-all.sh
