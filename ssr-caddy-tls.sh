@@ -83,6 +83,8 @@ supervisorctl shutdown
 supervisord -c /etc/supervisor/supervisord.conf
 sudo echo "别急……等10秒！！！！！！！！！！！"
 sleep 10
+sudo supervisorctl stop caddy
+sudo supervisorctl start caddy
 
 #控制台打印如下信息：
 echo "******************************
