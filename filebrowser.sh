@@ -14,9 +14,9 @@ done
 filebrowser -d /var/www/filebrowser.db config set --port $port
 filebrowser -d /var/www/filebrowser.db config set --locale zh-cn
 filebrowser -d /var/www/filebrowser.db config set --log /var/log/filebrowser.log
-echo "输入用户名："
+echo "输入用户名:"
 read $user
-echo "输入密码："
+echo "输入密码:"
 read $pswd
 filebrowser -d /var/www/filebrowser.db users add $user $pswd --perm.admin
 echo "[Unit]
@@ -28,7 +28,7 @@ ExecStart=/usr/local/bin/filebrowser -d /var/www/filebrowser.db
 
 [Install]
 WantedBy=multi-user.target" > /lib/systemd/system/filebrowser.service
-systemctl daemon-reload。
+systemctl daemon-reload
 systemctl stop filebrowser.service
 systemctl start filebrowser.service
 sed -i '14i proxy / 127.0.0.1:$port' /etc/caddy/Caddyfile 
