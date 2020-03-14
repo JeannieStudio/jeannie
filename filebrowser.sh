@@ -17,7 +17,7 @@ echo "输入用户名:"
 read $user
 echo "输入密码:"
 read $pswd
-filebrowser -d /etc/filebrowser.db users add "$user $pswd" --perm.admin
+filebrowser -d /etc/filebrowser.db users add "$user " "$pswd" --perm.admin
 
 echo "[Unit]
 Description=File Browser
