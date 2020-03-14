@@ -17,7 +17,7 @@ echo "输入用户名:"
 read $user
 echo "输入密码:"
 read $pswd
-echo "filebrowser -d /etc/filebrowser.db users add ${user}  ${pswd} --perm.admin" > up.sh
+echo "filebrowser -d /etc/filebrowser.db users add '${user}'  '${pswd}' --perm.admin" > up.sh
 chmod +x up.sh
 ./up.sh
 
