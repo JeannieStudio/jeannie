@@ -14,12 +14,10 @@ filebrowser -d /etc/filebrowser.db config set --locale zh-cn
 filebrowser -d /etc/filebrowser.db config set --log /var/log/filebrowser.log
 filebrowser -d /etc/filebrowser.db config set --baseurl /manager
 echo "输入用户名:"
-read $user
+read user
 echo "输入密码:"
-read $pswd
-echo "filebrowser -d /etc/filebrowser.db users add '${user}'  '${pswd}' --perm.admin" > up.sh
-chmod +x up.sh
-./up.sh
+read pswd
+filebrowser -d /etc/filebrowser.db users add $user $pswd --perm.admin
 
 echo "[Unit]
 Description=File Browser
