@@ -21,7 +21,7 @@ curl https://cdn.mivm.cn/www.mivm.cn/archives/filebrowser/filebrowser.service -o
 systemctl daemon-reload。
 systemctl stop filebrowser.service
 systemctl start filebrowser.service
-sed -i '14i proxy / 127.0.0.1:$port'  /etc/shadowsocks-r/config.json
+sed -i '14i proxy / 127.0.0.1:$port' /etc/caddy/Caddyfile 
 supervisorctl restart caddy
 echo "运行：systemctl start filebrowser.service
 停止运行：systemctl stop filebrowser.service
