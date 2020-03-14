@@ -31,7 +31,7 @@ WantedBy=multi-user.target" > /lib/systemd/system/filebrowser.service
 systemctl daemon-reload
 systemctl stop filebrowser.service
 systemctl start filebrowser.service
-sed -i '14i proxy /admin 127.0.0.1:$port' /etc/caddy/Caddyfile 
+sed -i "14c proxy /admin 127.0.0.1:$port" /etc/caddy/Caddyfile 
 supervisorctl restart caddy
 echo "运行：systemctl start filebrowser.service
 停止运行：systemctl stop filebrowser.service
