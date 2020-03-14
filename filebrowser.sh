@@ -1,6 +1,5 @@
 #!/bin/bash
 curl -fsSL https://filebrowser.xyz/get.sh | bash
-mkdir files
 filebrowser -d /etc/filebrowser.db config init
 filebrowser -d /etc/filebrowser.db config set --address 0.0.0.0
 echo "请输入一个1-65535之间的端口号:"
@@ -13,6 +12,7 @@ done
 filebrowser -d /etc/filebrowser.db config set --port $port
 filebrowser -d /etc/filebrowser.db config set --locale zh-cn
 filebrowser -d /etc/filebrowser.db config set --log /var/log/filebrowser.log
+filebrowser -d /etc/filebrowser.db config set --baseurl /manager
 echo "输入用户名:"
 read $user
 echo "输入密码:"
