@@ -17,7 +17,7 @@ echo "输入用户名:"
 read $user
 echo "输入密码:"
 read $pswd
-filebrowser -d /etc/filebrowser.db users add $user $pswd --perm.admin
+filebrowser -d /etc/filebrowser.db users add ${user} ${pswd} --perm.admin
 
 echo "[Unit]
 Description=File Browser
@@ -31,7 +31,7 @@ WantedBy=multi-user.target" > /lib/systemd/system/filebrowser.service
 systemctl daemon-reload
 systemctl stop filebrowser.service
 systemctl start filebrowser.service
-sed -i "14c proxy /admin 127.0.0.1:$port" /etc/caddy/Caddyfile 
+sed -i "14c proxy /127.0.0.1:$port" /etc/caddy/Caddyfile 
 supervisorctl restart caddy
 echo "运行：systemctl start filebrowser.service
 停止运行：systemctl stop filebrowser.service
