@@ -52,7 +52,8 @@ https://$domainname:443 {
 	hide_ip 
 	hide_via 
 	basicauth $user $pswd 
-}	
+}
+
 }" > /etc/caddy/Caddyfile
 
 echo "[program:caddy]
