@@ -51,8 +51,7 @@ https://$domainname:443 {
     forwardproxy {
 	hide_ip 
 	hide_via 
-	basicauth $user $pswd
-	probe_resistance  
+	basicauth $user $pswd 
 }	
 }" > /etc/caddy/Caddyfile
 
