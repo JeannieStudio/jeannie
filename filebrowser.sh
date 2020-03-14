@@ -29,14 +29,14 @@ ExecStart=/usr/local/bin/filebrowser -d /etc/filebrowser.db
 [Install]
 WantedBy=multi-user.target" > /lib/systemd/system/filebrowser.service
 systemctl daemon-reload
+systemctl enable filebrowser.service
 systemctl stop filebrowser.service
 systemctl start filebrowser.service
 sed -i "14c proxy / 127.0.0.1:$port" /etc/caddy/Caddyfile 
 supervisorctl restart caddy
 echo "运行：systemctl start filebrowser.service
-停止运行：systemctl stop filebrowser.service
-开机启动：systemctl enable filebrowser.service
-取消开机启动：systemctl disable filebrowser.service
+停止：systemctl stop filebrowser.service
+重启：systemctl restart filebrowser.service
 查看运行状态：systemctl status filebrowser.service"
 
 
