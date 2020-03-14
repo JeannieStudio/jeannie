@@ -78,4 +78,4 @@ caddy 安装和配置成功
 查看状态：supervisorctl status 
 安装目录为：/usr/local/bin/caddy 
 配置文件位置：/etc/caddy/Caddyfile
-*****************************************
+*****************************************"
