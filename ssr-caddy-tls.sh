@@ -75,10 +75,7 @@ sed -i "14c \"redirect\": [\"*:443#127.0.0.1:$port\"]," /etc/shadowsocks-r/confi
 sudo /etc/init.d/shadowsocks-r stop 
 sudo /etc/init.d/shadowsocks-r start    
 
-#开启bbr
-echo net.core.default_qdisc=fq >> /etc/sysctl.conf
-echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
-sysctl -p
+
 supervisorctl shutdown
 supervisord -c /etc/supervisor/supervisord.conf
 sudo echo "别急……等10秒！！！！！！！！！！！"
