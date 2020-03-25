@@ -59,5 +59,5 @@ if [[ "${isRoot}" != "true" ]]; then
     systemctl restart sshd.service
     systemctl enable sshd.service
     echo '修改成功，请用用户名root和刚设置好的密码登录vps吧，enjoy'
-}
+    }
 main
