@@ -1,4 +1,3 @@
-
 #!/bin/bash
 check_sys(){
 	if [[ -f /etc/redhat-release ]]; then
@@ -17,9 +16,9 @@ check_sys(){
 		release="centos"
     fi
     
-	if [[ $release = *'ubuntu'* || $OS = *'debian'* ]]; then
+	if [[ $release = *'ubuntu'* || $release = *'debian'* ]]; then
     PM='apt'
-  elif [[ $OS = *'centos'* ]]; then
+  elif [[ $release = *'centos'* ]]; then
     PM='yum'
   else
     exit 1
