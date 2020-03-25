@@ -1,4 +1,11 @@
 #!/bin/bash
+isRoot() {
+  if [[ "$EUID" -ne 0 ]]; then
+    echo "false"
+  else
+    echo "true"
+  fi
+}
 check_sys(){
 	if [[ -f /etc/redhat-release ]]; then
 		release="centos"
@@ -38,6 +45,11 @@ install_wget(){
   fi
 }
 main(){
+isRoot=$( isRoot )
+if [[ "${isRoot}" != "true" ]]; then
+    echo -e "${GREEN}error:${NC}Please run this script as as root"
+    exit 1
+  else
     install_wget
     sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
     sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
