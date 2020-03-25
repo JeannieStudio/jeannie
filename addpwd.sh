@@ -16,14 +16,14 @@ check_sys(){
 		release="centos"
     fi
     
-	if [[ $release = *'ubuntu'* || $release = *'debian'* ]]; then
-    PM='apt'
-  elif [[ $release = *'centos'* ]]; then
-    PM='yum'
-  else
-    exit 1
-  fi
-  # PM='apt'
+      if [[ $release = 'ubuntu' || $release = 'debian' ]]; then
+          PM='apt'
+      elif [[ $release = *'centos'* ]]; then
+          PM='yum'
+      else
+         exit 1
+   fi
+      # PM='apt'
 }
 
 install_wget(){
