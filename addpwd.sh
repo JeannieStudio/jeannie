@@ -8,7 +8,7 @@ isRoot() {
     echo "true"
   fi
 }
-check_sys(){
+check_sys() {
 	if [[ -f /etc/redhat-release ]]; then
 		release="centos"
 	elif cat /etc/issue | grep -q -E -i "debian"; then
@@ -35,7 +35,7 @@ check_sys(){
       # PM='apt'
 }
 
-install_wget(){
+install_wget() {
   check_sys
   #statements
   if [[ ${PM} = "apt" ]]; then
@@ -46,7 +46,7 @@ install_wget(){
     yum -y install wget
   fi
 }
-main(){
+main() {
 isRoot=$( isRoot )
 if [[ "${isRoot}" != "true" ]]; then
     echo -e "${GREEN}error:${NC}Please run this script as as root"
