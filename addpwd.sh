@@ -1,4 +1,6 @@
 #!/bin/bash
+GREEN='\033[0;32m'  
+NC='\033[0m' # No Color
 isRoot() {
   if [[ "$EUID" -ne 0 ]]; then
     echo "false"
