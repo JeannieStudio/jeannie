@@ -30,10 +30,10 @@ install_wget(){
   check_sys
   #statements
   if [[ ${PM} = "apt" ]]; then
-    apt-get update  
+   #apt-get update  
     apt-get install wget 
   elif [[ ${PM} = "yum" ]]; then
-    yum update -y
+   # yum update -y
     yum -y install wget
   fi
 }
