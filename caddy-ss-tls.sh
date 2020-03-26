@@ -37,6 +37,7 @@ init_release(){
   fi
   # PM='apt'
 }
+init_release
 if [[ ${PM} = "apt" ]]; then
     apt-get install supervisor   
   elif [[ ${PM} = "yum" ]]; then
