@@ -20,7 +20,7 @@ plugins:
     type: 'smtp'
     username: '${email_username}'
     password: '${email_password}'
-    host: 'smtp.zoho.com.cn'
+    host: 'smtp.zoho.com'
     # 这部分的邮箱和密码是用于发送注册验证邮件，重置密码邮件
   webgui:
     use: true
