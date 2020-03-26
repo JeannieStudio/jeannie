@@ -10,7 +10,7 @@ main(){
   #check root permission
   isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
-    echo -e "您得且到root用户才能执行该脚本"
+    echo -e "非root用户不能执行该脚本"
     exit 1
   else
     sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
