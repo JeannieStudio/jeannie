@@ -1,0 +1,44 @@
+#!/bin/bash
+curl https://getcaddy.com | bash -s personal 
+yum install supervisor
+mkdir /etc/caddy
+mkdir /etc/ssl/caddy
+mkdir /var/www
+read -p "输入您的域名:" domainname
+read -p "域名输入正确吗？ (y/n)?: " answer
+if [ $answer != "y" ];then
+	read -p "重新输入域名:" domainname	
+fi
+read -p "输入您的邮箱，为了申请tls证书用的" domainname 
+read -p "输入的邮箱正确吗？ (y/n)?: " answer
+if [ $answer != "y" ];then
+	echo "请重新输入您的邮箱："
+	read emailname
+fi
+echo "http://$domainname:80 {
+      redir https://$domainname:443{url}
+} 
+https://$domainname:443 {  
+    gzip  
+	timeouts none
+	tls $emailname
+    root /var/www
+    proxy / 127.0.0.1:8080    
+}" > /etc/caddy/Caddyfile
+echo "[program:caddy]
+command = /usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile
+directory = /etc/caddy
+autorstart=true
+environment=CADDYPATH=/etc/ssl/caddy" >> /etc/supervisord.conf
+systemctl enable supervisord # 开机自启动
+systemctl start supervisord # 启动supervisord服务 （supervisord -c /etc/supervisord.conf ）
+systemctl status supervisord # 查看supervisord服务状态
+ps -ef|grep supervisord # 查看是否存在supervisord进程
+supervisorctl -c /etc/supervisord.conf  #查看进程中的任务
+echo "
+caddy 安装和配置成功
+启动：supervisorctl start caddy  
+停止：supervisorctl stop caddy    
+重启：supervisorctl restart caddy  
+查看状态：supervisorctl status 
+"
