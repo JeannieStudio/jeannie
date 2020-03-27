@@ -78,17 +78,17 @@ install_supervisor() {
     if [[ ${PM} == "apt" ]]; then
         apt-get install supervisor
         echo "[program:caddy]
-            command = /usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile
-            directory = /etc/caddy
-            autorstart=true
-            environment=CADDYPATH=/etc/ssl/caddy" >/etc/supervisor/conf.d/caddy.conf
+command = /usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile
+directory = /etc/caddy
+autorstart=true
+environment=CADDYPATH=/etc/ssl/caddy" >/etc/supervisor/conf.d/caddy.conf
     elif [[ ${PM} == "yum" ]]; then
         yum install supervisor
         echo "[program:caddy]
-            command = /usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile
-            directory = /etc/caddy
-            autorstart=true
-            environment=CADDYPATH=/etc/ssl/caddy" >/etc/supervisord.d/caddy.ini
+command = /usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile
+directory = /etc/caddy
+autorstart=true
+environment=CADDYPATH=/etc/ssl/caddy" >/etc/supervisord.d/caddy.ini
     fi
 }
 main() {
