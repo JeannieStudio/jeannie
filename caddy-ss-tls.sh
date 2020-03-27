@@ -52,9 +52,6 @@ main() {
         install_supervisor
         systemctl enable supervisord             # 开机自启动
         systemctl start supervisord              # 启动supervisord服务 （supervisord -c /etc/supervisord.conf ）
-        systemctl status supervisord             # 查看supervisord服务状态
-        ps -ef | grep supervisord                # 查看是否存在supervisord进程
-        supervisorctl -c /etc/supervisord.conf   #查看进程中的任务
         echo "caddy 安装和配置成功
             启动：supervisorctl start caddy
             停止：supervisorctl stop caddy
