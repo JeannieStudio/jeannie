@@ -40,7 +40,6 @@ command = /usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfil
 directory = /etc/caddy
 autorstart=true
 environment=CADDYPATH=/etc/ssl/caddy" >/etc/supervisord.d/caddy.ini
-    fi
 }
 main() {
     isRoot=$(isRoot)
