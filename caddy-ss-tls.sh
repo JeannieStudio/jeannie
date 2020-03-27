@@ -9,46 +9,6 @@ isRoot() {
         echo "true"
     fi
 }
-init_release() {
-    if [ -f /etc/os-release ]; then
-        # freedesktop.org and systemd
-        . /etc/os-release
-        OS=$NAME
-    elif type lsb_release >/dev/null 2>&1; then
-        # linuxbase.org
-        OS=$(lsb_release -si)
-    elif [ -f /etc/lsb-release ]; then
-        # For some versions of Debian/Ubuntu without lsb_release command
-        . /etc/lsb-release
-        OS=$DISTRIB_ID
-    elif [ -f /etc/debian_version ]; then
-        # Older Debian/Ubuntu/etc.
-        OS=Debian
-    elif [ -f /etc/SuSe-release ]; then
-        # Older SuSE/etc.
-        ...
-    elif [ -f /etc/redhat-release ]; then
-        # Older Red Hat, CentOS, etc.
-        ...
-    else
-        # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
-        OS=$(uname -s)
-    fi
-
-    # convert string to lower case
-    OS=$(echo "$OS" | tr '[:upper:]' '[:lower:]')
-    if [[ $OS == *'ubuntu'* || $OS == *'debian'* ]]; then
-        PM='apt'
-    elif [[ $OS == *'centos'* ]]; then
-        PM='yum'
-    else
-        exit 1
-    fi
-    # PM='apt'
-}
-#install_caddy() {
-#    curl https://getcaddy.com | bash -s personal
-#}
 conf_caddy() {
     read -p "输入您的域名:" domainname
     read -p "域名输入正确吗？ (y/n)?: " answer
@@ -74,17 +34,8 @@ conf_caddy() {
 }
 
 install_supervisor() {
-    init_release
-    if [[ ${PM} == "apt" ]]; then
-        apt-get install supervisor
-        echo "[program:caddy]
-command = /usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile
-directory = /etc/caddy
-autorstart=true
-environment=CADDYPATH=/etc/ssl/caddy" >/etc/supervisor/conf.d/caddy.conf
-    elif [[ ${PM} == "yum" ]]; then
-        yum install supervisor
-        echo "[program:caddy]
+    yum install supervisor
+    echo "[program:caddy]
 command = /usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile
 directory = /etc/caddy
 autorstart=true
@@ -97,7 +48,6 @@ main() {
         echo -e "${RED_COLOR}error:${NO_COLOR}Please run this script as as root"
         exit 1
     else
-        #install_caddy
         conf_caddy
         install_supervisor
         systemctl enable supervisord             # 开机自启动
