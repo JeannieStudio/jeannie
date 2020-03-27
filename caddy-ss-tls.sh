@@ -15,7 +15,7 @@ conf_caddy() {
     if [ $answer != "y" ]; then
         read -p "重新输入域名:" domainname
     fi
-    read -p "输入您的邮箱，为了申请tls证书用的" domainname
+    read -p "输入您的邮箱，为了申请tls证书用的:" emailname
     read -p "输入的邮箱正确吗？ (y/n)?: " answer
     if [ $answer != "y" ]; then
         echo "请重新输入您的邮箱："
