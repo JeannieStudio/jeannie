@@ -46,9 +46,9 @@ init_release() {
     fi
     # PM='apt'
 }
-install_caddy() {
-    curl https://getcaddy.com | bash -s personal
-}
+#install_caddy() {
+#    curl https://getcaddy.com | bash -s personal
+#}
 conf_caddy() {
     read -p "输入您的域名:" domainname
     read -p "域名输入正确吗？ (y/n)?: " answer
@@ -97,7 +97,7 @@ main() {
         echo -e "${RED_COLOR}error:${NO_COLOR}Please run this script as as root"
         exit 1
     else
-        install_caddy
+        #install_caddy
         conf_caddy
         install_supervisor
         systemctl enable supervisord             # 开机自启动
