@@ -92,7 +92,7 @@ ssr_install(){
 }
 CA_check(){
     error=" too many certificates already issued for exact set of domains:"
-    if [ `grep -c "$error" $ssr-caddy-tls-new.log` -ne '0' ];  then
+    if [ `grep -c "$error" $install.log` -ne '0' ];  then
       echo "http://${domainname}:80 {
 gzip
 timeouts none
