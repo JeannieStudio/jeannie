@@ -40,6 +40,8 @@ init_release(){
   # PM='apt'
 }
 caddy_install(){
+  PID=$(ps -ef |grep "caddy" |grep -v "grep" |grep -v "init.d" |grep -v "service" |grep -v "caddy_install" |awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
   curl https://getcaddy.com | bash -s personal hook.service
 }
 caddy_conf(){
@@ -74,6 +76,7 @@ ssr_install(){
 }
 filebrowser_install(){
     systemctl stop filebrowser.service
+    rm  -f /etc/filebrowser.db
     curl -fsSL https://filebrowser.xyz/get.sh | bash
     filebrowser -d /etc/filebrowser.db config init
     filebrowser -d /etc/filebrowser.db config set --address 0.0.0.0
