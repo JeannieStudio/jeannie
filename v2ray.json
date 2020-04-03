@@ -1,0 +1,31 @@
+{
+  "inbounds": [
+    {
+      "port": 10000,
+      "listen":"127.0.0.1",//只监听 127.0.0.1，避免除本机外的机器探测到开放了 10000 端口
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "b831381d-6324-4d53-ad4f-8cda48b30811",
+            "alterId": 64
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "h2",
+        "wsSettings": {
+        "path": "/ray"
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    }
+  ]
+}
+
+sed -i "s/原字符串/新字符串/g"
