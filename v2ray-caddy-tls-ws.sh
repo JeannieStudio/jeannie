@@ -98,7 +98,7 @@ v2ray_conf(){
   rm -f config.json
   curl -O https://raw.githubusercontent.com/JeannieStudio/jeannie/master/config.json
   sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
-  cp -f config.json /etc/v2ray/config.json
+  \cp -rf config.json /etc/v2ray/config.json
 }
 filebrowser_install(){
     systemctl stop filebrowser.service
