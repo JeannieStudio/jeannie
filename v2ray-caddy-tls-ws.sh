@@ -134,7 +134,7 @@ main(){
     echo -e "${RED_COLOR}error:${NO_COLOR}Please run this script as as root"
     exit 1
   else
-  wget_install
+ # wget_install
   caddy_install
   caddy_conf
   v2ray_install
