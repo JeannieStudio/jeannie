@@ -95,8 +95,8 @@ v2ray_conf(){
       genId
       read -p  "uuid:$id，满意吗？（不满意输入y,按其他键表示接受）" answer
   done
-  rm  -f config.json
-  wget https://raw.githubusercontent.com/JeannieStudio/jeannie/master/config.json
+  rm -f config.json
+  curl -O https://raw.githubusercontent.com/JeannieStudio/jeannie/master/config.json
   sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
   cp -f config.json /etc/v2ray/config.json
 }
@@ -120,10 +120,13 @@ filebrowser_install(){
     [Install]
     WantedBy=multi-user.target" > /lib/systemd/system/filebrowser.service
 }
-bbr_install(){
-  wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh"
-chmod +x tcp.sh
-./tcp.sh
+wget_install(){
+  init_release
+  if [[ ${PM} = "apt" ]]; then
+    apt-get install wget
+  elif [[ ${PM} = "yum" ]]; then
+    yum -y install wget
+  fi
 }
 main(){
    isRoot=$( isRoot )
@@ -131,6 +134,7 @@ main(){
     echo -e "${RED_COLOR}error:${NO_COLOR}Please run this script as as root"
     exit 1
   else
+  wget_install
   caddy_install
   caddy_conf
   v2ray_install
@@ -144,7 +148,6 @@ main(){
   caddy -service restart
   systemctl start filebrowser.service
   systemctl enable filebrowser.service
-  bbr_install
   echo -e "${GREEN}恭喜你，v2ray安装和配置成功
 域名:        ${GREEN}${domainname}
 端口:        ${GREEN}443
