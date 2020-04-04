@@ -45,8 +45,6 @@ init_release(){
    bash <(curl -L -s https://install.direct/go.sh)
  }
  caddy_install(){
-   PID=$(ps -ef |grep "caddy" |grep -v "grep" |grep -v "init.d" |grep -v "service" |grep -v "caddy_install" |awk '{print $2}')
-	[[ ! -z ${PID} ]] && kill -9 ${PID}
   curl https://getcaddy.com | bash -s personal hook.service
 }
 caddy_conf(){
