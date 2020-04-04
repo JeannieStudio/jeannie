@@ -45,6 +45,8 @@ init_release(){
    bash <(curl -L -s https://install.direct/go.sh)
  }
  caddy_install(){
+  PID=$(ps -ef |grep "caddy" |grep -v "grep" |grep -v "init.d" |grep -v "service" |grep -v "caddy_install" |awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
   curl https://getcaddy.com | bash -s personal hook.service
 }
 caddy_conf(){
@@ -132,7 +134,7 @@ main(){
     echo -e "${RED_COLOR}error:${NO_COLOR}Please run this script as as root"
     exit 1
   else
- # wget_install
+  wget_install
   caddy_install
   caddy_conf
   v2ray_install
