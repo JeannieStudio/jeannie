@@ -122,9 +122,9 @@ filebrowser_install(){
 }
 wget_install(){
   init_release
-  if [[ ${PM} = "apt" ]]; then
+  if [ $PM = 'apt' ] ; then
     apt-get install wget
-  elif [[ ${PM} = "yum" ]]; then
+  elif [ $PM = 'yum' ]; then
     yum -y install wget
   fi
 }
