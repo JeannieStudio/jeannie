@@ -159,7 +159,7 @@ UUID:        ${GREEN}${id}
 Windows、Macos客户端下载v2ray-core： ${GREEN}https://github.com/v2ray/v2ray-core/releases
 安卓客户端下载v2rayNG: ${GREEN}https://github.com/2dust/v2rayNG/releases
 ios客户端请到应用商店下载：shadowrocket
-喜欢的话记得视频点赞、分享或订阅jeannie studio：${GREEN}https://bit.ly/2X042ea" 2>&1 | tee info
+喜欢的话记得视频点赞、分享或订阅jeannie studio：${GREEN}https://bit.ly/2X042ea ${NO_COLOR}" 2>&1 | tee info
   touch /etc/motd
   cat info > /etc/motd
   fi
