@@ -95,7 +95,12 @@ trojan_install(){
 trojan_conf(){
   read -p "请输入您的trojan密码：" password
   sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
-  cd ~/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
+  init_release
+  if [ $PM = 'apt' ] ; then
+    cd ~/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
+  elif [ $PM = 'yum' ]; then
+    cd /.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
+  fi
   \cp $domainname.crt /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
   \cp $domainname.key /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
   sed -i "13c \"cert\":\"/usr/local/etc/trojan/$domainname.crt\"," /usr/local/etc/trojan/config.json
@@ -131,7 +136,7 @@ main(){
     trojan_conf
     systemctl start trojan
     systemctl enable trojan
-	  grep "cp: cannot stat" /usr/local/etc/log >/dev/null
+    grep "cp: cannot stat" /usr/local/etc/log >/dev/null
     if [ $? -eq 0 ]; then
         echo -e "
 ${RED}证书申请次数超限，无法科学上网，请更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
