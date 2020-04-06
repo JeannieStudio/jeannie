@@ -34,9 +34,9 @@ init_release(){
 tools_install(){
   init_release
   if [ $PM = 'apt' ] ; then
-    apt-get install -y dnsutils wget unzip zip curl tar git
+    apt-get install -y dnsutils wget unzip zip curl tar git lrzsz
   elif [ $PM = 'yum' ]; then
-    yum -y install bind-utils wget unzip zip curl tar git
+    yum -y install bind-utils wget unzip zip curl tar git  lrzsz
   fi
 }
 main(){
