@@ -11,8 +11,6 @@ green(){
 }
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-echo "export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin:$PATH" >> ~/.bashrc
-source ~/.bashrc
 echo "先睡一会儿……"
 sleep 3
 mkdir /etc/caddy /etc/ssl/caddy /var/www
