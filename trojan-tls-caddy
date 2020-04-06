@@ -95,15 +95,16 @@ trojan_install(){
 trojan_conf(){
   read -p "请输入您的trojan密码：" password
   sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
-  \cp -rf ~/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname/$domainname.crt /usr/local/etc/trojan
-  \cp -rf ~/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname/$domainname.key /usr/local/etc/trojan
+  cd ~/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
+  \cp $domainname.crt /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
+  \cp $domainname.key /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
   sed -i "13c \"cert\":\"/usr/local/etc/trojan/$domainname.crt\"," /usr/local/etc/trojan/config.json
   sed -i "14c \"key\": \"/usr/local/etc/trojan/$domainname.key\"," /usr/local/etc/trojan/config.json
 }
 main(){
   isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
-    echo -e "${RED_COLOR}error:${NO_COLOR}Please run this script as as root"
+    echo -e "${RED}error:${NO_COLOR}Please run this script as as root"
     exit 1
   else
     tools_install
@@ -125,14 +126,21 @@ main(){
          }" > /etc/caddy/Caddyfile
     caddy -service start
     trojan_install
+    echo "睡一会儿……"
+    sleep 6
     trojan_conf
     systemctl start trojan
     systemctl enable trojan
+	  grep "cp: cannot stat" /usr/local/etc/log >/dev/null
+    if [ $? -eq 0 ]; then
+        echo -e "
+${RED}证书申请次数超限，无法科学上网，请更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
+进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/ $NO_COLOR" 2>&1 | tee info
+      else
     green "=========================================="
 	  green "       恭喜你，Trojan安装和配置成功"
 	  green "=========================================="
-
-    echo -e "
+         echo -e "
 $BLUE 域名:         $GREEN ${domainname}
 $BLUE 端口:         $GREEN 443
 $BLUE 密码:         $GREEN ${password}
@@ -142,8 +150,9 @@ $BLUE 另外windows还需要下载v2ray-core：$GREEN https://github.com/v2ray/v
 $BLUE ios客户端到应用商店下载：$GREEN shadowrocket;
 $BLUE 安卓请下载igniter：$GREEN https://github.com/V2RaySSR/Trojan/releases
 $BLUE 喜欢的话记得视频点赞、分享或订阅jeannie studio：$GREEN https://bit.ly/2X042ea $NO_COLOR " 2>&1 | tee info
-  touch /etc/motd
-  cat info > /etc/motd
+    fi
+    touch /etc/motd
+    cat info > /etc/motd
   fi
 }
 main
