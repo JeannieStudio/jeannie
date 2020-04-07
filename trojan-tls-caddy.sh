@@ -157,8 +157,8 @@ main(){
     if [ $? -eq 0 ]; then
         echo -e "
         $RED==========================================
-	      $RED    很遗憾，Trojan安装和配置失败
-	      $RED ==========================================
+        $RED    很遗憾，Trojan安装和配置失败
+       $RED ==========================================
 ${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/ $NO_COLOR" 2>&1 | tee info
       else
