@@ -128,6 +128,7 @@ main(){
     caddy -service start
     echo "睡一会儿……"
     sleep 5
+    caddy -service restart
     caddy -service stop
     echo "http://${domainname}:80 {
           gzip
