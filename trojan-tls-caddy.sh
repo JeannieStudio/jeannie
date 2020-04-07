@@ -115,7 +115,8 @@ trojan_conf(){
   sed -i "14c \"key\": \"/usr/local/etc/trojan/$domainname.key\"," /usr/local/etc/trojan/config.json
 }
 left_second(){
-    seconds_left=100
+    seconds_left=30
+    echo "请等待${seconds_left}秒……"
     while [ $seconds_left -gt 0 ];do
       echo -n $seconds_left
       sleep 1
