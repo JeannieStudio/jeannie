@@ -114,6 +114,15 @@ trojan_conf(){
   sed -i "13c \"cert\":\"/usr/local/etc/trojan/$domainname.crt\"," /usr/local/etc/trojan/config.json
   sed -i "14c \"key\": \"/usr/local/etc/trojan/$domainname.key\"," /usr/local/etc/trojan/config.json
 }
+left_second(){
+    seconds_left=100
+    while [ $seconds_left -gt 0 ];do
+      echo -n $seconds_left
+      sleep 1
+      seconds_left=$(($seconds_left - 1))
+      echo -ne "\r     \r" #清除本行文字
+    done
+}
 main(){
   isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
@@ -129,13 +138,7 @@ main(){
     caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
     caddy -service start
     echo "睡一会儿……"
-    sleep 20
-    echo "多睡一会儿……"
-    sleep 20
-    echo "不是卡了,就是睡会儿……"
-    sleep 30
-    echo "再睡一会儿……"
-    sleep 30
+    left_second
     caddy -service stop
     echo "http://${domainname}:80 {
           gzip
