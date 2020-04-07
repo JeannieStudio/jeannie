@@ -60,6 +60,7 @@ caddy_install(){
   green "=========================================="
 	green "       开始安装caddy并自动下载证书"
 	green "=========================================="
+	systemctl stop caddy
   curl https://getcaddy.com | bash -s personal
 }
 caddy_conf(){
@@ -82,7 +83,8 @@ caddy_conf(){
         tls ${emailname}
         root /var/www
        }" > /etc/caddy/Caddyfile
-  wget -P https://raw.githubusercontent.com/JeannieStudio/jeannie/master/caddy.service /etc/systemd/system
+  curl -O https://raw.githubusercontent.com/JeannieStudio/jeannie/master/caddy.service
+  cp caddy.service /etc/systemd/system
   chown root:root /etc/systemd/system/caddy.service
   chmod 644 /etc/systemd/system/caddy.service
   systemctl daemon-reload
@@ -123,9 +125,8 @@ main(){
   else
     tools_install
     caddy_install
-    caddy_conf
     web_get
-    systemctl stop caddy
+    caddy_conf
     systemctl start caddy
     echo "睡一会儿……"
     sleep 6
