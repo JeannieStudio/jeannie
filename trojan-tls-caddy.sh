@@ -129,7 +129,13 @@ main(){
     caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
     caddy -service start
     echo "睡一会儿……"
-    sleep 100
+    sleep 20
+    echo "多睡一会儿……"
+    sleep 20
+    echo "不是卡了,就是睡会儿……"
+    sleep 30
+    echo "再睡一会儿……"
+    sleep 30
     caddy -service stop
     echo "http://${domainname}:80 {
           gzip
