@@ -105,6 +105,8 @@ trojan_conf(){
     chattr -i /.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
     cd /.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
   fi
+  chattr -i $domainname.crt
+  chattr -i $domainname.key
   \cp $domainname.crt /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
   \cp $domainname.key /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
   sed -i "13c \"cert\":\"/usr/local/etc/trojan/$domainname.crt\"," /usr/local/etc/trojan/config.json
