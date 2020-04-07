@@ -100,8 +100,6 @@ trojan_install(){
 trojan_conf(){
   read -p "请输入您的trojan密码：" password
   sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
-  chattr -i /root/.caddy
-  chattr -i /.caddy
   if [ -d "/root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname" ]; then
     chattr -i /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
     cd /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
