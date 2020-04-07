@@ -76,7 +76,10 @@ caddy_conf(){
     if [ $answer != "y" ]; then
        read -p "请重新输入您的邮箱：" emailname
     fi
-     echo "${domainname} {
+      echo "http://${domainname}:80 {
+        redir https://${domainname}:443{url}
+       }
+        https://${domainname}:443 {
         gzip
         timeouts none
         tls ${emailname}
@@ -97,6 +100,8 @@ trojan_install(){
 trojan_conf(){
   read -p "请输入您的trojan密码：" password
   sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
+  chattr -i /root/.caddy
+  chattr -i /.caddy
   if [ -d "/root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname" ]; then
     chattr -i /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
     cd /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
@@ -104,8 +109,6 @@ trojan_conf(){
     chattr -i /.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
     cd /.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
   fi
-  chattr -i $domainname.crt
-  chattr -i $domainname.key
   \cp $domainname.crt /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
   \cp $domainname.key /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
   sed -i "13c \"cert\":\"/usr/local/etc/trojan/$domainname.crt\"," /usr/local/etc/trojan/config.json
@@ -124,9 +127,6 @@ main(){
     caddy -service stop
     caddy -service uninstall
     caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
-    chown root:root /etc/systemd/system/caddy.service
-    chmod 777 /etc/systemd/system/caddy.service
-    systemctl daemon-reload
     caddy -service start
     echo "睡一会儿……"
     sleep 5
