@@ -58,8 +58,8 @@ tools_install(){
 }
 caddy_install(){
   green "=========================================="
-	green "       开始安装caddy并自动下载证书"
-	green "=========================================="
+  green "       开始安装caddy并自动下载证书"
+  green "=========================================="
   curl https://getcaddy.com | bash -s personal hook.service
 }
 caddy_conf(){
