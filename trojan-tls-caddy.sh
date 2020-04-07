@@ -116,12 +116,11 @@ trojan_conf(){
 }
 left_second(){
     seconds_left=30
-    echo "请等待${seconds_left}秒……"
     while [ $seconds_left -gt 0 ];do
       echo -n $seconds_left
       sleep 1
       seconds_left=$(($seconds_left - 1))
-      echo -ne "\r     \r" #清除本行文字
+      echo -ne "\r     \r"
     done
 }
 main(){
@@ -157,7 +156,10 @@ main(){
 	  grep "cp: cannot stat" /usr/local/etc/log >/dev/null
     if [ $? -eq 0 ]; then
         echo -e "
-${RED}证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
+        $RED==========================================
+	      $RED    很遗憾，Trojan安装和配置失败
+	      $RED ==========================================
+${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/ $NO_COLOR" 2>&1 | tee info
       else
     green "=========================================="
