@@ -124,6 +124,8 @@ main(){
     caddy -service stop
     caddy -service uninstall
     caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
+    chown root:root /etc/systemd/system/caddy.service
+    systemctl daemon-reload
     caddy -service start
     echo "睡一会儿……"
     sleep 5
