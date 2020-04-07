@@ -49,6 +49,8 @@ init_release(){
   # PM='apt'
 }
 tools_install(){
+  PID=$(ps -ef |grep "caddy" |grep -v "grep" |grep -v "init.d" |grep -v "service" |grep -v "caddy_install" |awk '{print $2}')
+	[[ ! -z ${PID} ]] && kill -9 ${PID}
   init_release
   if [ $PM = 'apt' ] ; then
     apt-get install -y dnsutils wget unzip zip curl tar git
