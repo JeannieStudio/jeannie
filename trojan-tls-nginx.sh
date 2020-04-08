@@ -121,8 +121,8 @@ main(){
   else
     tools_install
     nginx_conf
-    nginx -s reload
-    #nginx -s stop
+    nginx
+    #nginx -s quit
     web_get
     trojan_install
     echo "睡一会儿……"
