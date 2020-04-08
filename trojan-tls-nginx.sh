@@ -57,7 +57,6 @@ tools_install(){
   elif [ $PM = 'yum' ]; then
     yum -y install bind-utils wget unzip zip curl tar git nginx certbot
   fi
-  systemctl enable nginx.service
 }
 web_get(){
   rm -rf /var/www
@@ -120,6 +119,7 @@ main(){
     tools_install
     nginx_conf
     nginx
+    systemctl enable nginx.service
     #nginx -s quit
     web_get
     trojan_install
