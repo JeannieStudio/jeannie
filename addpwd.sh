@@ -55,19 +55,20 @@ main(){
     sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
     sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
     passwd root 2>&1 | tee info
+    echo "睡一会儿……"
     sleep 5
-    grep " successfully" info >/dev/null
+    grep "successfully" info >/dev/null
     if [ $? -eq 0 ]; then
-        echo -e "${RED}两次密码输入不一致,修改不成功${NO_COLOR}"
-    else
-        init_release
-        if [ $PM = 'apt' ] ; then
+        # init_release
+       # if [ $PM = 'apt' ] ; then
            service sshd restart
-        elif [ $PM = 'yum' ]; then
-           systemctl restart sshd.service
-        fi
+        #elif [ $PM = 'yum' ]; then
+          # systemctl restart sshd.service
+        #fi
         systemctl enable sshd.service
-        echo '修改成功，请用用户名root和刚设置好的密码登录vps吧，enjoy'
+        echo -e "${GREEN}修改成功，请用用户名root和刚设置好的密码登录vps吧，enjoy${NO_COLOR}"
+    else
+	 echo -e "${RED}两次密码输入不一致,修改不成功${NO_COLOR}"
     fi
   fi
 }
