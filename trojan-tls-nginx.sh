@@ -62,7 +62,7 @@ tools_install(){
 web_get(){
   rm -rf /var/www
   mkdir /var/www
-  git clone https://github.com/HFIProgramming/mikutap.git /var/www
+  git clone https://github.com/JeannieStudio/Programming.git /var/www
 }
 nginx_conf(){
   green "=========================================="
@@ -135,7 +135,7 @@ main(){
         echo -e "
         $RED==========================================
 	      $RED    很遗憾，Trojan安装和配置失败
-        $RED ==========================================
+	      $RED ==========================================
 ${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/ $NO_COLOR" 2>&1 | tee info
       else
