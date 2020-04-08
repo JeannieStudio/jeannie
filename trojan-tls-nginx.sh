@@ -84,7 +84,6 @@ nginx_conf(){
   certbot certonly --standalone --email $emailname -d $domainname
   curl -s -o /etc/nginx/sites-available/default https://raw.githubusercontent.com/JeannieStudio/jeannie/master/default
   sed -i "s/127.0.0.1/$domainname/g" /etc/nginx/sites-available/default
-  nginx -s reload
 }
 trojan_install(){
   green "=========================================="
