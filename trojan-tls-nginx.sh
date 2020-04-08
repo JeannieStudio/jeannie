@@ -97,7 +97,6 @@ trojan_conf(){
   read -p "请输入您的trojan密码：" password
   sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
   cd /etc/letsencrypt/live/$domainname
-  cd /etc/letsencrypt/live/$domainname
   \cp fullchain.pem /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
   \cp privkey.pem /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
   sed -i "13c \"cert\":\"/usr/local/etc/trojan/fullchain.pem\"," /usr/local/etc/trojan/config.json
