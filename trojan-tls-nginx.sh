@@ -151,7 +151,7 @@ $BLUE Windows、macOS客户端请从这里下载： $GREEN  https://github.com/t
 $BLUE 另外windows还需要下载v2ray-core：$GREEN https://github.com/v2ray/v2ray-core/releases
 $BLUE ios客户端到应用商店下载：$GREEN shadowrocket;
 $BLUE 安卓请下载igniter：$GREEN https://github.com/V2RaySSR/Trojan/releases
-$BLUE 喜欢的话记得视频点赞、分享或订阅jeannie studio：$GREEN https://bit.ly/2X042ea $NO_COLOR " 2>&1 | tee info
+$BLUE 关注jeannie studio：$GREEN https://bit.ly/2X042ea $NO_COLOR " 2>&1 | tee info
     fi
     touch /etc/motd
     cat info > /etc/motd
