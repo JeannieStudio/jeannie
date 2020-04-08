@@ -53,9 +53,9 @@ tools_install(){
   init_release
   nginx -s stop
   if [ $PM = 'apt' ] ; then
-    apt-get install -y dnsutils wget unzip zip curl tar git nginx
+    apt-get install -y dnsutils wget unzip zip curl tar git nginx certbot
   elif [ $PM = 'yum' ]; then
-    yum -y install bind-utils wget unzip zip curl tar git nginx
+    yum -y install bind-utils wget unzip zip curl tar git nginx certbot
   fi
   systemctl enable nginx.service
 }
