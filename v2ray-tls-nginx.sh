@@ -52,7 +52,7 @@ tools_install(){
   if [ $PM = 'apt' ] ; then
     apt-get install -y dnsutils wget unzip zip curl tar git nginx certbot crontabs
   elif [ $PM = 'yum' ]; then
-    yum -y install bind-utils wget unzip zip curl tar git nginx certbot crontabs
+    yum -y install bind-utils wget unzip zip curl tar git nginx epel-release certbot crontabs
   fi
 }
 web_get(){
