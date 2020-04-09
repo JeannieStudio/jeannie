@@ -81,8 +81,8 @@ nginx_conf(){
        read -p "请重新输入您的邮箱：" emailname
     fi
   certbot certonly --standalone --email $emailname -d $domainname
-  curl -s -o /etc/nginx/sites-available/default https://raw.githubusercontent.com/JeannieStudio/jeannie/master/default
-  sed -i "s/127.0.0.1/$domainname/g" /etc/nginx/sites-available/default
+  curl -s -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/JeannieStudio/jeannie/master/default.conf
+  sed -i "s/127.0.0.1/$domainname/g" /etc/nginx/conf.d/default.conf
 }
 trojan_install(){
   green "=========================================="
@@ -110,6 +110,12 @@ left_second(){
       echo -ne "\r     \r"
     done
 }
+check_CA(){
+    end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
+    end_times=$(date +%s -d "$end_time")
+    now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
+    RST=$(($(($end_times-$now_time))/(60*60*24)))
+}
 main(){
   isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
@@ -128,6 +134,7 @@ main(){
     trojan_conf
     systemctl start trojan
     systemctl enable trojan
+    check_CA
 	  grep "cp: cannot stat" /usr/local/etc/log >/dev/null
     if [ $? -eq 0 ]; then
         echo -e "
@@ -145,11 +152,15 @@ $BLUE 域名:         $GREEN ${domainname}
 $BLUE 端口:         $GREEN 443
 $BLUE 密码:         $GREEN ${password}
 $BLUE 伪装网站请访问： $GREEN https://${domainname}
+${GREEN}=========================================================
 $BLUE Windows、macOS客户端请从这里下载： $GREEN  https://github.com/trojan-gfw/trojan/releases，
 $BLUE 另外windows还需要下载v2ray-core：$GREEN https://github.com/v2ray/v2ray-core/releases
 $BLUE ios客户端到应用商店下载：$GREEN shadowrocket;
 $BLUE 安卓请下载igniter：$GREEN https://github.com/V2RaySSR/Trojan/releases
-$BLUE 关注jeannie studio：$GREEN https://bit.ly/2X042ea $NO_COLOR " 2>&1 | tee info
+$BLUE 关注jeannie studio：$GREEN https://bit.ly/2X042ea
+${GREEN}=========================================================
+${GREEN}当前检测的域名： $domainname
+${GREEN}证书有效期剩余天数:  ${RST} $NO_COLOR " 2>&1 | tee info
     fi
     touch /etc/motd
     cat info > /etc/motd
