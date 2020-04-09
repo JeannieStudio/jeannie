@@ -50,7 +50,9 @@ tools_install(){
 	nginx -s stop
   init_release
   if [ $PM = 'apt' ] ; then
-    apt-get install -y dnsutils wget unzip zip curl tar git nginx certbot crontabs
+    apt-get install -y dnsutils wget unzip zip curl tar git nginx
+    apt-get install -y certbot
+    apt-get install -y cron
   elif [ $PM = 'yum' ]; then
     yum -y install bind-utils wget unzip zip curl tar git nginx crontabs
     yum install -y epel-release
@@ -128,10 +130,17 @@ check_CA(){
     RST=$(($(($end_times-$now_time))/(60*60*24)))
 }
 add_CA(){
-  echo "SHELL=/bin/bash
-  30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /sbin/nginx -s stop;/sbin/nginx" > /var/spool/cron/root
-  service crond reload
-  service crond restart
+  init_release
+  if [ $PM = 'apt' ] ; then
+    cron_job="30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /usr/sbin/nginx -s stop;/usr/sbin/nginx"
+    ( crontab -l | grep -v "$cron_job"; echo "$cron_job" ) | crontab -
+    service cron restart
+  elif [ $PM = 'yum' ]; then
+    echo "SHELL=/bin/bash
+    30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /sbin/nginx -s stop;/sbin/nginx" > /var/spool/cron/root
+    service crond reload
+    service crond restart
+  fi
 }
 main(){
    isRoot=$( isRoot )
