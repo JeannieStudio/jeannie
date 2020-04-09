@@ -3,10 +3,15 @@ RED="\033[0;31m"
 NO_COLOR="\033[0m"
 GREEN="\033[0;32m"
 BLUE="\033[0;36m"
+green(){
+    echo -e "\033[32m\033[01m$1\033[0m"
+}
 echo "export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
 echo "等3秒……"
 sleep 3
+rm -rf /var/www
+mkdir /var/www
 isRoot(){
   if [[ "$EUID" -ne 0 ]]; then
     echo "false"
@@ -49,11 +54,8 @@ tools_install(){
   elif [ $PM = 'yum' ]; then
     yum -y install bind-utils wget unzip zip curl tar git nginx certbot
   fi
-  systemctl enable nginx.service
 }
 web_get(){
-  rm -rf /var/www
-  mkdir /var/www
   git clone https://github.com/JeannieStudio/Programming.git /var/www
 }
 left_second(){
@@ -70,7 +72,6 @@ left_second(){
    service v2ray stop
    bash <(curl -L -s https://install.direct/go.sh)
  }
-
 nginx_conf(){
   green "=========================================="
   green "       开始申请证书"
@@ -88,9 +89,9 @@ nginx_conf(){
     if [ $answer != "y" ]; then
        read -p "请重新输入您的邮箱：" emailname
     fi
-  certbot certonly --standalone --email $emailname -d $domainname
-  curl -s -o /etc/nginx/sites-available/default https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ray_default
-  sed -i "s/mydomain.me/$domainname/g" /etc/nginx/sites-available/default
+  certbot certonly --webroot -w /var/www -d $domainname -m $emailname --agree-tos
+  curl -s -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ray_default.conf
+  sed -i "s/mydomain.me/$domainname/g" /etc/nginx/conf.d/default.conf
   cd /etc/letsencrypt/live/$domainname
   \cp fullchain.pem /etc/v2ray 2>&1 | tee /etc/v2ray/log
   \cp privkey.pem /etc/v2ray 2>&1 | tee /etc/v2ray/log
@@ -118,6 +119,12 @@ v2ray_conf(){
   sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
   \cp -rf config.json /etc/v2ray/config.json
 }
+check_CA(){
+    end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
+    end_times=$(date +%s -d "$end_time")
+    now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
+    RST=$(($(($end_times-$now_time))/(60*60*24)))
+}
 main(){
    isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
@@ -126,17 +133,20 @@ main(){
   else
   tools_install
   web_get
+  nginx -s stop
   nginx_conf
   echo "睡一会儿……"
   left_second
   nginx
+  systemctl enable nginx.service
   v2ray_install
   v2ray_conf
   echo "睡一会儿……"
   sleep 6
   service v2ray start
-  grep "cp: cannot stat" /etc/v2ray/log >/dev/null
-  if [ $? -eq 0 ]; then
+  check_CA
+  if grep -q "cp: cannot stat" /etc/v2ray/log
+  then
         echo -e "
         $RED==========================================
 	      $RED    很遗憾，v2ray配置失败
@@ -145,20 +155,24 @@ ${RED}由于证书申请失败，无法科学上网，请重装或更换一个�
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/ $NO_COLOR" 2>&1 | tee info
       else
     green "=========================================="
-	  green "       恭喜你，Trojan安装和配置成功"
+	  green "       恭喜你，v2ray安装和配置成功"
 	  green "=========================================="
   echo -e "${GREEN}恭喜你，v2ray安装和配置成功
 $BLUE域名:        ${GREEN}${domainname}
 $BLUE端口:        ${GREEN}443
-${BLUE}UUID:      ${GREEN}${id}
-${BLUE}alterId:   ${GREEN}64
-${BLUE}混淆:      ${GREEN}websocket
-${BLUE}路径：     ${GREEN}/ray
+${BLUE}UUID:       ${GREEN}${id}
+${BLUE}alterId:    ${GREEN}64
+${BLUE}混淆:       ${GREEN}websocket
+${BLUE}路径：      ${GREEN}/ray
 ${BLUE}伪装网站：${GREEN}https://${domainname}
+${GREEN}=========================================================
 ${BLUE}Windows、Macos客户端下载v2ray-core： ${GREEN}https://github.com/v2ray/v2ray-core/releases
 ${BLUE}安卓客户端下载v2rayNG: ${GREEN}https://github.com/2dust/v2rayNG/releases
 ${BLUE}ios客户端请到应用商店下载：${GREEN}shadowrocket
-${BLUE}喜欢的话记得视频点赞、分享或订阅jeannie studio：${GREEN}https://bit.ly/2X042ea ${NO_COLOR}" 2>&1 | tee info
+${BLUE}喜欢的话记得视频点赞、分享或订阅jeannie studio：${GREEN}https://bit.ly/2X042ea
+${GREEN}=========================================================
+${GREEN}当前检测的域名： $domainname
+${GREEN}证书有效期剩余天数:  ${RST}${NO_COLOR}" 2>&1 | tee info
       fi
   touch /etc/motd
   cat info > /etc/motd
