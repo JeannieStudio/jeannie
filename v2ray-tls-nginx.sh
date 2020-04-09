@@ -1,7 +1,7 @@
 #!/bin/bash
 RED="\033[0;31m"
 NO_COLOR="\033[0m"
-GREEN="\033[0;32m"
+GREEN="\033[32m\033[01m"
 BLUE="\033[0;36m"
 green(){
     echo -e "\033[32m\033[01m$1\033[0m"
@@ -47,19 +47,19 @@ init_release(){
 tools_install(){
   PID=$(ps -ef |grep "nginx" |grep "v2ray"|grep -v "grep" |grep -v "init.d" |grep -v "service" |grep -v "caddy_install" |awk '{print $2}')
 	[[ ! -z ${PID} ]] && kill -9 ${PID}
+	nginx -s stop
   init_release
-  nginx -s stop
   if [ $PM = 'apt' ] ; then
-    apt-get install -y dnsutils wget unzip zip curl tar git nginx certbot
+    apt-get install -y dnsutils wget unzip zip curl tar git nginx certbot crontabs
   elif [ $PM = 'yum' ]; then
-    yum -y install bind-utils wget unzip zip curl tar git nginx certbot
+    yum -y install bind-utils wget unzip zip curl tar git nginx certbot crontabs
   fi
 }
 web_get(){
   git clone https://github.com/JeannieStudio/Programming.git /var/www
 }
 left_second(){
-    seconds_left=30
+    seconds_left=10
     while [ $seconds_left -gt 0 ];do
       echo -n $seconds_left
       sleep 1
@@ -89,12 +89,12 @@ nginx_conf(){
     if [ $answer != "y" ]; then
        read -p "请重新输入您的邮箱：" emailname
     fi
-  certbot certonly --webroot -w /var/www -d $domainname -m $emailname --agree-tos
-  curl -s -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ray_default.conf
-  sed -i "s/mydomain.me/$domainname/g" /etc/nginx/conf.d/default.conf
+  certbot certonly --standalone -n --agree-tos --email $emailname -d $domainname
   cd /etc/letsencrypt/live/$domainname
   \cp fullchain.pem /etc/v2ray 2>&1 | tee /etc/v2ray/log
   \cp privkey.pem /etc/v2ray 2>&1 | tee /etc/v2ray/log
+  curl -s -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ray_default.conf
+  sed -i "s/mydomain.me/$domainname/g" /etc/nginx/conf.d/default.conf
 }
 genId(){
     id1=$(cat /proc/sys/kernel/random/uuid | md5sum |cut -c 1-8)
@@ -125,6 +125,12 @@ check_CA(){
     now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
     RST=$(($(($end_times-$now_time))/(60*60*24)))
 }
+add_CA(){
+  echo "SHELL=/bin/bash
+  30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /sbin/nginx -s stop;/sbin/nginx" > /var/spool/cron/root
+  service crond reload
+  service crond restart
+}
 main(){
    isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
@@ -133,31 +139,32 @@ main(){
   else
   tools_install
   web_get
+  v2ray_install
   nginx -s stop
   nginx_conf
   echo "睡一会儿……"
   left_second
   nginx
   systemctl enable nginx.service
-  v2ray_install
   v2ray_conf
   echo "睡一会儿……"
   sleep 6
   service v2ray start
   check_CA
+  add_CA
   if grep -q "cp: cannot stat" /etc/v2ray/log
   then
         echo -e "
         $RED==========================================
 	      $RED    很遗憾，v2ray配置失败
-	      $RED ==========================================
+ $RED ==========================================
 ${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/ $NO_COLOR" 2>&1 | tee info
       else
     green "=========================================="
 	  green "       恭喜你，v2ray安装和配置成功"
 	  green "=========================================="
-  echo -e "${GREEN}恭喜你，v2ray安装和配置成功
+  echo -e "
 $BLUE域名:        ${GREEN}${domainname}
 $BLUE端口:        ${GREEN}443
 ${BLUE}UUID:       ${GREEN}${id}
@@ -169,10 +176,11 @@ ${GREEN}=========================================================
 ${BLUE}Windows、Macos客户端下载v2ray-core： ${GREEN}https://github.com/v2ray/v2ray-core/releases
 ${BLUE}安卓客户端下载v2rayNG: ${GREEN}https://github.com/2dust/v2rayNG/releases
 ${BLUE}ios客户端请到应用商店下载：${GREEN}shadowrocket
-${BLUE}喜欢的话记得视频点赞、分享或订阅jeannie studio：${GREEN}https://bit.ly/2X042ea
+${BLUE}关注jeannie studio：${GREEN}https://bit.ly/2X042ea
 ${GREEN}=========================================================
-${GREEN}当前检测的域名： $domainname
-${GREEN}证书有效期剩余天数:  ${RST}${NO_COLOR}" 2>&1 | tee info
+${GREEN}当前使用的域名： $domainname
+${GREEN}证书有效期剩余天数:  ${RST}
+${GREEN}不用担心，证书会自动更新${NO_COLOR}" 2>&1 | tee info
       fi
   touch /etc/motd
   cat info > /etc/motd
