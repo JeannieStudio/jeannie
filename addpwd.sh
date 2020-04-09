@@ -59,8 +59,13 @@ main(){
     sleep 5
     grep "successfully" info >/dev/null
     if [ $? -eq 0 ]; then
-	systemctl restart sshd.service
+      init_release
+      if [ $PM = 'apt' ]; then
+        systemctl restart sshd.service
         systemctl enable ssh.service
+      elif [  $PM = 'yum' ]; then
+        /etc/init.d/sshd restart
+      fi
         echo -e "${GREEN}修改成功，请用用户名root和刚设置好的密码登录vps吧，enjoy${NO_COLOR}"
     else
 	 echo -e "${RED}两次密码输入不一致,修改不成功${NO_COLOR}"
