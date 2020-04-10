@@ -171,8 +171,8 @@ ${BLUE}UUID:      ${GREEN}${id}
 ${BLUE}AlterID:   ${GREEN}64
 $BLUE混淆:        ${GREEN}websocket
 $BLUE路径：       ${GREEN}/ray
-$BLUE访问：${GREEN}https://${domainname}  体验个人在线私有云盘.
-$BLUE登录名：${GREEN} $user ，$BLUE密码：${GREEN} $pswd。
+$BLUE伪装网站访问：${GREEN}https://${domainname}
+${GREEN}  ==========================================================================================
 ${BLUE}Windows、Macos客户端下载v2ray-core： ${GREEN}https://github.com/v2ray/v2ray-core/releases
 ${BLUE}安卓客户端下载v2rayNG: ${GREEN}https://github.com/2dust/v2rayNG/releases
 ${BLUE}ios客户端请到应用商店下载：${GREEN}shadowrocket
