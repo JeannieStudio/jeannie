@@ -49,11 +49,12 @@ tools_install(){
   init_release
   nginx -s stop
   if [ $PM = 'apt' ] ; then
+    apt-get update -y
     apt-get install -y dnsutils wget unzip zip curl tar git
   elif [ $PM = 'yum' ]; then
+    yum update -y
     yum -y install bind-utils wget unzip zip curl tar git
   fi
-  systemctl enable nginx.service
 }
 left_second(){
     seconds_left=30
@@ -94,9 +95,6 @@ caddy_conf(){
         timeouts none
         tls ${emailname}
         root /var/www
-        proxy / 127.0.0.1:5678 {
-          except /ray
-        }
         proxy /ray 127.0.0.1:10000 {
            websocket
            header_upstream -Origin
@@ -133,25 +131,10 @@ v2ray_conf(){
   sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
   \cp -rf config.json /etc/v2ray/config.json
 }
-filebrowser_install(){
-    systemctl stop filebrowser.service
-    rm  -f /etc/filebrowser.db
-    curl -fsSL https://filebrowser.xyz/get.sh | bash
-    filebrowser -d /etc/filebrowser.db config init
-    filebrowser -d /etc/filebrowser.db config set --address 0.0.0.0
-    filebrowser -d /etc/filebrowser.db config set --port 5678
-    filebrowser -d /etc/filebrowser.db config set --locale zh-cn
-    filebrowser -d /etc/filebrowser.db config set --log /var/log/filebrowser.log
-    read -p "输入个人在线私有云盘用户名:" user
-    read -p "输入个人在线私有云盘密码:" pswd
-    filebrowser -d /etc/filebrowser.db users add ${user} ${pswd} --perm.admin
-    echo "[Unit]
-    Description=File Browser
-    After=network.target
-    [Service]
-    ExecStart=/usr/local/bin/filebrowser -d /etc/filebrowser.db
-    [Install]
-    WantedBy=multi-user.target" > /lib/systemd/system/filebrowser.service
+web_get(){
+  rm -rf /var/www
+  mkdir /var/www
+  git clone https://github.com/JeannieStudio/Programming.git /var/www
 }
 main(){
    isRoot=$( isRoot )
@@ -160,6 +143,7 @@ main(){
     exit 1
   else
   tools_install
+  web_get
   caddy_install
   caddy_conf
   caddy -service stop
@@ -170,17 +154,13 @@ main(){
   caddy -service start
   v2ray_install
   v2ray_conf
-  filebrowser_install
   service v2ray start
-  systemctl start filebrowser.service
-  systemctl enable filebrowser.service
-  systemctl daemon-reload
   CA_exist
   if [ $FLAG = "YES" ]; then
-    green "=========================================="
-	  green "       恭喜你，v2ray安装和配置成功"
-	  green "=========================================="
       echo -e "
+${GREEN}  ==================================================
+	        ${GREEN}       恭喜你，v2ray安装和配置成功
+${GREEN} ===================================================
 $BLUE域名:        ${GREEN}${domainname}
 $BLUE端口:        ${GREEN}443
 ${BLUE}UUID:      ${GREEN}${id}
@@ -195,9 +175,9 @@ ${BLUE}ios客户端请到应用商店下载：${GREEN}shadowrocket
 ${BLUE}关注jeannie studio：${GREEN}https://bit.ly/2X042ea ${NO_COLOR}" 2>&1 | tee info
   elif [ $FLAG = "NO" ]; then
       echo -e "
-$RED==========================================
-$RED    很遗憾，v2ray安装和配置失败
-$RED==========================================
+$RED=====================================================
+$RED              很遗憾，v2ray安装和配置失败
+$RED=====================================================
 ${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/${NO_COLOR}" 2>&1 | tee info
   fi
