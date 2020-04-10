@@ -161,9 +161,9 @@ main(){
   caddy -service stop
   caddy -service uninstall
   caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
+  caddy -service start
   echo "睡一会儿……"
   left_second
-  caddy -service start
   v2ray_install
   v2ray_conf
   service v2ray start
