@@ -48,14 +48,26 @@ init_release(){
   # PM='apt'
 }
 tools_install(){
-  PID=$(ps -ef |grep "nginx" |grep "caddy"|grep -v "grep" |grep -v "init.d" |grep -v "service" |grep -v "caddy_install" |awk '{print $2}')
+  PID=$(ps -ef | grep "v2ray" | grep -v grep | awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
+  PID=$(ps -ef | grep "trojan" | grep -v grep | awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
+  PID=$(ps -ef | grep "nginx" | grep -v grep | awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
+  PID=$(ps -ef | grep "caddy" | grep -v grep | awk '{print $2}')
 	[[ ! -z ${PID} ]] && kill -9 ${PID}
   init_release
   nginx -s stop
   if [ $PM = 'apt' ] ; then
-    apt-get install -y dnsutils wget unzip zip curl tar git nginx certbot
+    apt-get update
+    apt-get install -y dnsutils wget unzip zip curl tar git nginx
+    apt-get install -y certbot
+    apt-get install -y cron
   elif [ $PM = 'yum' ]; then
-    yum -y install bind-utils wget unzip zip curl tar git nginx certbot
+    yum update -y
+    yum -y install bind-utils wget unzip zip curl tar git nginx crontabs
+    yum install -y epel-release
+    yum install -y certbot
   fi
 }
 web_get(){
@@ -80,7 +92,7 @@ nginx_conf(){
     if [ $answer != "y" ]; then
        read -p "请重新输入您的邮箱：" emailname
     fi
-  certbot certonly --standalone --email $emailname -d $domainname
+  certbot certonly --standalone -n --agree-tos --email $emailname -d $domainname
   curl -s -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/JeannieStudio/jeannie/master/default.conf
   sed -i "s/127.0.0.1/$domainname/g" /etc/nginx/conf.d/default.conf
 }
@@ -116,6 +128,20 @@ check_CA(){
     now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
     RST=$(($(($end_times-$now_time))/(60*60*24)))
 }
+add_CA(){
+  init_release
+  if [ $PM = 'apt' ] ; then
+    cron_job="30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /usr/sbin/nginx -s stop;/usr/sbin/nginx"
+    ( crontab -l | grep -v "$cron_job"; echo "$cron_job" ) | crontab -
+    service cron restart
+  elif [ $PM = 'yum' ]; then
+    echo "SHELL=/bin/bash
+    30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /sbin/nginx -s stop;
+    " > /var/spool/cron/root
+    service crond reload
+    service crond restart
+  fi
+}
 main(){
   isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
@@ -123,11 +149,11 @@ main(){
     exit 1
   else
     tools_install
+    web_get
+    nginx -s stop
     nginx_conf
     nginx
     systemctl enable nginx.service
-    #nginx -s quit
-    web_get
     trojan_install
     echo "睡一会儿……"
     sleep 5
@@ -135,6 +161,7 @@ main(){
     systemctl start trojan
     systemctl enable trojan
     check_CA
+    add_CA
 	  grep "cp: cannot stat" /usr/local/etc/log >/dev/null
     if [ $? -eq 0 ]; then
         echo -e "
