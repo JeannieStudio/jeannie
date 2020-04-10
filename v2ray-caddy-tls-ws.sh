@@ -1,7 +1,7 @@
 #!/bin/bash
 RED="\033[0;31m"
 NO_COLOR="\033[0m"
-GREEN="\033[0;32m"
+GREEN="\033[32m\033[01m"
 BLUE="\033[0;36m"
 green(){
     echo -e "\033[32m\033[01m$1\033[0m"
@@ -10,7 +10,6 @@ echo "export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~
 source ~/.bashrc
 echo "等3秒……"
 sleep 3
-mkdir /etc/caddy /etc/ssl/caddy /var/www
 isRoot(){
   if [[ "$EUID" -ne 0 ]]; then
     echo "false"
@@ -44,10 +43,15 @@ init_release(){
   # PM='apt'
 }
 tools_install(){
-  PID=$(ps -ef |grep "nginx" |grep "caddy"|grep -v "grep" |grep -v "init.d" |grep -v "service" |grep -v "caddy_install" |awk '{print $2}')
+  PID=$(ps -ef | grep "v2ray" | grep -v grep | awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
+  PID=$(ps -ef | grep "trojan" | grep -v grep | awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
+  PID=$(ps -ef | grep "nginx" | grep -v grep | awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
+  PID=$(ps -ef | grep "caddy" | grep -v grep | awk '{print $2}')
 	[[ ! -z ${PID} ]] && kill -9 ${PID}
   init_release
-  nginx -s stop
   if [ $PM = 'apt' ] ; then
     apt-get update -y
     apt-get install -y dnsutils wget unzip zip curl tar git
@@ -159,7 +163,7 @@ main(){
   if [ $FLAG = "YES" ]; then
       echo -e "
 ${GREEN}  ==================================================
-${GREEN}       恭喜你，v2ray安装和配置成功
+	        ${GREEN}       恭喜你，v2ray安装和配置成功
 ${GREEN} ===================================================
 $BLUE域名:        ${GREEN}${domainname}
 $BLUE端口:        ${GREEN}443
