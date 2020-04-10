@@ -50,10 +50,12 @@ tools_install(){
 	nginx -s stop
   init_release
   if [ $PM = 'apt' ] ; then
+    apt-get update
     apt-get install -y dnsutils wget unzip zip curl tar git nginx
     apt-get install -y certbot
     apt-get install -y cron
   elif [ $PM = 'yum' ]; then
+    yum update -y
     yum -y install bind-utils wget unzip zip curl tar git nginx crontabs
     yum install -y epel-release
     yum install -y certbot
@@ -137,7 +139,8 @@ add_CA(){
     service cron restart
   elif [ $PM = 'yum' ]; then
     echo "SHELL=/bin/bash
-    30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /sbin/nginx -s stop;/sbin/nginx" > /var/spool/cron/root
+    30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /sbin/nginx -s stop;
+    " > /var/spool/cron/root
     service crond reload
     service crond restart
   fi
