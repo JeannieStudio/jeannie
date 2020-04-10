@@ -5,6 +5,7 @@ RED_COLOR="\033[0;31m"
 NO_COLOR="\033[0m"
 GREEN="\033[32m\033[01m"
 BLUE="\033[0;36m"
+FUCHSIA="\033[0;35m"
 echo "export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
 echo "等3秒……"
@@ -138,7 +139,7 @@ main(){
   caddy -service uninstall
   caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
   caddy -service start
-  echo "睡一会儿……"
+  echo -e " ${FUCHSIA}睡一会儿……千万别关，还没装完，还没装完，还没装完……"
   left_second
   caddy -service start
   /etc/init.d/shadowsocks-r restart
@@ -160,8 +161,7 @@ ${BLUE}密码:        ${GREEN}${pwd##*:}
 ${BLUE}加密方式:    ${GREEN}${method##*:}
 ${BLUE}协议:        ${GREEN}${Protocol##*:}
 ${BLUE}混淆:        ${GREEN}${obfs##*:}
-${BLUE}访问：${GREEN}https://${domainname}  体验个人在线私有云盘.
-${BLUE}登录名：$user ，密码：$pswd。
+${BLUE}伪装网站访问：${GREEN}https://${domainname}
 ${GREEN}=========================================================
 ${BLUE} Windows客户端请从这里下载： $GREEN  https://github.com/shadowsocksrr/shadowsocksr-csharp/releases
 ${BLUE} macOS客户端请从这里下载: $GREEN https://github.com/qinyuhang/ShadowsocksX-NG-R/releases
