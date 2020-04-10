@@ -74,10 +74,13 @@ caddy_install(){
 }
 caddy_conf(){
   read -p "输入您的域名:" domainname
-  read -p "您输入的域名正确吗? [y/n]?" answer
-  if [ $answer != "y" ]; then
-     read -p "请重新输入您的域名:" domainname
-  fi
+  real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
+  local_addr=`curl ipv4.icanhazip.com`
+  while [ "$real_addr" != "$local_addr" ]; do
+     read -p "本机ip和绑定域名的IP不一致，请检查域名是否解析成功,并重新输入域名:" domainname
+     real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
+     local_addr=`curl ipv4.icanhazip.com`
+  done
   read -p "请输入您的邮箱：" emailname
   read -p "您输入的邮箱正确吗? [y/n]?" answer
   if [ $answer != "y" ]; then
