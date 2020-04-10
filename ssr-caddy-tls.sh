@@ -139,7 +139,7 @@ main(){
   caddy -service uninstall
   caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
   caddy -service start
-  echo -e " ${FUCHSIA}睡一会儿……千万别关，还没装完，还没装完，还没装完……"
+  echo -e " ${GREEN}睡一会儿……千万别关，还没装完，还没装完，还没装完……"
   left_second
   caddy -service start
   /etc/init.d/shadowsocks-r restart
