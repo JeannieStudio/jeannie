@@ -10,6 +10,8 @@ echo "export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~
 source ~/.bashrc
 echo "等3秒……"
 sleep 3
+rm -rf /etc/caddy /etc/ssl/caddy
+mkdir /etc/caddy /etc/ssl/caddy
 isRoot(){
   if [[ "$EUID" -ne 0 ]]; then
     echo "false"
