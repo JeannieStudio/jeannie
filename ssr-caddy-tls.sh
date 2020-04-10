@@ -171,7 +171,7 @@ $BLUE 关注jeannie studio：$GREEN https://bit.ly/2X042ea
 ${GREEN}=========================================================
 ${GREEN}当前检测的域名： $domainname
 ${GREEN}证书有效期剩余天数:  ${RST}
-${GREEN}不用担心，证书会自动更新 $NO_COLOR" 2>&1 | tee info
+${GREEN}不用担心，证书会自动更新 $NO_COLOR " 2>&1 | tee info
     elif [ $FLAG = "NO" ]; then
       echo -e "
 $RED=====================================================
