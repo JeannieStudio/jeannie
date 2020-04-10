@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Author: Jeannie
+#######color code########
 RED_COLOR="\033[0;31m"
 NO_COLOR="\033[0m"
 GREEN="\033[32m\033[01m"
@@ -126,6 +128,13 @@ check_CA(){
     now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
     RST=$(($(($end_times-$now_time))/(60*60*24)))
 }
+CA_exist(){
+  if [ -d "/root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname" -o -d "/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname" ]; then
+    FLAG="YES"
+  else
+    FLAG="NO"
+  fi
+}
 main(){
    isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
@@ -153,6 +162,8 @@ main(){
   Protocol=$(sed -n '10p' /etc/shadowsocks-r/config.json)
   obfs=$(sed -n '12p' /etc/shadowsocks-r/config.json)
   check_CA
+  CA_exist
+  if [ $FLAG = "YES" ]; then
   echo -e "${GREEN}恭喜你，安装和配置成功
 ${BLUE}域名:        ${GREEN}\"${domainname}\"
 ${BLUE}端口:        ${GREEN}\"443\"
@@ -172,6 +183,14 @@ ${GREEN}=========================================================
 ${GREEN}当前检测的域名： $domainname
 ${GREEN}证书有效期剩余天数:  ${RST}
 ${GREEN}不用担心，证书会自动更新" 2>&1 | tee info
+    elif [ $FLAG = "NO" ]; then
+      echo -e "
+$RED=====================================================
+$RED              很遗憾，v2ray安装和配置失败
+$RED=====================================================
+${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
+进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/${NO_COLOR}" 2>&1 | tee info
+  fi
   touch /etc/motd
   cat info > /etc/motd
   fi
