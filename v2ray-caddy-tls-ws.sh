@@ -162,6 +162,7 @@ main(){
   caddy_conf
   caddy -service stop
   caddy -service uninstall
+  rm -rf /etc/systemd/system/caddy.service
   caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
   caddy -service start
   echo "睡一会儿……"
