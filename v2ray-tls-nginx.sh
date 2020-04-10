@@ -10,8 +10,6 @@ echo "export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~
 source ~/.bashrc
 echo "等3秒……"
 sleep 3
-rm -rf /var/www
-mkdir /var/www
 isRoot(){
   if [[ "$EUID" -ne 0 ]]; then
     echo "false"
@@ -62,6 +60,8 @@ tools_install(){
   fi
 }
 web_get(){
+  rm -rf /var/www
+  mkdir /var/www
   git clone https://github.com/JeannieStudio/Programming.git /var/www
 }
 left_second(){
