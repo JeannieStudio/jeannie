@@ -3,7 +3,7 @@
 #######color code########
 RED="\033[0;31m"
 NO_COLOR="\033[0m"
-GREEN="\033[0;32m"
+GREEN="\033[32m\033[01m"
 BLUE="\033[0;36m"
 FUCHSIA="\033[0;35m"
 green(){
