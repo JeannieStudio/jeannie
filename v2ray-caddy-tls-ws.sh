@@ -140,6 +140,12 @@ web_get(){
   mkdir /var/www
   git clone https://github.com/JeannieStudio/Programming.git /var/www
 }
+check_CA(){
+    end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
+    end_times=$(date +%s -d "$end_time")
+    now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
+    RST=$(($(($end_times-$now_time))/(60*60*24)))
+}
 main(){
    isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
@@ -160,6 +166,7 @@ main(){
   v2ray_conf
   service v2ray start
   CA_exist
+  check_CA
   if [ $FLAG = "YES" ]; then
       echo -e "
 ${GREEN}  ==================================================
@@ -172,11 +179,16 @@ ${BLUE}AlterID:   ${GREEN}64
 $BLUE混淆:        ${GREEN}websocket
 $BLUE路径：       ${GREEN}/ray
 $BLUE伪装网站访问：${GREEN}https://${domainname}
-${GREEN}  ==========================================================================================
+${GREEN}==========================================================================================
 ${BLUE}Windows、Macos客户端下载v2ray-core： ${GREEN}https://github.com/v2ray/v2ray-core/releases
 ${BLUE}安卓客户端下载v2rayNG: ${GREEN}https://github.com/2dust/v2rayNG/releases
 ${BLUE}ios客户端请到应用商店下载：${GREEN}shadowrocket
-${BLUE}关注jeannie studio：${GREEN}https://bit.ly/2X042ea ${NO_COLOR}" 2>&1 | tee info
+${BLUE}关注jeannie studio：${GREEN}https://bit.ly/2X042ea
+${GREEN}==========================================================================================
+${GREEN}当前使用的域名： $domainname
+${GREEN}证书有效期剩余天数:  ${RST}
+${GREEN}不用担心，证书会自动更新
+${NO_COLOR}" 2>&1 | tee info
   elif [ $FLAG = "NO" ]; then
       echo -e "
 $RED=====================================================
