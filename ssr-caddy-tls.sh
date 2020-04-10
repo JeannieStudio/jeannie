@@ -8,7 +8,7 @@ BLUE="\033[0;36m"
 FUCHSIA="\033[0;35m"
 echo "export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
-echo "等3秒……"
+echo "先睡一会儿……"
 sleep 3
 mkdir /etc/caddy /etc/ssl/caddy /var/www
 isRoot(){
@@ -150,6 +150,8 @@ main(){
   obfs=$(sed -n '12p' /etc/shadowsocks-r/config.json)
   check_CA
   CA_exist
+  echo "再睡一会儿……"
+  sleep 5
   if [ $FLAG = "YES" ]; then
   echo -e "
 ${GREEN} ===================================================
