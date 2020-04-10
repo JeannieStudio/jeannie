@@ -144,23 +144,24 @@ main(){
 ${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/ $NO_COLOR" 2>&1 | tee info
       else
-    green "=========================================="
-	  green "       恭喜你，Trojan安装和配置成功"
-	  green "=========================================="
          echo -e "
+${GREEN}  ==================================================
+${GREEN}       恭喜你，Trojan安装和配置成功
+${GREEN} ===================================================
 $BLUE 域名:         $GREEN ${domainname}
 $BLUE 端口:         $GREEN 443
 $BLUE 密码:         $GREEN ${password}
 $BLUE 伪装网站请访问： $GREEN https://${domainname}
 ${GREEN}=========================================================
-$BLUE Windows、macOS客户端请从这里下载： $GREEN  https://github.com/trojan-gfw/trojan/releases，
+$BLUE Windows、macOS客户端请从这里下载：$GREEN  https://github.com/trojan-gfw/trojan/releases，
 $BLUE 另外windows还需要下载v2ray-core：$GREEN https://github.com/v2ray/v2ray-core/releases
 $BLUE ios客户端到应用商店下载：$GREEN shadowrocket;
 $BLUE 安卓请下载igniter：$GREEN https://github.com/V2RaySSR/Trojan/releases
 $BLUE 关注jeannie studio：$GREEN https://bit.ly/2X042ea
 ${GREEN}=========================================================
 ${GREEN}当前检测的域名： $domainname
-${GREEN}证书有效期剩余天数:  ${RST} $NO_COLOR " 2>&1 | tee info
+${GREEN}证书有效期剩余天数:  ${RST}
+${GREEN}不用担心，证书会自动更新 $NO_COLOR " 2>&1 | tee info
     fi
     touch /etc/motd
     cat info > /etc/motd
