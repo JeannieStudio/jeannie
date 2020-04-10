@@ -49,12 +49,20 @@ init_release(){
   # PM='apt'
 }
 tools_install(){
-  PID=$(ps -ef |grep "caddy" |grep -v "grep" |grep -v "init.d" |grep -v "service" |grep -v "caddy_install" |awk '{print $2}')
+  PID=$(ps -ef | grep "v2ray" | grep -v grep | awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
+  PID=$(ps -ef | grep "trojan" | grep -v grep | awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
+  PID=$(ps -ef | grep "nginx" | grep -v grep | awk '{print $2}')
+  [[ ! -z ${PID} ]] && kill -9 ${PID}
+  PID=$(ps -ef | grep "caddy" | grep -v grep | awk '{print $2}')
 	[[ ! -z ${PID} ]] && kill -9 ${PID}
   init_release
   if [ $PM = 'apt' ] ; then
+    apt-get update -y
     apt-get install -y dnsutils wget unzip zip curl tar git
   elif [ $PM = 'yum' ]; then
+    yum update -y
     yum -y install bind-utils wget unzip zip curl tar git
   fi
 }
@@ -103,10 +111,8 @@ trojan_conf(){
   read -p "请输入您的trojan密码：" password
   sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
   if [ -d "/root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname" ]; then
-    chattr -i /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
     cd /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
   elif [ -d "/.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname" ]; then
-    chattr -i /.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
     cd /.caddy/acme/acme-v02.api.letsencrypt.org/sites/$domainname
   fi
   \cp $domainname.crt /usr/local/etc/trojan 2>&1 | tee /usr/local/etc/log
@@ -122,6 +128,12 @@ left_second(){
       seconds_left=$(($seconds_left - 1))
       echo -ne "\r     \r"
     done
+}
+check_CA(){
+    end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
+    end_times=$(date +%s -d "$end_time")
+    now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
+    RST=$(($(($end_times-$now_time))/(60*60*24)))
 }
 main(){
   isRoot=$( isRoot )
@@ -153,19 +165,20 @@ main(){
     trojan_conf
     systemctl start trojan
     systemctl enable trojan
+    check_CA
 	  grep "cp: cannot stat" /usr/local/etc/log >/dev/null
     if [ $? -eq 0 ]; then
         echo -e "
         $RED==========================================
-        $RED    很遗憾，Trojan安装和配置失败
-       $RED ==========================================
+	      $RED    很遗憾，Trojan安装和配置失败
+	    $RED==========================================
 ${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/ $NO_COLOR" 2>&1 | tee info
       else
-    green "=========================================="
-	  green "       恭喜你，Trojan安装和配置成功"
-	  green "=========================================="
          echo -e "
+${GREEN} ===================================================
+${GREEN}       恭喜你，Trojan安装和配置成功
+${GREEN} ===================================================
 $BLUE 域名:         $GREEN ${domainname}
 $BLUE 端口:         $GREEN 443
 $BLUE 密码:         $GREEN ${password}
@@ -174,7 +187,11 @@ $BLUE Windows、macOS客户端请从这里下载： $GREEN  https://github.com/t
 $BLUE 另外windows还需要下载v2ray-core：$GREEN https://github.com/v2ray/v2ray-core/releases
 $BLUE ios客户端到应用商店下载：$GREEN shadowrocket;
 $BLUE 安卓请下载igniter：$GREEN https://github.com/V2RaySSR/Trojan/releases
-$BLUE 喜欢的话记得视频点赞、分享或订阅jeannie studio：$GREEN https://bit.ly/2X042ea $NO_COLOR " 2>&1 | tee info
+$BLUE 关注jeannie studio：$GREEN https://bit.ly/2X042ea
+${GREEN}=========================================================
+${GREEN}当前检测的域名： $domainname
+${GREEN}证书有效期剩余天数:  ${RST}
+${GREEN}不用担心，证书会自动更新 $NO_COLOR " 2>&1 | tee info
     fi
     touch /etc/motd
     cat info > /etc/motd
