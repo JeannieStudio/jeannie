@@ -94,10 +94,10 @@ caddy_conf(){
         timeouts none
         tls ${emailname}
         root /var/www
-        proxy / 127.0.0.1:5678
        }" > /etc/caddy/Caddyfile
 }
 ssr_install(){
+  /etc/init.d/shadowsocks-r stop
    wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
    chmod +x shadowsocks-all.sh
    ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
@@ -105,25 +105,10 @@ ssr_install(){
     sed -i '4c "server_port":443,' /etc/shadowsocks-r/config.json
     sed -i "14c \"redirect\": [\"*:443#127.0.0.1:1234\"]," /etc/shadowsocks-r/config.json
 }
-filebrowser_install(){
-    systemctl stop filebrowser.service
-    rm  -f /etc/filebrowser.db
-    curl -fsSL https://filebrowser.xyz/get.sh | bash
-    filebrowser -d /etc/filebrowser.db config init
-    filebrowser -d /etc/filebrowser.db config set --address 0.0.0.0
-    filebrowser -d /etc/filebrowser.db config set --port 5678
-    filebrowser -d /etc/filebrowser.db config set --locale zh-cn
-    filebrowser -d /etc/filebrowser.db config set --log /var/log/filebrowser.log
-    read -p  "输入个人在线私有云盘用户名:" user
-    read -p  "输入个人在线私有云盘密码:" pswd
-    filebrowser -d /etc/filebrowser.db users add $user $pswd --perm.admin
-    echo "[Unit]
-    Description=File Browser
-    After=network.target
-    [Service]
-    ExecStart=/usr/local/bin/filebrowser -d /etc/filebrowser.db
-    [Install]
-    WantedBy=multi-user.target" > /lib/systemd/system/filebrowser.service
+web_get(){
+  rm -rf /var/www
+  mkdir /var/www
+  git clone https://github.com/JeannieStudio/Programming.git /var/www
 }
 check_CA(){
     end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
@@ -145,10 +130,10 @@ main(){
     exit 1
   else
   tools_install
+  web_get
   caddy_install
   caddy_conf
   ssr_install
-  filebrowser_install
   caddy -service stop
   caddy -service uninstall
   caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
@@ -158,8 +143,6 @@ main(){
   caddy -service start
   /etc/init.d/shadowsocks-r restart
   caddy -service restart
-  systemctl start filebrowser.service
-  systemctl enable filebrowser.service
   pwd=$(sed -n '7p' /etc/shadowsocks-r/config.json)
   method=$(sed -n '9p' /etc/shadowsocks-r/config.json)
   Protocol=$(sed -n '10p' /etc/shadowsocks-r/config.json)
@@ -167,7 +150,10 @@ main(){
   check_CA
   CA_exist
   if [ $FLAG = "YES" ]; then
-  echo -e "${GREEN}恭喜你，安装和配置成功
+  echo -e "
+${GREEN} ===================================================
+${GREEN}       恭喜你，Trojan安装和配置成功
+${GREEN} ===================================================
 ${BLUE}域名:        ${GREEN}\"${domainname}\"
 ${BLUE}端口:        ${GREEN}\"443\"
 ${BLUE}密码:        ${GREEN}${pwd##*:}
@@ -189,7 +175,7 @@ ${GREEN}不用担心，证书会自动更新" 2>&1 | tee info
     elif [ $FLAG = "NO" ]; then
       echo -e "
 $RED=====================================================
-$RED              很遗憾，v2ray安装和配置失败
+$RED              很遗憾，安装和配置失败
 $RED=====================================================
 ${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/${NO_COLOR}" 2>&1 | tee info
