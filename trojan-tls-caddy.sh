@@ -83,9 +83,9 @@ caddy_conf(){
   done
     read -p "请输入您的邮箱：" emailname
     read -p "您输入的邮箱正确吗? [y/n]?" answer
-    if [ $answer != "y" ]; then
+    while [ $answer != "y" ]; do
        read -p "请重新输入您的邮箱：" emailname
-    fi
+    done
       echo "http://${domainname}:80 {
         redir https://${domainname}:443{url}
        }
@@ -184,7 +184,7 @@ $BLUE 端口:         $GREEN 443
 $BLUE 密码:         $GREEN ${password}
 $BLUE 伪装网站请访问： $GREEN https://${domainname}
 $BLUE Windows、macOS客户端请从这里下载： $GREEN  https://github.com/trojan-gfw/trojan/releases，
-$BLUE 另外windows还需要下载v2ray-core：$GREEN https://github.com/v2ray/v2ray-core/releases
+$BLUE 另外windows还需要下载v2rayN：$GREEN https://github.com/2dust/v2rayN/releases
 $BLUE ios客户端到应用商店下载：$GREEN shadowrocket;
 $BLUE 安卓请下载igniter：$GREEN https://github.com/V2RaySSR/Trojan/releases
 $BLUE 关注jeannie studio：$GREEN https://bit.ly/2X042ea
