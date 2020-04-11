@@ -188,7 +188,7 @@ ${BLUE}混淆:       ${GREEN}websocket
 ${BLUE}路径：      ${GREEN}/ray
 ${BLUE}伪装网站：${GREEN}https://${domainname}
 ${GREEN}=========================================================
-${BLUE}Windows、Macos客户端下载v2ray-core： ${GREEN}https://github.com/v2ray/v2ray-core/releases
+${BLUE}Windows、Macos客户端下载v2rayN：$GREEN https://github.com/2dust/v2rayN/releases
 ${BLUE}安卓客户端下载v2rayNG: ${GREEN}https://github.com/2dust/v2rayNG/releases
 ${BLUE}ios客户端请到应用商店下载：${GREEN}shadowrocket
 ${BLUE}关注jeannie studio：${GREEN}https://bit.ly/2X042ea
