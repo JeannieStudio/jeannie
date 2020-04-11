@@ -92,9 +92,10 @@ caddy_conf(){
   done
   read -p "请输入您的邮箱：" emailname
   read -p "您输入的邮箱正确吗? [y/n]?" answer
-  if [ $answer != "y" ]; then
-     read -p "请重新输入您的邮箱：" emailname
-  fi
+  while [ $answer != "y" ]; do
+	  read -p "请重新输入您的邮箱：" emailname
+	  read -p "您输入的邮箱正确吗? [y/n]?" answer
+  done
   echo "http://${domainname}:80 {
         redir https://${domainname}:443{url}
        }
@@ -185,7 +186,7 @@ $BLUE混淆:        ${GREEN}websocket
 $BLUE路径：       ${GREEN}/ray
 $BLUE伪装网站访问：${GREEN}https://${domainname}
 ${GREEN}==========================================================================================
-${BLUE}Windows、Macos客户端下载v2ray-core： ${GREEN}https://github.com/v2ray/v2ray-core/releases
+${BLUE}Windows、Macos客户端下载v2rayN：$GREEN https://github.com/2dust/v2rayN/releases
 ${BLUE}安卓客户端下载v2rayNG: ${GREEN}https://github.com/2dust/v2rayNG/releases
 ${BLUE}ios客户端请到应用商店下载：${GREEN}shadowrocket
 ${BLUE}关注jeannie studio：${GREEN}https://bit.ly/2X042ea
