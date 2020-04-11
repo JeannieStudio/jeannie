@@ -92,9 +92,9 @@ nginx_conf(){
   done
   read -p "请输入您的邮箱：" emailname
   read -p "您输入的邮箱正确吗? [y/n]?" answer
-    if [ $answer != "y" ]; then
+    while [ $answer != "y" ]; do
        read -p "请重新输入您的邮箱：" emailname
-    fi
+    done
   certbot certonly --standalone -n --agree-tos --email $emailname -d $domainname
   cd /etc/letsencrypt/live/$domainname
   \cp fullchain.pem /etc/v2ray 2>&1 | tee /etc/v2ray/log
