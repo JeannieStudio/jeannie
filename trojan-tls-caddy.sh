@@ -82,10 +82,10 @@ caddy_conf(){
      local_addr=`curl ipv4.icanhazip.com`
   done
     read -p "请输入您的邮箱：" emailname
-    read -p "您输入的邮箱正确吗? [y/n]?" answer
-    while [ $answer != "y" ]; do
-       read -p "请重新输入您的邮箱：" emailname
-    done
+  while [ $answer != "y" ]; do
+	  read -p "您输入的邮箱正确吗? [y/n]?" answer
+	  read -p "请重新输入您的邮箱：" emailname
+  done
       echo "http://${domainname}:80 {
         redir https://${domainname}:443{url}
        }
