@@ -89,9 +89,9 @@ nginx_conf(){
   done
   read -p "请输入您的邮箱：" emailname
   read -p "您输入的邮箱正确吗? [y/n]?" answer
-    if [ $answer != "y" ]; then
+    while [ $answer != "y" ]; do
        read -p "请重新输入您的邮箱：" emailname
-    fi
+    done
   certbot certonly --standalone -n --agree-tos --email $emailname -d $domainname
   curl -s -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/JeannieStudio/jeannie/master/default.conf
   sed -i "s/127.0.0.1/$domainname/g" /etc/nginx/conf.d/default.conf
