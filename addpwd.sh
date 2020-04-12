@@ -60,7 +60,6 @@ main(){
     grep "successfully" info >/dev/null
     if [ $? -eq 0 ]; then
         systemctl restart sshd.service
-        systemctl enable sshd.service
         /etc/init.d/sshd restart
         echo -e "${GREEN}修改成功，请用用户名root和刚设置好的密码登录vps吧，enjoy${NO_COLOR}"
     else
