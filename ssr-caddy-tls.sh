@@ -106,7 +106,59 @@ ssr_install(){
 web_get(){
   rm -rf /var/www
   mkdir /var/www
-  git clone https://github.com/JeannieStudio/Programming.git /var/www
+  echo -e "下面提供了15个不同的伪装网站模板，按对应的数字进行安装，安装之前可以查看网站demo:
+  ${GREEN}1. https://templated.co/intensify
+  ${GREEN}2. https://templated.co/binary
+  ${GREEN}3. https://templated.co/retrospect
+  ${GREEN}4. https://templated.co/spatial
+  ${GREEN}5. https://templated.co/monochromed
+  ${GREEN}6. https://templated.co/transit
+  ${GREEN}7. https://templated.co/interphase
+  ${GREEN}8. https://templated.co/ion
+  ${GREEN}9. https://templated.co/solarize
+  ${GREEN}10. https://templated.co/phaseshift
+  ${GREEN}11. https://templated.co/horizons
+  ${GREEN}12. https://templated.co/grassygrass
+  ${GREEN}13. https://templated.co/breadth
+  ${GREEN}14. https://templated.co/undeviating
+  ${GREEN}15. https://templated.co/lorikeet${NO_COLOR}
+  "
+read -p "您输入你要安装的网站的数字:" aNum
+case $aNum in
+    1)wget -O web.zip --no-check-certificate https://templated.co/intensify/download
+    ;;
+    2)wget -O web.zip --no-check-certificate https://templated.co/binary/download
+    ;;
+    3)wget -O web.zip --no-check-certificate https://templated.co/retrospect/download
+    ;;
+    4)wget -O web.zip --no-check-certificate https://templated.co/spatial/download
+    ;;
+    5)wget -O web.zip --no-check-certificate https://templated.co/monochromed/download
+    ;;
+    6)wget -O web.zip --no-check-certificate https://templated.co/transit/download
+    ;;
+    7)wget -O web.zip --no-check-certificate https://templated.co/interphase/download
+    ;;
+    8)wget -O web.zip --no-check-certificate https://templated.co/ion/download
+    ;;
+    9)wget -O web.zip --no-check-certificate https://templated.co/solarize/download
+    ;;
+    10)wget -O web.zip --no-check-certificate https://templated.co/phaseshift/download
+    ;;
+    11)wget -O web.zip --no-check-certificate https://templated.co/horizons/download
+    ;;
+    12)wget -O web.zip --no-check-certificate https://templated.co/grassygrass/download
+    ;;
+    13)wget -O web.zip --no-check-certificate https://templated.co/breadth/download
+    ;;
+    14)wget -O web.zip --no-check-certificate https://templated.co/undeviating/download
+    ;;
+    15)wget -O web.zip --no-check-certificate https://templated.co/lorikeet/download
+    ;;
+    *)wget -O web.zip --no-check-certificate https://templated.co/intensify/download
+    ;;
+esac
+    unzip -o -d /var/www web.zip
 }
 check_CA(){
     end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
