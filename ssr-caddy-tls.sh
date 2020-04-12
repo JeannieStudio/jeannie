@@ -44,14 +44,11 @@ init_release(){
   # PM='apt'
 }
 tools_install(){
-  PID=$(ps -ef | grep "v2ray" | grep -v grep | awk '{print $2}')
-  [[ ! -z ${PID} ]] && kill -9 ${PID}
-  PID=$(ps -ef | grep "trojan" | grep -v grep | awk '{print $2}')
-  [[ ! -z ${PID} ]] && kill -9 ${PID}
-  PID=$(ps -ef | grep "nginx" | grep -v grep | awk '{print $2}')
-  [[ ! -z ${PID} ]] && kill -9 ${PID}
-  PID=$(ps -ef | grep "caddy" | grep -v grep | awk '{print $2}')
-	[[ ! -z ${PID} ]] && kill -9 ${PID}
+  systemctl stop trojan
+  nginx -s stop
+  service v2ray start
+  caddy -service stop
+  /etc/init.d/shadowsocks-r stop
   init_release
   if [ $PM = 'apt' ] ; then
     apt-get update -y
