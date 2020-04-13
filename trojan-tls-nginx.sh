@@ -174,14 +174,25 @@ left_second(){
       echo -ne "\r     \r"
     done
 }
+CA_exist(){
+  grep "cp: cannot stat" /usr/local/etc/log >/dev/null
+    if [ $? -eq 0 ]; then
+      FLAG="YES"
+    else
+      FLAG="NO"
+    fi
+}
 check_CA(){
+  CA_exist
+  if [ $FLAG = "NO" ]; then
     end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
-    #while [ "${end_time}" = "" ]; do
-    #    end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
-    #done
+    while [ "${end_time}" = "" ]; do
+        end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
+    done
     end_times=$(date +%s -d "$end_time")
     now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
     RST=$(($(($end_times-$now_time))/(60*60*24)))
+  fi
 }
 add_CA(){
   init_release
@@ -217,15 +228,15 @@ main(){
     systemctl enable trojan
     check_CA
     add_CA
-	  grep "cp: cannot stat" /usr/local/etc/log >/dev/null
-    if [ $? -eq 0 ]; then
+	  CA_exist
+	  if [ $FLAG = "YES" ]; then
         echo -e "
 $RED============================================================
 $RED    很遗憾，Trojan安装和配置失败
 $RED ===========================================================
 ${RED}由于证书申请失败，无法科学上网，请重装或更换一个域名重新安装， 详情：https://letsencrypt.org/docs/rate-limits/
 进一步验证证书申请情况，参考：https://www.ssllabs.com/ssltest/ $NO_COLOR" 2>&1 | tee info
-      else
+    elif [ $FLAG = "NO" ]; then
          echo -e "
 ${GREEN}  ==================================================
 ${GREEN}       恭喜你，Trojan安装和配置成功
