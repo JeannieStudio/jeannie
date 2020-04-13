@@ -49,8 +49,6 @@ https://$domainname:443 {
 	tls $emailname
     root /var/www 
     forwardproxy {
-	hide_ip 
-	hide_via 
 	basicauth $user $pswd 
 }
 
