@@ -51,7 +51,6 @@ https://$domainname:443 {
     forwardproxy {
 	basicauth $user $pswd 
 }
-
 }" > /etc/caddy/Caddyfile
 
 echo "[program:caddy]
