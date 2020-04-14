@@ -51,12 +51,15 @@ main(){
   else
     tools_install
     sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+    sleep 1
     sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
+    sleep 1
     sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+    sleep 1
     sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+    sleep 1
     passwd root 2>&1 | tee info
-    echo "睡一会儿……"
-    sleep 5
+    sleep 2
     grep "successfully" info >/dev/null
     if [ $? -eq 0 ]; then
         systemctl restart sshd.service
