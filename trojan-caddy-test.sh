@@ -49,10 +49,6 @@ init_release(){
   # PM='apt'
 }
 tools_install(){
-  systemctl stop trojan
-  nginx -s stop
-  service v2ray stop
-  caddy -service stop
   init_release
   if [ $PM = 'apt' ] ; then
     apt-get update -y
@@ -94,7 +90,6 @@ caddy_conf(){
        }" > /etc/caddy/Caddyfile
 }
 web_get(){
-  rm -rf /var/www
   mkdir /var/www
   echo -e "下面提供了15个不同的伪装网站模板，按对应的数字进行安装，安装之前可以查看网站demo:
   ${GREEN}1. https://templated.co/intensify
@@ -154,8 +149,6 @@ trojan_install(){
   green "=========================================="
 	green "       开始安装Trojan"
 	green "=========================================="
-  systemctl stop trojan
-  rm -rf /usr/local/etc
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh)"
 }
 trojan_conf(){
@@ -200,7 +193,7 @@ check_CA(){
     done
     end_times=$(date +%s -d "$end_time")
     now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
-    RST=$(($(($end_times-$now_time))/(60*60*24)))
+    RST=$(($((end_times-now_time))/(60*60*24)))
   fi
 }
 main(){
@@ -213,8 +206,6 @@ main(){
     caddy_install
     caddy_conf
     web_get
-    caddy -service stop
-    caddy -service uninstall
     caddy -service install -agree -email ${emailname} -conf /etc/caddy/Caddyfile
     caddy -service start
     echo "睡一会儿……"
