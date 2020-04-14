@@ -45,7 +45,7 @@ init_release(){
 tools_install(){
   systemctl stop trojan
   nginx -s stop
-  service v2ray start
+  service v2ray stop
   caddy -service stop
   if [ $PM = 'apt' ] ; then
     apt-get update
