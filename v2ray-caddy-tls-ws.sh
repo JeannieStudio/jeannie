@@ -49,7 +49,7 @@ init_release(){
 tools_install(){
   systemctl stop trojan
   nginx -s stop
-  service v2ray start
+  service v2ray stop
   caddy -service stop
   init_release
   if [ $PM = 'apt' ] ; then
