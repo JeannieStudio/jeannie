@@ -45,18 +45,22 @@ uninstall(){
     if [ -e "/usr/local/bin/caddy" ]; then
       caddy -service stop
       caddy -service uninstall
+      rm -f /usr/local/bin/caddy
+      rm - f /usr/local/bin/caddy_old
+      rm -f /etc/systemd/system/caddy.service
     fi
     if [ -e "/etc/nginx" ]; then
         nginx -s stop
     fi
-    systemctl stop trojan
-    systemctl disable trojan
-    rm -f /usr/local/bin/caddy
-    rm -f /usr/local/bin/caddy_old
-    rm -f /usr/local/bin/trojan
-    rm -f /etc/systemd/system/trojan.service
-    rm -f /etc/systemd/system/caddy.service
-    rm -rf /var/www
+    if [ -f "/usr/local/bin/trojan" ]; then
+        systemctl stop trojan
+        systemctl disable trojan
+        rm -f /usr/local/bin/trojan
+        rm -f /etc/systemd/system/trojan.service
+    fi
+    if [ -d "/var/www" ]; then
+        rm -rf /var/www
+    fi
     echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
 }
 install(){
