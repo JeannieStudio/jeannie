@@ -35,7 +35,7 @@ init_release(){
   # PM='apt'
 }
 check_status(){
-  if [ -e "/usr/local/bin/caddy" -o -e "/etc/nginx" -o -e "/usr/local/bin/trojan" -o -e "/usr/local/bin/caddy_old" -o -e "/etc/systemd/system/trojan.service" -o -e "/etc/systemd/system/caddy.service" -o -e "/usr/local/etc" ]; then
+  if [ -e "/usr/local/bin/caddy" -o -e "/etc/nginx" -o -e "/usr/local/bin/trojan" -o -e "/usr/local/bin/caddy_old" -o -e "/etc/systemd/system/trojan.service" -o -e "/etc/systemd/system/caddy.service" ]; then
 	    echo -e "${RED}检测到您尚未卸载，请先卸载再重装.${NO_COLOR}"
 	    exit
   fi
@@ -59,7 +59,6 @@ uninstall(){
     rm -f /usr/local/bin/caddy_old
     rm -f /usr/local/bin/trojan
     rm -f /etc/systemd/system/trojan.service
-    rm -rf /usr/local/etc
     rm -f /etc/systemd/system/caddy.service
     rm -rf /var/www
     echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
