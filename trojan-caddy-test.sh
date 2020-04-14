@@ -65,6 +65,7 @@ tools_install(){
     sleep 3
     yum install -y certbot
   fi
+  nginx -s stop
 }
 web_get(){
   mkdir /var/www
