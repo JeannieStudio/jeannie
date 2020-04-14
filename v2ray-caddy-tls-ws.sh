@@ -202,7 +202,7 @@ check_CA(){
     done
     end_times=$(date +%s -d "$end_time")
     now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
-    RST=$(($(($end_times-$now_time))/(60*60*24)))
+    RST=$(($((end_times-now_time))/(60*60*24)))
     fi
 }
 main(){
