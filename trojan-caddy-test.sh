@@ -142,6 +142,9 @@ nginx_conf(){
   certbot certonly --standalone -n --agree-tos --email $emailname -d $domainname
   curl -s -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/JeannieStudio/jeannie/master/default.conf
   sed -i "s/127.0.0.1/$domainname/g" /etc/nginx/conf.d/default.conf
+  sleep 1
+  sed -i "s/# server_names_hash_bucket_size 64;/server_names_hash_bucket_size 64;/g" /etc/nginx/nginx.conf
+  sleep 1
 }
 trojan_install(){
   green "=========================================="
