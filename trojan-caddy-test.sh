@@ -50,13 +50,18 @@ init_release(){
 tools_install(){
   if [ $PM = 'apt' ] ; then
     apt-get update
+    sleep 2
     apt-get install -y dnsutils wget unzip zip curl tar git nginx
+    sleep 2
     apt-get install -y certbot
+    sleep 2
     apt-get install -y cron
   elif [ $PM = 'yum' ]; then
     yum update -y
     yum -y install bind-utils wget unzip zip curl tar git nginx crontabs
+    sleep 2
     yum install -y epel-release
+    sleep 3
     yum install -y certbot
   fi
 }
@@ -182,7 +187,7 @@ check_CA(){
     done
     end_times=$(date +%s -d "$end_time")
     now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
-    RST=$(($(($end_times-$now_time))/(60*60*24)))
+    RST=$(($((end_times-now_time))/(60*60*24)))
   fi
 }
 add_CA(){
