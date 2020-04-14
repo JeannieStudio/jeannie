@@ -48,6 +48,7 @@ init_release(){
   # PM='apt'
 }
 tools_install(){
+  init_release
   if [ $PM = 'apt' ] ; then
     apt-get update
     sleep 2
