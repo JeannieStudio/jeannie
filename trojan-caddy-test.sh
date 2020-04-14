@@ -48,12 +48,6 @@ init_release(){
   fi
   # PM='apt'
 }
-check_status(){
-  if [ -e "/usr/local/bin/caddy" -o -e "/usr/local/bin/trojan" -o -e "/usr/local/bin/caddy_old" -o -e "/etc/systemd/system/trojan.service" -o -e "/etc/systemd/system/caddy.service" -o -e "/usr/local/etc" ]; then
-	    echo -e "${RED}检测到您的caddy或trojan未卸载，请先卸载再重装.${NO_COLOR}"
-	    exit
-  fi
-}
 tools_install(){
   systemctl stop trojan
   nginx -s stop
@@ -215,7 +209,6 @@ main(){
     echo -e "${RED}error:${NO_COLOR}Please run this script as as root"
     exit 1
   else
-    check_status
     tools_install
     caddy_install
     caddy_conf
