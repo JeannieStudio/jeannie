@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 RED="\033[0;31m"
 NO_COLOR="\033[0m"
 GREEN="\033[32m\033[01m"
@@ -52,7 +52,7 @@ esac
 fi
 #=========安装的trojan+nginx+tls一键脚本===============================
 if [ -e "/usr/sbin/nginx" -a -e "/usr/local/bin/trojan" ]; then
-	    ehco -e "${GREEN}系统检测到您目前安装的是trojan+nginx+tls一键脚本
+	    echo -e "${GREEN}系统检测到您目前安装的是trojan+nginx+tls一键脚本
 ${GREEN}1. 停止trojan
 ${GREEN}2. 重启trojan
 ${GREEN}3. 修改trojan密码
@@ -86,7 +86,7 @@ esac
 fi
 #=========安装的v2ray+caddy+tls一键脚本==============================
 if [ -e "/usr/local/bin/caddy" -a -e "/usr/bin/v2ray/v2ray" ]; then
-	    ehco -e "${GREEN}系统检测到您目前安装的是v2ray+caddy+tls一键脚本
+	    echo -e "${GREEN}系统检测到您目前安装的是v2ray+caddy+tls一键脚本
 ${GREEN}1. 停止v2ray
 ${GREEN}2. 重启v2ray
 ${GREEN}3. 修改UUID
@@ -127,7 +127,7 @@ esac
 fi
 #=========安装的v2ray+nginx+tls一键脚本==============================
 if [ -e "/usr/sbin/nginx" -a -e "/usr/bin/v2ray/v2ray" ]; then
-	    ehco -e "${GREEN}系统检测到您目前安装的是v2ray+nginx+tls一键脚本
+	    echo -e "${GREEN}系统检测到您目前安装的是v2ray+nginx+tls一键脚本
 ${GREEN}1. 停止v2ray
 ${GREEN}2. 重启v2ray
 ${GREEN}3. 修改UUID
