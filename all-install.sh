@@ -81,7 +81,7 @@ ${GREEN}0. 啥也不做，退出${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)check_status
-      bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-test.sh)"
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-nginx-tls-b.sh)"
     ;;
     2)check_status
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-test.sh)"
