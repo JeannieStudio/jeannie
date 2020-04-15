@@ -105,13 +105,13 @@ case $aNum in
       bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-nginx-tls-b.sh)"
     ;;
     2)check_status
-        bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-tls-b.sh)"
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-tls-b.sh)"
       ;;
     3)check_status
-        bash -c "$(curl -fsSL )"
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ary-nginx-tls-b.sh)"
     ;;
     4)check_status
-        bash -c "$(curl -fsSL )"
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ary-caddy-tls-b.sh)"
     ;;
     5)echo "开发未完成，敬请期待……"
       exit
