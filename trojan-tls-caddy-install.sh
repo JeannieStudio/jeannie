@@ -49,8 +49,13 @@ uninstall(){
       rm - f /usr/local/bin/caddy_old
       rm -f /etc/systemd/system/caddy.service
     fi
-    if [ -e "/etc/nginx" ]; then
+    if [ -f "/etc/systemd/system/trojan.service" ]; then
         nginx -s stop
+        if [ $PM = 'yum' ]; then
+          yum remove -y nginx
+        elif [ $PM = 'apt' ]; then
+          apt autoremove -y nginx
+        fi
     fi
     if [ -f "/usr/local/bin/trojan" ]; then
         systemctl stop trojan
