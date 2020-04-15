@@ -20,7 +20,7 @@ mgr(){
 if [ -e "/usr/local/bin/caddy" -a -e "/usr/local/bin/trojan" ]; then
 	    echo -e "
 $FUCHSIA===================================================
-	    ${GREEN}系统检测到您目前安装的是trojan+caddy+tls一键脚本
+${GREEN}系统检测到您目前安装的是trojan+caddy+tls一键脚本
 $FUCHSIA===================================================
 ${GREEN}1. 停止trojan             ${GREEN}2. 重启trojan
 $FUCHSIA===================================================
