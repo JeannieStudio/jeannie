@@ -209,6 +209,13 @@ add_CA(){
     service crond restart
   fi
 }
+mgr(){
+  if [ -f "/etc/mgr.sh" ]; then
+      rm -f /etc/mgr.sh
+  fi
+  curl -s -o /etc/mgr.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/mgr.sh
+  chmod +x /etc/mgr.sh
+}
 main(){
   isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
@@ -245,7 +252,7 @@ $BLUE 域名:         $GREEN ${domainname}
 $BLUE 端口:         $GREEN 443
 $BLUE 密码:         $GREEN ${password}
 $BLUE 伪装网站请访问： $GREEN https://${domainname}
-$BLUE 执行这句进入管理界面：
+$BLUE 执行这句进入管理界面：$GREEN /etc/mgr.sh
 ${GREEN}=========================================================
 $BLUE Windows、macOS客户端请从这里下载：$GREEN  https://github.com/trojan-gfw/trojan/releases，
 $BLUE 另外windows还需要下载v2rayN：$GREEN https://github.com/2dust/v2rayN/releases
