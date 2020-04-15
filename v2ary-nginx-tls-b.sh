@@ -43,7 +43,7 @@ init_release(){
   # PM='apt'
 }
 tools_install(){
-  if [ $PM = 'apt' ] ; then
+  if [ $PM = 'apt' ]; then
     apt-get update
     apt-get install -y dnsutils wget unzip zip curl tar git nginx
     apt-get install -y certbot
