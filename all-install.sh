@@ -49,40 +49,38 @@ uninstall(){
       rm -f /usr/local/bin/caddy
       rm -f /usr/local/bin/caddy_old
       rm -f /etc/systemd/system/caddy.service
-    fi
+    elif [ -f "/usr/sbin/nginx" ]; then
 #======================卸载nginx===============================
-    if [ -f "/usr/sbin/nginx" ]; then
         nginx -s stop
         if [ $PM = 'yum' ]; then
           yum remove -y nginx
         elif [ $PM = 'apt' ]; then
           apt autoremove -y nginx
         fi
-    fi
 #======================卸载trojan===============================
-    if [ -f "/usr/local/bin/trojan" ]; then
+    elif [ -f "/usr/local/bin/trojan" ]; then
         systemctl stop trojan
         systemctl disable trojan
         rm -f /usr/local/bin/trojan
         rm -f /etc/systemd/system/trojan.service
         rm -rf /usr/local/etc/trojan
-    fi
 #======================卸载v2ray================================
-    if [ -e "/usr/bin/v2ray/v2ray" ]; then
+    elif [ -e "/usr/bin/v2ray/v2ray" ]; then
        service v2ray stop
        rm -rf /usr/bin/v2ray
        rm -f /etc/systemd/system/v2ray.service
-    fi
 #======================删除伪装网站==============================
-    if [ -d "/var/www" ]; then
-        rm -rf /var/www
+    elif [ -d "/var/www" ]; then
+      rm -rf /var/www
+      echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
+    else
+      echo -e "${GREEN}没什么要卸载的，环境很干净${NO_COLOR}"
     fi
-    echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
 }
 install(){
   echo -e "
 $FUCHSIA===================================================
-${GREEN}      trojan、v2ray、ssr六合一脚本
+${GREEN}     trojan、v2ray、ssr六合一脚本
 $FUCHSIA===================================================
 ${GREEN}1. 安装trojan+tls+nginx
 $FUCHSIA===================================================
@@ -105,13 +103,13 @@ case $aNum in
       bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-nginx-tls-b.sh)"
     ;;
     2)check_status
-      bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-tls-b.sh)"
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-tls-b.sh)"
       ;;
     3)check_status
-      bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ary-nginx-tls-b.sh)"
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ary-nginx-tls-b.sh)"
     ;;
     4)check_status
-      bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ary-caddy-tls-b.sh)"
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ary-caddy-tls-b.sh)"
     ;;
     5)echo "开发未完成，敬请期待……"
       exit
