@@ -47,7 +47,7 @@ uninstall(){
       caddy -service stop
       caddy -service uninstall
       rm -f /usr/local/bin/caddy
-      rm - f /usr/local/bin/caddy_old
+      rm -f /usr/local/bin/caddy_old
       rm -f /etc/systemd/system/caddy.service
     fi
 #======================卸载nginx===============================
