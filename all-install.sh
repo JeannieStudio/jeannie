@@ -65,7 +65,7 @@ uninstall(){
         systemctl disable trojan
         rm -f /usr/local/bin/trojan
         rm -f /etc/systemd/system/trojan.service
-	rm -rf /usr/local/etc/trojan
+        rm -rf /usr/local/etc/trojan
     fi
 #======================卸载v2ray================================
     if [ -e "/usr/bin/v2ray/v2ray" ]; then
@@ -80,14 +80,24 @@ uninstall(){
     echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
 }
 install(){
-  echo -e "trojan、v2ray、ssr六合一脚本
+  echo -e "
+$FUCHSIA===================================================
+$FUCHSIA      trojan、v2ray、ssr六合一脚本
+$FUCHSIA===================================================
 ${GREEN}1. 安装trojan+tls+nginx
+$FUCHSIA===================================================
 ${GREEN}2. 安装trojan+tls+caddy
+$FUCHSIA===================================================
 ${GREEN}3. 安装v2ray+tls+nginx
+$FUCHSIA===================================================
 ${GREEN}4. 安装v2ray+tls+caddy
+$FUCHSIA===================================================
 ${GREEN}5. 安装ssr+tls+nginx
+$FUCHSIA===================================================
 ${GREEN}6. 安装ssr+tls+caddy
+$FUCHSIA===================================================
 ${GREEN}7. 卸载,还你一个干净的环境
+$FUCHSIA===================================================
 ${GREEN}0. 啥也不做，退出${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
