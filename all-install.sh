@@ -45,10 +45,6 @@ check_status(){
 }
 uninstall(){
   init_release
-  check_status
-  if [[ $Flag = "NO" ]]; then
-        echo -e "${GREEN}没什么要卸载的，环境很干净${NO_COLOR}"
-    else
   #======================卸载caddy===============================
       if [ -e "/usr/local/bin/caddy" ]; then
         caddy -service stop
@@ -85,7 +81,6 @@ uninstall(){
         rm -rf /var/www
       fi
       echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
-    fi
     }
 install(){
   echo -e "
