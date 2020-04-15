@@ -36,12 +36,16 @@ init_release(){
 }
 check_status(){
   if [ -e "/usr/local/bin/caddy" -o -e "/usr/bin/v2ray/v2ray" -o -e "/usr/sbin/nginx"  -o -e "/usr/local/bin/trojan" -o -e "/usr/local/bin/caddy_old" -o -e "/etc/systemd/system/trojan.service" -o -e "/etc/systemd/system/caddy.service" ]; then
+	    Flag="YES"
 	    echo -e "${RED}检测到您尚未卸载，请先卸载再重装.${NO_COLOR}"
 	    exit
+	else
+	   Flag="NO"
   fi
 }
 uninstall(){
   init_release
+  check_status
 #======================卸载caddy===============================
     if [ -e "/usr/local/bin/caddy" ]; then
       caddy -service stop
@@ -49,32 +53,37 @@ uninstall(){
       rm -f /usr/local/bin/caddy
       rm -f /usr/local/bin/caddy_old
       rm -f /etc/systemd/system/caddy.service
-    elif [ -f "/usr/sbin/nginx" ]; then
+    fi
 #======================卸载nginx===============================
+    if [ -f "/usr/sbin/nginx" ]; then
         nginx -s stop
         if [ $PM = 'yum' ]; then
           yum remove -y nginx
         elif [ $PM = 'apt' ]; then
           apt autoremove -y nginx
         fi
+    fi
 #======================卸载trojan===============================
-    elif [ -f "/usr/local/bin/trojan" ]; then
+    if [ -f "/usr/local/bin/trojan" ]; then
         systemctl stop trojan
         systemctl disable trojan
         rm -f /usr/local/bin/trojan
         rm -f /etc/systemd/system/trojan.service
         rm -rf /usr/local/etc/trojan
+    fi
 #======================卸载v2ray================================
-    elif [ -e "/usr/bin/v2ray/v2ray" ]; then
+    if [ -e "/usr/bin/v2ray/v2ray" ]; then
        service v2ray stop
        rm -rf /usr/bin/v2ray
        rm -f /etc/systemd/system/v2ray.service
+    fi
 #======================删除伪装网站==============================
-    elif [ -d "/var/www" ]; then
+    if [ -d "/var/www" ]; then
       rm -rf /var/www
-      echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
-    else
-      echo -e "${GREEN}没什么要卸载的，环境很干净${NO_COLOR}"
+    fi
+    echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
+    if [[ $Flag = "NO" ]]; then
+        echo -e "${GREEN}没什么要卸载的，环境很干净${NO_COLOR}"
     fi
 }
 install(){
