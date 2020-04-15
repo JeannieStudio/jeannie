@@ -31,8 +31,10 @@ $FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)systemctl stop trojan
+      echo -e  "${GREEN}trojan服务停止${NO_COLOR}"
     ;;
     2)systemctl restart trojan
+      echo -e  "${GREEN}trojan服务启动${NO_COLOR}"
     ;;
     3)systemctl stop trojan
       if [ -f "/usr/local/etc/trojan/config.json" ]; then
@@ -49,8 +51,10 @@ case $aNum in
       systemctl start trojan
     ;;
     4)caddy -service stop
+      echo -e  "${GREEN}caddy服务停止${NO_COLOR}"
     ;;
     5)caddy -service restart
+      echo -e  "${GREEN}caddy服务启动${NO_COLOR}"
     ;;
     0) exit
     ;;
@@ -74,8 +78,10 @@ $FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)systemctl stop trojan
+      echo -e  "${GREEN}trojan服务停止${NO_COLOR}"
     ;;
     2)systemctl restart trojan
+      echo -e  "${GREEN}trojan服务启动${NO_COLOR}"
     ;;
     3)systemctl stop trojan
        if [ -f "/usr/local/etc/trojan/config.json" ]; then
@@ -92,8 +98,10 @@ case $aNum in
       systemctl start trojan
     ;;
     4)nginx -s stop
+      echo -e  "${GREEN}nginx服务停止${NO_COLOR}"
     ;;
     5)nginx
+      echo -e  "${GREEN}nginx服务启动${NO_COLOR}"
     ;;
     0) exit
     ;;
@@ -117,8 +125,10 @@ $FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)service v2ray stop
+      echo -e  "${GREEN}v2ray服务停止${NO_COLOR}"
     ;;
     2)service v2ray restart
+      echo -e  "${GREEN}v2ray服务启动${NO_COLOR}"
     ;;
     3)service v2ray stop
       genId
@@ -141,8 +151,10 @@ case $aNum in
       service v2ray start
     ;;
     4)caddy -service stop
+      echo -e  "${GREEN}caddy服务停止${NO_COLOR}"
     ;;
     5)caddy -service restart
+      echo -e  "${GREEN}caddy服务启动${NO_COLOR}"
     ;;
     0) exit
     ;;
@@ -166,8 +178,10 @@ $FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)service v2ray stop
+      echo -e  "${GREEN}v2ray服务停止${NO_COLOR}"
     ;;
     2)service v2ray restart
+      echo -e  "${GREEN}v2ray服务启动${NO_COLOR}"
     ;;
     3)service v2ray stop
       genId
@@ -190,8 +204,10 @@ case $aNum in
       service v2ray start
     ;;
     4)nginx -s stop
+      echo -e  "${GREEN}nginx服务停止${NO_COLOR}"
     ;;
     5)nginx
+      echo -e  "${GREEN}nginx服务启动${NO_COLOR}"
     ;;
     0) exit
     ;;
