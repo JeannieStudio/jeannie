@@ -65,6 +65,7 @@ uninstall(){
         systemctl disable trojan
         rm -f /usr/local/bin/trojan
         rm -f /etc/systemd/system/trojan.service
+	rm -rf /usr/local/etc/trojan
     fi
 #======================卸载v2ray================================
     if [ -e "/usr/bin/v2ray/v2ray" ]; then
