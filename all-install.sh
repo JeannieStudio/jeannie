@@ -82,7 +82,7 @@ uninstall(){
 install(){
   echo -e "
 $FUCHSIA===================================================
-$FUCHSIA      trojan、v2ray、ssr六合一脚本
+${GREEN}      trojan、v2ray、ssr六合一脚本
 $FUCHSIA===================================================
 ${GREEN}1. 安装trojan+tls+nginx
 $FUCHSIA===================================================
