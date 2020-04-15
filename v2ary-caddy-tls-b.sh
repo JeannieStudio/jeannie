@@ -48,7 +48,7 @@ init_release(){
 }
 tools_install(){
   init_release
-  if [ $PM = 'apt' ] ; then
+  if [ $PM = 'apt' ]; then
     apt-get update -y
     apt-get install -y dnsutils wget unzip zip curl tar git
   elif [ $PM = 'yum' ]; then
