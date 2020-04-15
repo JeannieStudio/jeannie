@@ -84,7 +84,7 @@ caddy_conf(){
   done
   read -p "请输入您的邮箱：" emailname
   read -p "您输入的邮箱正确吗? [y/n]?" answer
-  while [ "$answer" != "y" ]; do
+  while [[ "$answer" != "y" ]]; do
 	  read -p "请重新输入您的邮箱：" emailname
 	  read -p "您输入的邮箱正确吗? [y/n]?" answer
   done
@@ -123,7 +123,7 @@ v2ray_conf(){
   read -p  "已帮您随机产生一个uuid:
   $id，
   满意吗？（输入y表示不满意再生成一个，按其他键表示接受）" answer
-  while [[ $answer = "y" ]]; do
+  while [[ "$answer" = "y" ]]; do
       genId
       read -p  "uuid:$id，满意吗？（不满意输入y,按其他键表示接受）" answer
   done
