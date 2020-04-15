@@ -48,7 +48,7 @@ init_release(){
 }
 tools_install(){
   init_release
-  if [ $PM = 'apt' ]; then
+  if [ $PM = 'apt' ] ; then
     apt-get update -y
     apt-get install -y dnsutils wget unzip zip curl tar git
   elif [ $PM = 'yum' ]; then
@@ -123,7 +123,7 @@ v2ray_conf(){
   read -p  "已帮您随机产生一个uuid:
   $id，
   满意吗？（输入y表示不满意再生成一个，按其他键表示接受）" answer
-  while [[ "$answer" = "y" ]]; do
+  while [ $answer = "y" ]; do
       genId
       read -p  "uuid:$id，满意吗？（不满意输入y,按其他键表示接受）" answer
   done
@@ -200,6 +200,15 @@ check_CA(){
     RST=$(($((end_times-now_time))/(60*60*24)))
     fi
 }
+mgr(){
+  if [ -f "/etc/mgr.sh" ]; then
+      rm -f /etc/mgr.sh
+  fi
+  while [ ! -f "/etc/mgr.sh" ]; do
+      curl -s -o /etc/mgr.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/mgr.sh
+  done
+  chmod +x /etc/mgr.sh
+}
 main(){
    isRoot=$( isRoot )
   if [[ "${isRoot}" != "true" ]]; then
@@ -219,6 +228,7 @@ main(){
   service v2ray start
   CA_exist
   check_CA
+  mgr
   if [ $FLAG = "YES" ]; then
       echo -e "
 ${GREEN}==================================================
