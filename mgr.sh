@@ -18,13 +18,16 @@ genId(){
 mgr(){
 #=========安装的trojan+caddy+tls一键脚本==============================
 if [ -e "/usr/local/bin/caddy" -a -e "/usr/local/bin/trojan" ]; then
-	    ehco -e "${GREEN}系统检测到您目前安装的是trojan+caddy+tls一键脚本
-${GREEN}1. 停止trojan
-${GREEN}2. 重启trojan
-${GREEN}3. 修改trojan密码
-${GREEN}4. 停止caddy
-${GREEN}5. 重启caddy
-${GREEN}0. 啥也不做，退出${NO_COLOR}"
+	    ehco -e "
+$FUCHSIA===================================================
+	    ${GREEN}系统检测到您目前安装的是trojan+caddy+tls一键脚本
+$FUCHSIA===================================================
+${GREEN}1. 停止trojan             ${GREEN}2. 重启trojan
+$FUCHSIA===================================================
+${GREEN}3. 修改trojan密码         ${GREEN}4. 停止caddy
+$FUCHSIA===================================================
+${GREEN}5. 重启caddy             ${GREEN}0. 啥也不做，退出
+$FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)systemctl stop trojan
@@ -58,13 +61,16 @@ esac
 fi
 #=========安装的trojan+nginx+tls一键脚本===============================
 if [ -e "/usr/sbin/nginx" -a -e "/usr/local/bin/trojan" ]; then
-	    echo -e "${GREEN}系统检测到您目前安装的是trojan+nginx+tls一键脚本
-${GREEN}1. 停止trojan
-${GREEN}2. 重启trojan
-${GREEN}3. 修改trojan密码
-${GREEN}4. 停止nginx
-${GREEN}5. 重启nginx
-${GREEN}0. 啥也不做，退出${NO_COLOR}"
+	    echo -e "
+$FUCHSIA===================================================
+	   ${GREEN}系统检测到您目前安装的是trojan+nginx+tls一键脚本
+$FUCHSIA===================================================
+${GREEN}1. 停止trojan          ${GREEN}2. 重启trojan
+$FUCHSIA===================================================
+${GREEN}3. 修改trojan密码      ${GREEN}4. 停止nginx
+$FUCHSIA===================================================
+${GREEN}5. 重启nginx           ${GREEN}0. 啥也不做，退出
+$FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)systemctl stop trojan
@@ -98,13 +104,16 @@ esac
 fi
 #=========安装的v2ray+caddy+tls一键脚本==============================
 if [ -e "/usr/local/bin/caddy" -a -e "/usr/bin/v2ray/v2ray" ]; then
-	    echo -e "${GREEN}系统检测到您目前安装的是v2ray+caddy+tls一键脚本
-${GREEN}1. 停止v2ray
-${GREEN}2. 重启v2ray
-${GREEN}3. 修改UUID
-${GREEN}4. 停止caddy
-${GREEN}5. 重启caddy
-${GREEN}0. 啥也不做，退出${NO_COLOR}"
+	    echo -e "
+$FUCHSIA===================================================
+	    ${GREEN}系统检测到您目前安装的是v2ray+caddy+tls一键脚本
+$FUCHSIA===================================================
+${GREEN}1. 停止v2ray      ${GREEN}2. 重启v2ray
+$FUCHSIA===================================================
+${GREEN}3. 修改UUID       ${GREEN}4. 停止caddy
+$FUCHSIA===================================================
+${GREEN}5. 重启caddy      ${GREEN}0. 啥也不做，退出
+$FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)service v2ray stop
@@ -144,13 +153,16 @@ esac
 fi
 #=========安装的v2ray+nginx+tls一键脚本==============================
 if [ -e "/usr/sbin/nginx" -a -e "/usr/bin/v2ray/v2ray" ]; then
-	    echo -e "${GREEN}系统检测到您目前安装的是v2ray+nginx+tls一键脚本
-${GREEN}1. 停止v2ray
-${GREEN}2. 重启v2ray
-${GREEN}3. 修改UUID
-${GREEN}4. 停止nginx
-${GREEN}5. 重启nginx
-${GREEN}0. 啥也不做，退出${NO_COLOR}"
+	    echo -e "
+$FUCHSIA===================================================
+	    ${GREEN}系统检测到您目前安装的是v2ray+nginx+tls一键脚本
+$FUCHSIA===================================================
+${GREEN}1. 停止v2ray     ${GREEN}2. 重启v2ray
+$FUCHSIA===================================================
+${GREEN}3. 修改UUID      ${GREEN}4. 停止nginx
+$FUCHSIA===================================================
+${GREEN}5. 重启nginx     ${GREEN}0. 啥也不做，退出
+$FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)service v2ray stop
