@@ -69,15 +69,36 @@ uninstall(){
     echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
 }
 install(){
-  echo -e "${GREEN}1. 安装trojan+tls+caddy
-${GREEN}2. 卸载
+  echo -e "trojan、v2ray、ssr六合一脚本
+${GREEN}1. 安装trojan+tls+nginx
+${GREEN}2. 安装trojan+tls+caddy
+${GREEN}3. 安装v2ray+tls+nginx
+${GREEN}4. 安装v2ray+tls+caddy
+${GREEN}5. 安装ssr+tls+nginx
+${GREEN}6. 安装ssr+tls+caddy
+${GREEN}7. 卸载,还你一个干净的环境
 ${GREEN}0. 啥也不做，退出${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)check_status
       bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-test.sh)"
     ;;
-    2)uninstall
+    2)check_status
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-test.sh)"
+      ;;
+    3)check_status
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-test.sh)"
+    ;;
+    4)check_status
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-test.sh)"
+    ;;
+    5)echo "开发未完成，敬请期待……"
+      exit
+    ;;
+    6)echo "开发未完成，敬请期待……"
+      exit
+    ;;
+    7)uninstall
     ;;
     0)exit
     ;;
