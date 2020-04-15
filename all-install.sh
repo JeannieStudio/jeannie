@@ -75,7 +75,7 @@ uninstall(){
     fi
 #======================删除伪装网站==============================
     if [ -d "/var/www" ]; then
-        echo "abc"
+        rm -rf /var/www
     fi
     echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
 }
