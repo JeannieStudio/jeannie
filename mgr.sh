@@ -32,11 +32,17 @@ case $aNum in
     2)systemctl restart trojan
     ;;
     3)systemctl stop trojan
-      read -p "请输入您的trojan密码：" password
-      while [ "${password}" = "" ]; do
-            read -p "密码不能为空，请重新输入：" password
-      done
-      sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
+      if [ -f "/usr/local/etc/trojan/config.json " ]; then
+          read -p "请输入您的trojan密码：" password
+          while [ "${password}" = "" ]; do
+                read -p "密码不能为空，请重新输入：" password
+          done
+          sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
+          systemctl start trojan
+          echo -e  "${GREEN}恭喜你，密码修改成功${NO_COLOR}"
+      else
+          echo -e  "${RED}很遗憾，Trojan配置文件不存在${NO_COLOR}"
+      fi
       systemctl start trojan
     ;;
     4)caddy -service stop
@@ -66,11 +72,17 @@ case $aNum in
     2)systemctl restart trojan
     ;;
     3)systemctl stop trojan
-      read -p "请输入您的trojan密码：" password
-      while [ "${password}" = "" ]; do
-            read -p "密码不能为空，请重新输入：" password
-      done
-      sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
+       if [ -f "/usr/local/etc/trojan/config.json " ]; then
+          read -p "请输入您的trojan密码：" password
+          while [ "${password}" = "" ]; do
+                read -p "密码不能为空，请重新输入：" password
+          done
+          sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
+          systemctl start trojan
+          echo -e  "${GREEN}恭喜你，密码修改成功${NO_COLOR}"
+      else
+          echo -e  "${RED}很遗憾，Trojan配置文件不存在${NO_COLOR}"
+      fi
       systemctl start trojan
     ;;
     4)nginx -s stop
@@ -101,17 +113,22 @@ case $aNum in
     ;;
     3)service v2ray stop
       genId
-      read -p  "已帮您随机产生一个uuid:
-      $id，
-      满意吗？（输入y表示不满意再生成一个，按其他键表示接受）" answer
-      while [ $answer = "y" ]; do
-          genId
-          read -p  "uuid:$id，满意吗？（不满意输入y,按其他键表示接受）" answer
-      done
-      rm -f config.json
-      curl -O https://raw.githubusercontent.com/JeannieStudio/jeannie/master/config.json
-      sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
-      \cp -rf config.json /etc/v2ray/config.json
+      if [  -f "/etc/v2ray/config.json" ]; then
+          read -p  "已帮您随机产生一个uuid:
+          $id，
+          满意吗？（输入y表示不满意再生成一个，按其他键表示接受）" answer
+          while [ $answer = "y" ]; do
+              genId
+              read -p  "uuid:$id，满意吗？（不满意输入y,按其他键表示接受）" answer
+          done
+          rm -f config.json
+          curl -O https://raw.githubusercontent.com/JeannieStudio/jeannie/master/config.json
+          sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
+          \cp -rf config.json /etc/v2ray/config.json
+          echo -e  "${GREEN}恭喜你，UUID修改成功${NO_COLOR}"
+      else
+          echo -e  "${RED}很遗憾，v2ray配置文件不存在${NO_COLOR}"
+      fi
       service v2ray start
     ;;
     4)caddy -service stop
@@ -142,17 +159,22 @@ case $aNum in
     ;;
     3)service v2ray stop
       genId
-      read -p  "已帮您随机产生一个uuid:
-      $id，
-      满意吗？（输入y表示不满意再生成一个，按其他键表示接受）" answer
-      while [ $answer = "y" ]; do
-          genId
-          read -p  "uuid:$id，满意吗？（不满意输入y,按其他键表示接受）" answer
-      done
-      rm -f config.json
-      curl -O https://raw.githubusercontent.com/JeannieStudio/jeannie/master/config.json
-      sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
-      \cp -rf config.json /etc/v2ray/config.json
+      if [  -f "/etc/v2ray/config.json" ]; then
+          read -p  "已帮您随机产生一个uuid:
+          $id，
+          满意吗？（输入y表示不满意再生成一个，按其他键表示接受）" answer
+          while [ $answer = "y" ]; do
+              genId
+              read -p  "uuid:$id，满意吗？（不满意输入y,按其他键表示接受）" answer
+          done
+          rm -f config.json
+          curl -O https://raw.githubusercontent.com/JeannieStudio/jeannie/master/config.json
+          sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
+          \cp -rf config.json /etc/v2ray/config.json
+          echo -e  "${GREEN}恭喜你，UUID修改成功${NO_COLOR}"
+      else
+          echo -e  "${RED}很遗憾，v2ray配置文件不存在${NO_COLOR}"
+      fi
       service v2ray start
     ;;
     4)nginx -s stop
