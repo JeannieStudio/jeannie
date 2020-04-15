@@ -35,7 +35,7 @@ case $aNum in
     2)systemctl restart trojan
     ;;
     3)systemctl stop trojan
-      if [ -f "/usr/local/etc/trojan/config.json " ]; then
+      if [ -f "/usr/local/etc/trojan/config.json" ]; then
           read -p "请输入您的trojan密码：" password
           while [ "${password}" = "" ]; do
                 read -p "密码不能为空，请重新输入：" password
@@ -78,7 +78,7 @@ case $aNum in
     2)systemctl restart trojan
     ;;
     3)systemctl stop trojan
-       if [ -f "/usr/local/etc/trojan/config.json " ]; then
+       if [ -f "/usr/local/etc/trojan/config.json" ]; then
           read -p "请输入您的trojan密码：" password
           while [ "${password}" = "" ]; do
                 read -p "密码不能为空，请重新输入：" password
