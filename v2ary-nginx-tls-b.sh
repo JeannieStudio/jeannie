@@ -43,6 +43,7 @@ init_release(){
   # PM='apt'
 }
 tools_install(){
+  init_release
   if [ $PM = 'apt' ]; then
     apt-get update
     apt-get install -y dnsutils wget unzip zip curl tar git nginx
