@@ -217,7 +217,7 @@ case $aNum in
 esac
 fi
 #=========安装的ssr+caddy+tls一键脚本==============================
-if [ -e "/usr/local/bin/caddy" -a -e "" ]; then
+if [ -e "/usr/local/bin/caddy" -a -d "/usr/local/shadowsocks" ]; then
 	    echo -e "
 $FUCHSIA===================================================
 ${GREEN}系统检测到您目前安装的是v2ray+caddy+tls一键脚本
