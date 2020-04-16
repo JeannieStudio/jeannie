@@ -130,8 +130,8 @@ case $aNum in
     5)echo "开发未完成，敬请期待……"
       exit
     ;;
-    6)bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/ssr-caddy-tls-b.sh)"
-      exit
+    6)check_status
+       bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/ssr-caddy-tls-b.sh)"
     ;;
     7)uninstall
     ;;
