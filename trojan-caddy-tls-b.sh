@@ -190,7 +190,7 @@ CA_exist(){
 add_CA(){
   init_release
   CA_exist
-  if [ $FLAG = "YES" ]; then
+  if [ $FLAG = "NO" ]; then
       curl -s -o /etc/RST.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/RST.sh
       chmod +x /etc/RST.sh
       if [ $PM = 'apt' ] ; then
