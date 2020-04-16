@@ -52,6 +52,8 @@ uninstall(){
         rm -f /usr/local/bin/caddy
         rm -f /usr/local/bin/caddy_old
         rm -f /etc/systemd/system/caddy.service
+	rm -rf /etc/caddy
+        rm -rf /etc/ssl/caddy
       fi
   #======================卸载nginx===============================
       if [ -f "/usr/sbin/nginx" ]; then
