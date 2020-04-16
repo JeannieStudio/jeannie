@@ -11,6 +11,7 @@ green(){
 }
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
+sleep 2
 echo "export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
 echo "先睡一会儿……"
@@ -186,17 +187,23 @@ CA_exist(){
       FLAG="NO"
     fi
 }
-check_CA(){
+add_CA(){
+  init_release
   CA_exist
-  if [ $FLAG = "NO" ]; then
-      end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
-    while [ "${end_time}" = "" ]; do
-        end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
-    done
-    end_times=$(date +%s -d "$end_time")
-    now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
-    RST=$(($((end_times-now_time))/(60*60*24)))
-  fi
+  if [ $FLAG = "YES" ]; then
+      curl -s -o /etc/RST.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/RST.sh
+      chmod +x /etc/RST.sh
+      if [ $PM = 'apt' ] ; then
+        cron_job="30 4 * * * /etc/RST.sh"
+        ( crontab -l | grep -v "$cron_job"; echo "$cron_job" ) | crontab -
+        service cron restart
+      elif [ $PM = 'yum' ]; then
+        echo "SHELL=/bin/bash
+30 4 * * * /etc/RST.sh" > /var/spool/cron/root
+        service crond reload
+        service crond restart
+      fi
+  if
 }
 mgr(){
   if [ -f "/etc/mgr.sh" ]; then
