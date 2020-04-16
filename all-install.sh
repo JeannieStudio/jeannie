@@ -81,7 +81,7 @@ uninstall(){
   #======================卸载ssr================================
       if [ -d "/usr/local/shadowsocks" ]; then
         /etc/init.d/shadowsocks-r stop
-        ./shadowsocksR.sh uninstall
+        /etc/shadowsocks-r/shadowsocks-all.sh uninstall
       fi
   #======================删除伪装网站==============================
       if [ -d "/var/www" ]; then
