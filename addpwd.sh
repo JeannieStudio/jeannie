@@ -58,6 +58,8 @@ main(){
     sleep 1
     sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
     sleep 1
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+    sleep 1
     passwd root 2>&1 | tee info
     sleep 2
     grep "successfully" info >/dev/null
