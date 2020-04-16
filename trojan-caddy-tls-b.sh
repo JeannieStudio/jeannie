@@ -243,11 +243,11 @@ main(){
     trojan_conf
     systemctl start trojan
     systemctl enable trojan
-    check_CA
     CA_exist
+    check_CA
     add_CA
     mgr
-	  if [ $FLAG = "YES" ]; then
+if [ $FLAG = "YES" ]; then
         echo -e "
         $RED==========================================
 	      $RED    很遗憾，Trojan安装和配置失败
