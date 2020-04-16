@@ -245,9 +245,9 @@ main(){
   echo "睡一会儿……"
   sleep 6
   service v2ray start
+  CA_exist
   check_CA
   add_CA
-  CA_exist
   if [ $FLAG = "YES" ]; then
         echo -e "
 $RED=======================================================
