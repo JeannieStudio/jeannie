@@ -35,7 +35,7 @@ init_release(){
   # PM='apt'
 }
 check_status(){
-  if [ -e "/usr/local/bin/caddy" -o -e "/etc/systemd/system/v2ray.service" -o -e "/usr/bin/v2ray/v2ray" -o -e "/usr/sbin/nginx"  -o -e "/usr/local/bin/trojan" -o -e "/usr/local/bin/caddy_old" -o -e "/etc/systemd/system/trojan.service" -o -e "/etc/systemd/system/caddy.service" ]; then
+  if [ -e "/usr/local/bin/caddy" -o -d "/usr/local/shadowsocks" -o -e "/etc/systemd/system/v2ray.service" -o -e "/usr/bin/v2ray/v2ray" -o -e "/usr/sbin/nginx"  -o -e "/usr/local/bin/trojan" -o -e "/usr/local/bin/caddy_old" -o -e "/etc/systemd/system/trojan.service" -o -e "/etc/systemd/system/caddy.service" ]; then
 	    Flag="YES"
 	    echo -e "${RED}检测到您尚未卸载，请先卸载再重装.${NO_COLOR}"
 	    exit
