@@ -105,6 +105,7 @@ ssr_install(){
     #分别将配置/etc/shadowsocks-r/config.json文件的第4行和第14行改为下面内容
     sed -i '4c "server_port":443,' /etc/shadowsocks-r/config.json
     sed -i "14c \"redirect\": [\"*:443#127.0.0.1:1234\"]," /etc/shadowsocks-r/config.json
+    cp shadowsocks-all.sh /etc/shadowsocks-r/shadowsocks-all.sh
 }
 web_get(){
   mkdir /var/www
