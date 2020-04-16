@@ -216,5 +216,43 @@ case $aNum in
     ;;
 esac
 fi
+#=========安装的ssr+caddy+tls一键脚本==============================
+if [ -e "/usr/local/bin/caddy" -a -e "" ]; then
+	    echo -e "
+$FUCHSIA===================================================
+${GREEN}系统检测到您目前安装的是v2ray+caddy+tls一键脚本
+$FUCHSIA===================================================
+${GREEN}1. 停止ssr      ${GREEN}2. 重启ssr
+$FUCHSIA===================================================
+${GREEN}3. 修改密码       ${GREEN}4. 停止caddy
+$FUCHSIA===================================================
+${GREEN}5. 重启caddy      ${GREEN}0. 啥也不做，退出
+$FUCHSIA===================================================${NO_COLOR}"
+read -p "请输入您要执行的操作的数字:" aNum
+case $aNum in
+    1)/etc/init.d/shadowsocks stop
+      echo -e  "${GREEN}v2ray服务停止${NO_COLOR}"
+    ;;
+    2)/etc/init.d/shadowsocks restart
+      echo -e  "${GREEN}v2ray服务启动${NO_COLOR}"
+    ;;
+    3)/etc/init.d/shadowsocks stop
+      read -p "请输入您要修改的密码：" password
+      sed -i "7c \"password\":\"$password\"," /etc/shadowsocks-r/config.json
+      /etc/init.d/shadowsocks start
+    ;;
+    4)caddy -service stop
+      echo -e  "${GREEN}caddy服务停止${NO_COLOR}"
+    ;;
+    5)caddy -service restart
+      echo -e  "${GREEN}caddy服务启动${NO_COLOR}"
+    ;;
+    0) exit
+    ;;
+    *)echo -e "${RED}输入错误！！！${NO_COLOR}"
+      exit
+    ;;
+esac
+fi
 }
 mgr
