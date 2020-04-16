@@ -197,23 +197,29 @@ check_CA(){
 }
 add_CA(){
   init_release
-  if [ $PM = 'apt' ] ; then
-    cron_job="30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /usr/sbin/nginx -s stop;/usr/sbin/nginx"
-    ( crontab -l | grep -v "$cron_job"; echo "$cron_job" ) | crontab -
-    service cron restart
-  elif [ $PM = 'yum' ]; then
-    echo "SHELL=/bin/bash
-    30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /sbin/nginx -s stop;
-    " > /var/spool/cron/root
-    service crond reload
-    service crond restart
-  fi
+  CA_exist
+  if [ $FLAG = "YES" ]; then
+      curl -s -o /etc/RST.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/RST.sh
+      chmod +x /etc/RST.sh
+      if [ $PM = 'apt' ] ; then
+        cron_job="30 4 * * * /etc/RST.sh"
+        ( crontab -l | grep -v "$cron_job"; echo "$cron_job" ) | crontab -
+        service cron restart
+      elif [ $PM = 'yum' ]; then
+        echo "SHELL=/bin/bash
+30 4 * * * /etc/RST.sh" > /var/spool/cron/root
+        service crond reload
+        service crond restart
+      fi
+  if
 }
 mgr(){
   if [ -f "/etc/mgr.sh" ]; then
       rm -f /etc/mgr.sh
   fi
-  curl -s -o /etc/mgr.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/mgr.sh
+  while [ ! -f "/etc/mgr.sh" ]; do
+      curl -s -o /etc/mgr.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/mgr.sh
+  done
   chmod +x /etc/mgr.sh
 }
 main(){
@@ -252,7 +258,7 @@ $BLUE 域名:         $GREEN ${domainname}
 $BLUE 端口:         $GREEN 443
 $BLUE 密码:         $GREEN ${password}
 $BLUE 伪装网站请访问： $GREEN https://${domainname}
-$BLUE 执行这句进入管理界面：$GREEN /etc/mgr.sh
+$BLUE 执行这句进入管理界面(包括重启服务、修改密码等)：$GREEN /etc/mgr.sh
 ${GREEN}=========================================================
 $BLUE Windows、macOS客户端请从这里下载：$GREEN  https://github.com/trojan-gfw/trojan/releases，
 $BLUE 另外windows还需要下载v2rayN：$GREEN https://github.com/2dust/v2rayN/releases
