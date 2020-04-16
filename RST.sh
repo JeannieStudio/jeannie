@@ -18,6 +18,7 @@ if [ -f "/usr/sbin/nginx" ]; then
     sleep 2
     /usr/sbin/nginx
 fi
+end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
 while [ "${end_time}" = "" ]; do
         end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
 done
