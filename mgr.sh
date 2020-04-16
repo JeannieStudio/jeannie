@@ -231,10 +231,10 @@ $FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
     1)/etc/init.d/shadowsocks-r stop
-      echo -e  "${GREEN}v2ray服务停止${NO_COLOR}"
+      echo -e  "${GREEN}ssr服务停止${NO_COLOR}"
     ;;
     2)/etc/init.d/shadowsocks-r restart
-      echo -e  "${GREEN}v2ray服务启动${NO_COLOR}"
+      echo -e  "${GREEN}ssr服务启动${NO_COLOR}"
     ;;
     3)/etc/init.d/shadowsocks-r stop
       read -p "请输入您要修改的密码：" password
