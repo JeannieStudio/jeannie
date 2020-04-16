@@ -125,8 +125,7 @@ left_second(){
     done
 }
  v2ray_install(){
-   cp  /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
-   service v2ray stop
+   /bin/cp -rf  /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
    bash <(curl -L -s https://install.direct/go.sh)
  }
 nginx_conf(){
@@ -143,7 +142,7 @@ nginx_conf(){
   done
   read -p "请输入您的邮箱：" emailname
   read -p "您输入的邮箱正确吗? [y/n]?" answer
-    while [[ "$answer" != "y" ]]; do
+    while [ "$answer" != "y" ]; do
 	  read -p "请重新输入您的邮箱：" emailname
 	  read -p "您输入的邮箱正确吗? [y/n]?" answer
   done
@@ -153,6 +152,9 @@ nginx_conf(){
   \cp privkey.pem /etc/v2ray 2>&1 | tee /etc/v2ray/log
   curl -s -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ray_default.conf
   sed -i "s/mydomain.me/$domainname/g" /etc/nginx/conf.d/default.conf
+  sleep 1
+  sed -i "s/# server_names_hash_bucket_size 64;/server_names_hash_bucket_size 64;/g" /etc/nginx/nginx.conf
+  sleep 1
 }
 genId(){
     id1=$(cat /proc/sys/kernel/random/uuid | md5sum |cut -c 1-8)
@@ -199,17 +201,21 @@ check_CA(){
 }
 add_CA(){
   init_release
-  if [ $PM = 'apt' ] ; then
-    cron_job="30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /usr/sbin/nginx -s stop;/usr/sbin/nginx"
-    ( crontab -l | grep -v "$cron_job"; echo "$cron_job" ) | crontab -
-    service cron restart
-  elif [ $PM = 'yum' ]; then
-    echo "SHELL=/bin/bash
-    30 3 1,7,21,28 * * /usr/bin/certbot-2 renew; /sbin/nginx -s stop;
-    " > /var/spool/cron/root
-    service crond reload
-    service crond restart
-  fi
+  CA_exist
+  if [ $FLAG = "YES" ]; then
+      curl -s -o /etc/RST.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/RST.sh
+      chmod +x /etc/RST.sh
+      if [ $PM = 'apt' ] ; then
+        cron_job="30 4 * * * /etc/RST.sh"
+        ( crontab -l | grep -v "$cron_job"; echo "$cron_job" ) | crontab -
+        service cron restart
+      elif [ $PM = 'yum' ]; then
+        echo "SHELL=/bin/bash
+30 4 * * * /etc/RST.sh" > /var/spool/cron/root
+        service crond reload
+        service crond restart
+      fi
+  if
 }
 mgr(){
   if [ -f "/etc/mgr.sh" ]; then
