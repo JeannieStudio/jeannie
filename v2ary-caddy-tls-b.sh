@@ -245,6 +245,7 @@ main(){
   service v2ray start
   CA_exist
   check_CA
+  add_CA
   mgr
   if [ $FLAG = "YES" ]; then
       echo -e "
