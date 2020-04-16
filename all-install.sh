@@ -52,7 +52,7 @@ uninstall(){
         rm -f /usr/local/bin/caddy
         rm -f /usr/local/bin/caddy_old
         rm -f /etc/systemd/system/caddy.service
-	rm -rf /etc/caddy
+        rm -rf /etc/caddy
         rm -rf /etc/ssl/caddy
       fi
   #======================卸载nginx===============================
@@ -77,6 +77,11 @@ uninstall(){
          service v2ray stop
          rm -rf /usr/bin/v2ray
          rm -f /etc/systemd/system/v2ray.service
+      fi
+  #======================卸载ssr================================
+      if [ -d "/usr/local/shadowsocks" ]; then
+        /etc/init.d/shadowsocks-r stop
+        ./shadowsocksR.sh uninstall
       fi
   #======================删除伪装网站==============================
       if [ -d "/var/www" ]; then
@@ -125,7 +130,7 @@ case $aNum in
     5)echo "开发未完成，敬请期待……"
       exit
     ;;
-    6)echo "开发未完成，敬请期待……"
+    6)bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/ssr-caddy-tls-b.sh)"
       exit
     ;;
     7)uninstall
