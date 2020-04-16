@@ -216,7 +216,7 @@ add_CA(){
         service crond reload
         service crond restart
       fi
-  if
+  fi
 }
 mgr(){
   if [ -f "/etc/mgr.sh" ]; then
