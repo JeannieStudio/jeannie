@@ -230,16 +230,16 @@ ${GREEN}5. 重启caddy      ${GREEN}0. 啥也不做，退出
 $FUCHSIA===================================================${NO_COLOR}"
 read -p "请输入您要执行的操作的数字:" aNum
 case $aNum in
-    1)/etc/init.d/shadowsocks stop
+    1)/etc/init.d/shadowsocks-r stop
       echo -e  "${GREEN}v2ray服务停止${NO_COLOR}"
     ;;
-    2)/etc/init.d/shadowsocks restart
+    2)/etc/init.d/shadowsocks-r restart
       echo -e  "${GREEN}v2ray服务启动${NO_COLOR}"
     ;;
-    3)/etc/init.d/shadowsocks stop
+    3)/etc/init.d/shadowsocks-r stop
       read -p "请输入您要修改的密码：" password
       sed -i "7c \"password\":\"$password\"," /etc/shadowsocks-r/config.json
-      /etc/init.d/shadowsocks start
+      /etc/init.d/shadowsocks-r start
     ;;
     4)caddy -service stop
       echo -e  "${GREEN}caddy服务停止${NO_COLOR}"
