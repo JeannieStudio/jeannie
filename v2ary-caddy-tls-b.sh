@@ -67,8 +67,7 @@ left_second(){
     done
 }
  v2ray_install(){
-   cp  /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
-   service v2ray stop
+   /bin/cp -rf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
    bash <(curl -L -s https://install.direct/go.sh)
  }
  caddy_install(){
@@ -200,6 +199,24 @@ check_CA(){
     now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
     RST=$(($((end_times-now_time))/(60*60*24)))
     fi
+}
+add_CA(){
+  init_release
+  CA_exist
+  if [ $FLAG = "YES" ]; then
+      curl -s -o /etc/RST.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/RST.sh
+      chmod +x /etc/RST.sh
+      if [ $PM = 'apt' ] ; then
+        cron_job="30 4 * * * /etc/RST.sh"
+        ( crontab -l | grep -v "$cron_job"; echo "$cron_job" ) | crontab -
+        service cron restart
+      elif [ $PM = 'yum' ]; then
+        echo "SHELL=/bin/bash
+30 4 * * * /etc/RST.sh" > /var/spool/cron/root
+        service crond reload
+        service crond restart
+      fi
+  if
 }
 mgr(){
   if [ -f "/etc/mgr.sh" ]; then
