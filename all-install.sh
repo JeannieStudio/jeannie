@@ -80,11 +80,12 @@ uninstall(){
       if [ -d "/var/www" ]; then
         rm -rf /var/www
       fi
-      echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
-    }
   #======================删除定时任务==============================
       crontab -r
       rm -f /etc/RST.sh
+      echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
+    }
+
 install(){
   echo -e "
 $FUCHSIA===================================================
