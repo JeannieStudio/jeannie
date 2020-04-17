@@ -127,7 +127,7 @@ uninstall(){
               echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
         fi
   else
-        echo -e "${RED}卸载失败!!!!{NO_COLOR}"
+        echo -e "${RED}卸载失败!!!!${NO_COLOR}"
   fi
     }
 install(){
