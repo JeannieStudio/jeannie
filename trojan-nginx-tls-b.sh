@@ -241,7 +241,8 @@ main(){
     systemctl enable trojan
     CA_exist
     check_CA
-    add_CA 
+    add_CA
+    mgr
 if [ $FLAG = "YES" ]; then
         echo -e "
 $RED============================================================
