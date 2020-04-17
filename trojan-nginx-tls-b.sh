@@ -258,7 +258,7 @@ $BLUE 域名:         $GREEN ${domainname}
 $BLUE 端口:         $GREEN 443
 $BLUE 密码:         $GREEN ${password}
 $BLUE 伪装网站请访问： $GREEN https://${domainname}
-$BLUE 执行这句进入管理界面(包括重启服务、修改密码等)：$GREEN /etc/mgr.sh
+$BLUE 执行这句进入管理界面(包括重启服务、修改密 码等)：$GREEN /etc/mgr.sh
 ${GREEN}=========================================================
 $BLUE Windows、macOS客户端请从这里下载：$GREEN  https://github.com/trojan-gfw/trojan/releases，
 $BLUE 另外windows还需要下载v2rayN：$GREEN https://github.com/2dust/v2rayN/releases
