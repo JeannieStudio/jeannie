@@ -249,7 +249,7 @@ ${BLUE}加密方式:    ${GREEN}${method##*:}
 ${BLUE}协议:        ${GREEN}${Protocol##*:}
 ${BLUE}混淆:        ${GREEN}${obfs##*:}
 ${BLUE}伪装网站访问：${GREEN}https://${domainname}
-$BLUE 执行这句进入管理界面(包括重启服务、修改密码等)：$GREEN /etc/mgr.sh
+$BLUE 执行这句进入管理界面(包括重启服务、修改密 码等)：$GREEN /etc/mgr.sh
 ${GREEN}=========================================================
 ${BLUE} Windows客户端请从这里下载： $GREEN  https://github.com/shadowsocksrr/shadowsocksr-csharp/releases
 ${BLUE} macOS客户端请从这里下载: $GREEN https://github.com/qinyuhang/ShadowsocksX-NG-R/releases
