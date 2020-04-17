@@ -256,7 +256,7 @@ mgr(){
             read -p "请输入您要修改的密码：" password
             sed -i "7c \"password\":\"$password\"," /etc/shadowsocks-r/config.json
             /etc/init.d/shadowsocks-r start
-            sed -i "/密码/c 密码:        \"$password\"" /etc/motd
+            sed -i "7c /密码:        \"$password\"" /etc/motd
           ;;
           4)caddy -service stop
             echo -e  "${GREEN}caddy服务停止${NO_COLOR}"
