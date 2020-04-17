@@ -89,7 +89,7 @@ uninstall_ssr(){
       if [ -d "/usr/local/shadowsocks" ]; then
           /etc/init.d/shadowsocks-r stop
           /etc/shadowsocks-r/shadowsocks-all.sh uninstall 2>&1 | tee /etc/shadowsocks-r/yourssr.log
-          grep "ShadowsocksR uninstall cancelled, nothing to do..." /etc/shadowsocks-r/yourssr.log >/dev/null
+          grep "success" /etc/shadowsocks-r/yourssr.log >/dev/null
           if [ $? -eq 0 ]; then
               myflag="YES"
             else
@@ -113,18 +113,18 @@ uninstall(){
   init_release
   read -p "您确定要卸载吗? [y/n]?" myanswer
   if [ "$myanswer" = "y" ]; then
-        uninstall_caddy
-        uninstall_nginx
-        uninstall_trojan
-        uninstall_v2ray
         uninstall_ssr
-        uninstall_web
-        uninstall_timetast
         if [ "$myflag" = "YES" ]; then
-               echo -e "${RED}ssr卸载失败{NO_COLOR}"
-               exit
-        else
+              uninstall_caddy
+              uninstall_nginx
+              uninstall_trojan
+              uninstall_v2ray
+              uninstall_web
+              uninstall_timetast
               echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
+        else
+              echo -e "${RED}ssr卸载失败${NO_COLOR}"
+              exit
         fi
   else
         echo -e "${RED}卸载失败!!!!${NO_COLOR}"
