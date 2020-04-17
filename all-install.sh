@@ -95,7 +95,6 @@ uninstall_ssr(){
             else
               myflag="NO"
           fi
-          rm -rf /etc/shadowsocks-r
       fi
 }
 uninstall_web(){
