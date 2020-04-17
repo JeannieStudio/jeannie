@@ -105,7 +105,7 @@ mgr(){
                 sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
                 systemctl start trojan
                 echo -e  "${GREEN}恭喜你，密码修改成功${NO_COLOR}"
-                sed -i "/密码/c 密码:        $password" /etc/motd
+                sed -i "/密码:/c 密码:        $password" /etc/motd
             else
                 echo -e  "${RED}很遗憾，Trojan配置文件不存在${NO_COLOR}"
             fi
