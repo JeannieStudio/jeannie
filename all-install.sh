@@ -9,6 +9,9 @@ FUCHSIA="\033[0;35m"
 green(){
     echo -e "\033[32m\033[01m$1\033[0m"
 }
+workspace(){
+  cd /root
+}
 init_release(){
   if [[ -f /etc/redhat-release ]]; then
 		release="centos"
@@ -88,11 +91,11 @@ uninstall_ssr(){
   #======================卸载ssr================================
       if [ -d "/usr/local/shadowsocks" ]; then
           /etc/shadowsocks-r/shadowsocks-all.sh uninstall 2>&1 | tee /etc/ssr_uninstall.log
-          grep "success" /etc/ssr_uninstall.log >/dev/null
+          grep "ShadowsocksR uninstall success" /etc/ssr_uninstall.log >/dev/null
           if [ $? -eq 0 ]; then
               myflag="YES"
-	      sleep 3
-	      rm -rf /etc/shadowsocks-r
+              sleep 3
+	            rm -rf /etc/shadowsocks-r
             else
               myflag="NO"
           fi
@@ -131,6 +134,7 @@ uninstall(){
   fi
     }
 install(){
+  workspace
   echo -e "
 $FUCHSIA===================================================
 ${GREEN}     trojan、v2ray、ssr六合一脚本
