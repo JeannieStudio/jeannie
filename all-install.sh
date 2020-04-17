@@ -87,8 +87,8 @@ uninstall_v2ray(){
 uninstall_ssr(){
   #======================卸载ssr================================
       if [ -d "/usr/local/shadowsocks" ]; then
-          /etc/shadowsocks-r/shadowsocks-all.sh uninstall 2>&1 | tee /etc/shadowsocks-r/ssr_uninstall.log
-          grep "success" /etc/shadowsocks-r/ssr_uninstall.log >/dev/null
+          /etc/shadowsocks-r/shadowsocks-all.sh uninstall 2>&1 | tee /etc/ssr_uninstall.log
+          grep "success" /etc/ssr_uninstall.log >/dev/null
           if [ $? -eq 0 ]; then
               myflag="YES"
 	      sleep 3
