@@ -45,6 +45,7 @@ case $aNum in
           sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
           systemctl start trojan
           echo -e  "${GREEN}恭喜你，密码修改成功${NO_COLOR}"
+          sed -i "/密码/c 密码:        $password" /etc/motd
       else
           echo -e  "${RED}很遗憾，Trojan配置文件不存在${NO_COLOR}"
       fi
@@ -92,6 +93,7 @@ case $aNum in
           sed -i "8c \"$password\"," /usr/local/etc/trojan/config.json
           systemctl start trojan
           echo -e  "${GREEN}恭喜你，密码修改成功${NO_COLOR}"
+          sed -i "/密码/c 密码:        $password" /etc/motd
       else
           echo -e  "${RED}很遗憾，Trojan配置文件不存在${NO_COLOR}"
       fi
@@ -145,6 +147,7 @@ case $aNum in
           sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
           \cp -rf config.json /etc/v2ray/config.json
           echo -e  "${GREEN}恭喜你，UUID修改成功${NO_COLOR}"
+          sed -i "/UUID/c UUID:        $id" /etc/motd
       else
           echo -e  "${RED}很遗憾，v2ray配置文件不存在${NO_COLOR}"
       fi
@@ -198,6 +201,7 @@ case $aNum in
           sed -i "s/"b831381d-6324-4d53-ad4f-8cda48b30811"/$id/g" config.json
           \cp -rf config.json /etc/v2ray/config.json
           echo -e  "${GREEN}恭喜你，UUID修改成功${NO_COLOR}"
+          sed -i "/UUID/c UUID:        $id" /etc/motd
       else
           echo -e  "${RED}很遗憾，v2ray配置文件不存在${NO_COLOR}"
       fi
@@ -240,6 +244,7 @@ case $aNum in
       read -p "请输入您要修改的密码：" password
       sed -i "7c \"password\":\"$password\"," /etc/shadowsocks-r/config.json
       /etc/init.d/shadowsocks-r start
+      sed -i "/密码/c 密码:        $password" /etc/motd
     ;;
     4)caddy -service stop
       echo -e  "${GREEN}caddy服务停止${NO_COLOR}"
