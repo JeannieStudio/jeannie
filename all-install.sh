@@ -121,13 +121,13 @@ uninstall(){
         uninstall_web
         uninstall_timetast
         if [ "$myflag" = "YES" ]; then
-               echo -e "${RED}ssr卸载失败"
+               echo -e "${RED}ssr卸载失败{NO_COLOR}"
                exit
         else
               echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
         fi
   else
-        echo -e "${RED}卸载失败!!!!"
+        echo -e "${RED}卸载失败!!!!{NO_COLOR}"
   fi
     }
 install(){
