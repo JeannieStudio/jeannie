@@ -259,7 +259,7 @@ ${BLUE}AlterID:   ${GREEN}64
 $BLUE混淆:        ${GREEN}websocket
 $BLUE路径：       ${GREEN}/ray
 $BLUE伪装网站访问：${GREEN}https://${domainname}
-$BLUE 执行这句进入管理界面(包括重启服务、修改密码等)：$GREEN /etc/mgr.sh
+$BLUE 执行这句进入管理界面(包括重启服务、修改密 码等)：$GREEN /etc/mgr.sh
 ${GREEN}==========================================================================================
 ${BLUE}Windows、Macos客户端下载v2rayN：$GREEN https://github.com/2dust/v2rayN/releases
 ${BLUE}安卓客户端下载v2rayNG: ${GREEN}https://github.com/2dust/v2rayNG/releases
