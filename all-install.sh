@@ -43,8 +43,7 @@ check_status(){
 	   Flag="NO"
   fi
 }
-uninstall(){
-  init_release
+uninstall_caddy(){
   #======================卸载caddy===============================
       if [ -e "/usr/local/bin/caddy" ]; then
         caddy -service stop
@@ -55,6 +54,8 @@ uninstall(){
         rm -rf /etc/caddy
         rm -rf /etc/ssl/caddy
       fi
+}
+uninstall_nginx(){
   #======================卸载nginx===============================
       if [ -f "/usr/sbin/nginx" ]; then
           nginx -s stop
@@ -64,6 +65,8 @@ uninstall(){
             apt autoremove -y nginx
           fi
       fi
+}
+uninstall_trojan(){
   #======================卸载trojan===============================
       if [ -f "/usr/local/bin/trojan" ]; then
           systemctl stop trojan
@@ -72,27 +75,61 @@ uninstall(){
           rm -f /etc/systemd/system/trojan.service
           rm -rf /usr/local/etc/trojan
       fi
-  #======================卸载v2ray================================
+}
+uninstall_v2ray(){
+   #======================卸载v2ray================================
       if [ -e "/usr/bin/v2ray/v2ray" ]; then
          service v2ray stop
          rm -rf /usr/bin/v2ray
          rm -f /etc/systemd/system/v2ray.service
       fi
+}
+uninstall_ssr(){
   #======================卸载ssr================================
       if [ -d "/usr/local/shadowsocks" ]; then
-        /etc/init.d/shadowsocks-r stop
-        /etc/shadowsocks-r/shadowsocks-all.sh uninstall
+          /etc/init.d/shadowsocks-r stop
+          /etc/shadowsocks-r/shadowsocks-all.sh uninstall 2>&1 | tee /etc/shadowsocks-r/yourssr.log
+          grep "ShadowsocksR uninstall cancelled, nothing to do..." /etc/shadowsocks-r/yourssr.log >/dev/null
+          if [ $? -eq 0 ]; then
+              myflag="YES"
+            else
+              myflag="NO"
+          fi
+          rm -rf /etc/shadowsocks-r
       fi
+}
+uninstall_web(){
   #======================删除伪装网站==============================
       if [ -d "/var/www" ]; then
         rm -rf /var/www
       fi
+}
+uninstall_timetast(){
   #======================删除定时任务==============================
       crontab -r
       rm -f /etc/RST.sh
-      echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
+}
+uninstall(){
+  init_release
+  read -p "您确定要卸载吗? [y/n]?" myanswer
+  if [ "$myanswer" = "y" ]; then
+        uninstall_caddy
+        uninstall_nginx
+        uninstall_trojan
+        uninstall_v2ray
+        uninstall_ssr
+        uninstall_web
+        uninstall_timetast
+        if [ "$myflag" = "YES" ]; then
+               echo -e "${RED}ssr卸载失败"
+               exit
+        else
+              echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
+        fi
+  else
+        echo -e "${RED}卸载失败!!!!"
+  fi
     }
-
 install(){
   echo -e "
 $FUCHSIA===================================================
@@ -131,7 +168,7 @@ case $aNum in
       exit
     ;;
     6)check_status
-       bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/ssr-caddy-tls-b.sh)"
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/ssr-caddy-tls-b.sh)"
     ;;
     7)uninstall
     ;;
