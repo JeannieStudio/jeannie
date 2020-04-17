@@ -50,7 +50,7 @@ mgr(){
           ;;
           3)systemctl stop trojan
             if [ -f "/usr/local/etc/trojan/config.json" ]; then
-                read -p "请输入您的trojan密码：" password
+                read -p "新密码：" password
                 while [ "${password}" = "" ]; do
                       read -p "密码不能为空，请重新输入：" password
                 done
@@ -98,7 +98,7 @@ mgr(){
           ;;
           3)systemctl stop trojan
              if [ -f "/usr/local/etc/trojan/config.json" ]; then
-                read -p "请输入您的trojan密码：" password
+                read -p "新密码：" password
                 while [ "${password}" = "" ]; do
                       read -p "密码不能为空，请重新输入：" password
                 done
