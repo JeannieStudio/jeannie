@@ -116,6 +116,7 @@ uninstall(){
   init_release
   read -p "您确定要卸载吗? [y/n]?" myanswer
   if [ "$myanswer" = "y" ]; then
+    if [ -d "/usr/local/shadowsocks" ]; then
         uninstall_ssr
         if [ "$myflag" = "YES" ]; then
               uninstall_caddy
@@ -129,6 +130,16 @@ uninstall(){
               echo -e "${RED}ssr卸载失败${NO_COLOR}"
               exit
         fi
+    else
+        uninstall_caddy
+        uninstall_nginx
+        uninstall_trojan
+        uninstall_v2ray
+        uninstall_web
+        uninstall_timetast
+        echo -e "${GREEN}恭喜您，卸载成功！！${NO_COLOR}"
+    fi
+
   else
         echo -e "${RED}卸载失败!!!!${NO_COLOR}"
   fi
