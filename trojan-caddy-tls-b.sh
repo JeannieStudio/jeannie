@@ -78,7 +78,7 @@ caddy_conf(){
   done
     read -p "请输入您的邮箱：" emailname
     read -p "您输入的邮箱正确吗? [y/n]?" answer
-  while [ $answer != "y" ]; do
+ while [ "{$answer}" != "y" || "{$answer}" = "" ]; do
 	  read -p "请重新输入您的邮箱：" emailname
 	  read -p "您输入的邮箱正确吗? [y/n]?" answer
   done
