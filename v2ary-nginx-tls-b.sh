@@ -134,7 +134,7 @@ nginx_conf(){
   green "=========================================="
   read -p "请输入您的域名：" domainname
   real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
-  local_addr=`curl ipv4.icanhazip.com`
+  local_addr=`curl -4 ip.sb`
   while [ "$real_addr" != "$local_addr" ]; do
      read -p "本机ip和绑定域名的IP不一致，请检查域名是否解析成功,并重新输入域名:" domainname
      real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
