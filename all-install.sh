@@ -37,6 +37,15 @@ init_release(){
   fi
   # PM='apt'
 }
+left_second(){
+    seconds_left=5
+    while [ $seconds_left -gt 0 ];do
+      echo -n $seconds_left
+      sleep 1
+      seconds_left=$(($seconds_left - 1))
+      echo -ne "\r     \r"
+    done
+}
 check_status(){
   if [ -e "/usr/local/bin/caddy" -o -d "/usr/local/shadowsocks" -o -e "/etc/systemd/system/v2ray.service" -o -e "/usr/bin/v2ray/v2ray" -o -e "/usr/sbin/nginx"  -o -e "/usr/local/bin/trojan" -o -e "/usr/local/bin/caddy_old" -o -e "/etc/systemd/system/trojan.service" -o -e "/etc/systemd/system/caddy.service" ]; then
 	    Flag="YES"
@@ -146,6 +155,11 @@ uninstall(){
     }
 install(){
   workspace
+  init_release
+if [ $PM = 'yum' ]; then
+    setenforce 0
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+fi
   echo -e "
 $FUCHSIA===================================================
 ${GREEN}     trojan、v2ray、ssr六合一脚本
@@ -172,18 +186,36 @@ case $aNum in
     ;;
     2)check_status
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/trojan-caddy-tls-b.sh)"
+        if [ "$PM" = "yum" ]; then
+          echo -e "${GREEN}=========================================================
+          ${GREEN}需重启系统才能生效，马上重启……${NO_COLOR}"
+          left_second
+          reboot
+        fi
       ;;
     3)check_status
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ary-nginx-tls-b.sh)"
     ;;
     4)check_status
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/v2ary-caddy-tls-b.sh)"
+        if [ "$PM" = "yum" ]; then
+          echo -e "${GREEN}=========================================================
+          ${GREEN}需重启系统才能生效，马上重启……${NO_COLOR}"
+          left_second
+          reboot
+        fi
     ;;
     5)echo "开发未完成，敬请期待……"
       exit
     ;;
     6)check_status
       bash -c "$(curl -fsSL https://raw.githubusercontent.com/JeannieStudio/jeannie/master/ssr-caddy-tls-b.sh)"
+      if [ "$PM" = "yum" ]; then
+          echo -e "${GREEN}=========================================================
+          ${GREEN}需重启系统才能生效，马上重启……${NO_COLOR}"
+          left_second
+          reboot
+      fi
     ;;
     7)uninstall
     ;;
