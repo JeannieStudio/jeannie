@@ -283,8 +283,7 @@ $BLUE 密码:         $GREEN ${password}
 $BLUE 伪装网站请访问： $GREEN https://${domainname}
 $BLUE 执行这句进入管理界面(包括重启服务、修改密 码等)：$GREEN /etc/mgr.sh
 ${GREEN}=========================================================
-$BLUE Windows、macOS客户端请从这里下载： $GREEN  https://github.com/trojan-gfw/trojan/releases，
-$BLUE 另外windows还需要下载v2rayN：$GREEN https://github.com/2dust/v2rayN/releases
+$BLUE Windows、macOS客户端请从这里下载： $GREEN  https://github.com/TheWanderingCoel/Trojan-Qt5/releases
 $BLUE ios客户端到应用商店下载：$GREEN shadowrocket;
 $BLUE 安卓请下载igniter：$GREEN https://github.com/V2RaySSR/Trojan/releases
 $BLUE 关注jeannie studio：$GREEN https://bit.ly/2X042ea
