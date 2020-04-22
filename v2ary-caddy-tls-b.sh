@@ -66,7 +66,7 @@ left_second(){
     done
 }
  v2ray_install(){
-   /bin/cp -rf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
+   ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
    bash <(curl -L -s https://install.direct/go.sh)
  }
  caddy_install(){
