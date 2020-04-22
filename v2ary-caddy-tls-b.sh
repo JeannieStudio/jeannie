@@ -74,6 +74,7 @@ left_second(){
 }
 caddy_conf(){
   read -p "输入您的域名:" domainname
+  echo "$domainname" 2>&1 | tee /etc/domainname
   real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
   local_addr=`curl -4 ip.sb`
   while [ "$real_addr" != "$local_addr" ]; do

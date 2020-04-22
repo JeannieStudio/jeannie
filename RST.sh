@@ -6,11 +6,7 @@ BLUE="\033[0;36m"
 green(){
     echo -e "\033[32m\033[01m$1\033[0m"
 }
-if [ $domainname != "" ]; then
-    echo "$domainname" 2>&1 | tee /etc/domainname
-else
-     domainname=$(cat /etc/domainname)
-fi
+domainname=$(cat /etc/domainname)
 if [ -f "/usr/sbin/nginx" ]; then
     /usr/bin/certbot-2 renew
     sleep 2
@@ -19,9 +15,9 @@ if [ -f "/usr/sbin/nginx" ]; then
     /usr/sbin/nginx
 fi
 end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
-#while [ "${end_time}" = "" ]; do
-#       end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
-#done
+while [ "${end_time}" = "" ]; do
+       end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:443 2>/dev/null | openssl x509 -noout -dates |grep 'After'| awk -F '=' '{print $2}'| awk -F ' +' '{print $1,$2,$4 }' )
+done
 end_times=$(date +%s -d "$end_time")
 now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
 RST=$(($((end_times-now_time))/(60*60*24)))

@@ -128,6 +128,7 @@ nginx_conf(){
   green "       开始申请证书"
   green "=========================================="
   read -p "请输入您的域名：" domainname
+  echo "$domainname" 2>&1 | tee /etc/domainname
   real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
   local_addr=`curl -4 ip.sb`
   while [ "$real_addr" != "$local_addr" ]; do
