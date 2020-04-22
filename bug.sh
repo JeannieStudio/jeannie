@@ -30,8 +30,21 @@ main(){
   else
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
     rm -f /etc/domainname
-    read -p "输入您的域名（注意：这个域名一定是您当前vps使用的域名）:" domainname
+    read -p "输入您的域名:" domainname
     echo "$domainname" 2>&1 | tee /etc/domainname
+    real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
+    local_addr=`curl -4 ip.sb`
+    while [ "$real_addr" != "$local_addr" ]; do
+       read -p "本机ip和绑定域名的IP不一致，请检查域名是否解析成功,并重新输入域名:" domainname
+       real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
+       local_addr=`curl -4 ip.sb`
+       if [ "$real_addr" != "$local_addr" ]; then
+           local_addr=`curl ipv4.icanhazip.com`
+       fi
+       if [ "$real_addr" != "$local_addr" ]; then
+           local_addr=`curl -4 ifconfig.me`
+       fi
+    done
     rm -f /etc/RST.sh
     curl -s -o /etc/RST.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/RST.sh
     chmod +x /etc/RST.sh
