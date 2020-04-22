@@ -30,7 +30,6 @@ main(){
   else
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
     rm -f /etc/domainname
-    read -p "输入您的域名:" domainname
     echo "$domainname" 2>&1 | tee /etc/domainname
     real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
     local_addr=`curl -4 ip.sb`
@@ -45,6 +44,7 @@ main(){
            local_addr=`curl -4 ifconfig.me`
        fi
     done
+    read -p "输入您的域名:" domainname
     rm -f /etc/RST.sh
     curl -s -o /etc/RST.sh https://raw.githubusercontent.com/JeannieStudio/jeannie/master/RST.sh
     chmod +x /etc/RST.sh
