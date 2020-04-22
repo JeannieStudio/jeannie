@@ -21,4 +21,7 @@ end_time=$(echo | openssl s_client -servername $domainname -connect $domainname:
 end_times=$(date +%s -d "$end_time")
 now_time=$(date +%s -d "$(date | awk -F ' +'  '{print $2,$3,$6}')")
 RST=$(($((end_times-now_time))/(60*60*24)))
-sed -i "/证书有效期剩余天数/c 证书有效期剩余天数:  $RST" /etc/motd
+if [ "${end_time}" != ""  ]; then
+    sed -i "/证书有效期剩余天数/c 证书有效期剩余天数:  $RST" /etc/motd
+fi
+
