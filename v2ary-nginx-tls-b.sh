@@ -132,7 +132,7 @@ nginx_conf(){
   green "=========================================="
   green "       开始申请证书"
   green "=========================================="
-  read -p "请输入您的域名：" domainname
+  read -p "请输入您的域名(注意：如果你的域名是使用 Cloudflare 解析的，请在Status 那里点一下那图标，让它变灰):" domainname
   real_addr=`ping ${domainname} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
   local_addr=`curl -4 ip.sb`
   while [ "$real_addr" != "$local_addr" ]; do
