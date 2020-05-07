@@ -188,33 +188,33 @@ code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border
                         <li>
                             <h3>客户端配置信息</h3>
                             <ul>
-                                <li>域名:${domainname} </li>
+                                <li>域名:${domain} </li>
 								<li>端口:443</li>
-                                <li>UUID:${id}</li>
+                                <li>UUID:${uuid}</li>
                                 <li>AlterID:64</li>
                                 <li>混淆:websocket</li>
-                                <li>路径:/ray</li>
-                                <li><a href="https://${domainname}" target="_blank">伪装网站请访问：https://${domainname} </a></li>
-								<li>执行这句进入管理界面(包括重启服务、修改密 码等)：/etc/mgr.sh</li>
+                                <li>路径:/ray/</li>
+                                <li><a href="https://${domain}" target="_blank">伪装网站请访问：https://${domain} </a></li>
+				<li>执行这句进入管理界面(包括重启服务、修改密 码等)：/etc/mgr.sh</li>
                             </ul>
                         </li>
                         <li>
                             <h3>分享链接</h3>
                             <ul>
-                                <li><code>${code}</code></li>
+                                <li><code>${v2ray_link}</code></li>
                             </ul>
                         </li>
                         <li>
                             <h3>二维码</h3>
                             <ul>
-                                <li ><img src="${id}.png" /></li>
+                                <li ><img src="${uuid}.png" /></li>
                             </ul>
                         </li>
                         <li>
                             <h3>客户端工具下载链接</h3>
                             <ul>
                                 <li><a href="https://github.com/2dust/v2rayN/releases" target="_blank">Windows客户端v2rayN</a></li>
-								<li><a href="https://github.com/Cenmrev/V2RayX/releases" target="_blank">Macos客户端v2rayX</a></li>
+				<li><a href="https://github.com/Cenmrev/V2RayX/releases" target="_blank">Macos客户端v2rayX</a></li>
                                 <li><a href="https://github.com/2dust/v2rayNG/releases" target="_blank">安卓客户端v2rayNG</a></li>
                                 <li>ios客户端请到应用商店下载：shadowrocket</li>
                             </ul>
@@ -222,7 +222,7 @@ code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border
 						<li>
 						    <h3>域名证书有效期</h3>
 						    <ul>
-						        <li>当前使用的域名:${domainname}</li>
+						        <li>当前使用的域名:${domain}</li>
 						        <li>证书有效期剩余天数:${RST}</li>
 						        <li>不用担心，证书会自动更新</li>
 						    </ul>
