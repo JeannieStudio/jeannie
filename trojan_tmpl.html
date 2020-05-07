@@ -189,23 +189,26 @@ code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border
                             <h3>客户端配置信息</h3>
                             <ul>
 
-                                <li>域名:${domainname} </li>
+                                <li>域名:${domain} </li>
 								<li>端口:443</li>
-                                <li>密码:${password}</li>
-                                <li><a href="https://${domainname}" target="_blank">伪装网站请访问：https://${domainname}</a> </li>
-								<li>执行这句进入管理界面(包括重启服务、修改密 码等)：/etc/mgr.sh</li>
+                                <li>密码:${password1}</li>
+				<li>密码:${password2}</li>
+                                <li><a href="https://${domain}" target="_blank">伪装网站请访问：https://${domain}</a> </li>
+				<li>执行这句进入管理界面(包括重启服务、修改密 码等)：/etc/mgr.sh</li>
                             </ul>
                         </li>
                         <li>
                             <h3>分享链接</h3>
                             <ul>
-                                <li><code>${code}</code></li>
+                                <li><code>${trojan_link1}</code></li>
+				<li><code>${trojan_link2}</code></li>
                             </ul>
                         </li>
                         <li>
                             <h3>二维码</h3>
                             <ul>
-                                <li ><img src="$password.png" /></li>
+                                <li ><img src="${uuid}-01.png" /></li>
+				<li ><img src="${uuid}-01.png" /></li>
                             </ul>
                         </li>
                         <li>
@@ -220,7 +223,7 @@ code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border
 						<li>
 						    <h3>域名证书有效期</h3>
 						    <ul>
-						        <li>当前使用的域名:${domainname}</li>
+						        <li>当前使用的域名:${domain}</li>
 						        <li>证书有效期剩余天数:${RST}</li>
 						        <li>不用担心，证书会自动更新</li>
 						    </ul>
