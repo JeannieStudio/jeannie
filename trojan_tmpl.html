@@ -194,7 +194,7 @@ code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border
                                 <li>密码1:${password1}</li>
 				<li>密码2:${password2}</li>
                                 <li><a href="https://${domain}" target="_blank">伪装网站请访问：https://${domain}</a> </li>
-				<li>执行这句进入管理界面(包括重启服务、修改密 码等)：/etc/mgr.sh</li>
+				<li>执行这句进入管理界面(包括重启服务、修改密 码等)：/etc/all_mgr.sh</li>
                             </ul>
                         </li>
                         <li>
@@ -220,14 +220,6 @@ code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border
                                 <li>ios客户端请到应用商店下载：shadowrocket</li>
                             </ul>
                         </li>
-						<li>
-						    <h3>域名证书有效期</h3>
-						    <ul>
-						        <li>当前使用的域名:${domain}</li>
-						        <li>查询证书有效期剩余天数请执行：/etc/num_days.sh</li>
-						        <li>当证书有效期小于30天，请执行：/usr/bin/certbot renew ，延长有效期</li>
-						    </ul>
-						</li>
                     </ul>
                     <br>
 
