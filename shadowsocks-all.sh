@@ -1325,16 +1325,16 @@ uninstall_shadowsocks(){
         hint="${software[$i-1]}"
         echo -e "${green}${i}${plain}) ${hint}"
     done
-    read -p "Please enter a number [1-4]:" un_select
+    read -p "只能选择2:" un_select
     case "${un_select}" in
-        1|2|3|4)
+        2)
         echo
         echo "You choose = ${software[${un_select}-1]}"
         echo
         break
         ;;
         *)
-        echo -e "[${red}Error${plain}] Please only enter a number [1-4]"
+        echo -e "[${red}Error${plain}] 只能输入数字2"
         ;;
     esac
     done
