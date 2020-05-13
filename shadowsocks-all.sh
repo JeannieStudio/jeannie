@@ -1220,10 +1220,10 @@ uninstall_shadowsocks_python(){
 }
 
 uninstall_shadowsocks_r(){
-    printf "Are you sure uninstall ${red}${software[1]}${plain}? [y/n]\n"
-    read -p "(default: n):" answer
-    [ -z ${answer} ] && answer="n"
-    if [ "${answer}" == "y" ] || [ "${answer}" == "Y" ]; then
+   # printf "Are you sure uninstall ${red}${software[1]}${plain}? [y/n]\n"
+    # read -p "(default: n):" answer
+     #[ -z ${answer} ] && answer="n"
+     #if [ "${answer}" == "y" ] || [ "${answer}" == "Y" ]; then
         ${shadowsocks_r_init} status > /dev/null 2>&1
         if [ $? -eq 0 ]; then
             ${shadowsocks_r_init} stop
@@ -1239,11 +1239,11 @@ uninstall_shadowsocks_r(){
         rm -f /var/log/shadowsocks.log
         rm -fr /usr/local/shadowsocks
         echo -e "[${green}Info${plain}] ${software[1]} uninstall success"
-    else
-        echo
-        echo -e "[${green}Info${plain}] ${software[1]} uninstall cancelled, nothing to do..."
-        echo
-    fi
+   # else
+   #     echo
+     #      echo -e "[${green}Info${plain}] ${software[1]} uninstall cancelled, nothing to do..."
+      #     echo
+    #fi
 }
 
 uninstall_shadowsocks_go(){
