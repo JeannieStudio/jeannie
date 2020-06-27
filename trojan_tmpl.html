@@ -190,10 +190,10 @@ code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border
                             <ul>
 
                                 <li>域名:${domain} </li>
-								<li>端口:443</li>
+				<li>端口:${trojanport}</li>
                                 <li>密码1:${password1}</li>
 				<li>密码2:${password2}</li>
-                                <li><a href="https://${domain}" target="_blank">伪装网站请访问：https://${domain}</a> </li>
+                                <li><a href="https://${domain}" target="_blank">伪装网站请访问：https://${domain}:${trojanport}</a> </li>
 				<li>执行这句进入管理界面(包括重启服务、修改密 码等)：/etc/all_mgr.sh</li>
                             </ul>
                         </li>
