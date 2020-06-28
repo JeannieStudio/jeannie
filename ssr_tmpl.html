@@ -189,12 +189,12 @@ code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border
                             <h3>客户端配置信息</h3>
                             <ul>
                                 <li>域名:${domain} </li>
-								<li>端口:443</li>
+				<li>端口:${ssrport}</li>
                                 <li>密码:${password}</li>
                                 <li>加密方式:${method}</li>
                                 <li>协议:${protocol}</li>
                                 <li>混淆:${obfs}</li>
-                                <li><a href="https://${domain}" target="_blank">伪装网站请访问：https://${domain}</a></li>
+                                <li><a href="https://${domain}:${ssrport}" target="_blank">伪装网站请访问：https://${domain}:${ssrport}</a></li>
 				<li>执行这句进入管理界面(包括重启服务、修改密 码等)：/etc/all_mgr.sh</li>
                             </ul>
                         </li>
