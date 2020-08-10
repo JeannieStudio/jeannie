@@ -190,13 +190,12 @@ code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border
                             <ul>
 
                                 <li>域名:${domain} </li>
-				<li>端口:443</li>
+				<li>端口:${trojanport}</li>
                                 <li>密码:${password}</li>
 				<li>websocket状态:${websocket_status}</li>
 				<li>websocket路径:${websocket_path}</li>
-			    	<li>websocket多重:${double_tls}</li>
-                                <li>混淆密码:${obfuscation_password}</li>
-                                <li><a href="https://${domain}" target="_blank">伪装网站请访问：https://${domain}</a> </li>
+			    	<li>多路复用:${mux_status}</li>
+                                <li><a href="https://${domain}:${webport}" target="_blank">伪装网站请访问：https://${domain}</a> </li>
 				<li>执行这句进入管理界面(包括重启服务、修改密 码等)：/etc/trojan_mgr.sh</li>
                             </ul>
                         </li>         
